@@ -116,9 +116,7 @@ const openTeam = () => {
   toggle();
   stage.innerHTML = document.getElementById("teamTemp").innerHTML;
 };
-
-const onClickConnect = () => {};
-const draw = () => {};
+// Navigation Listeners
 MoBtn.addEventListener("click", toggle);
 closeMob.addEventListener("click", toggle);
 wallet.addEventListener("click", openWallet);
@@ -134,6 +132,82 @@ mabout.addEventListener("click", openAbout);
 mservice.addEventListener("click", openService);
 mteam.addEventListener("click", openTeam);
 logo.addEventListener("click", openLanding);
+// User Login System
+const onClickConnect = () => {
+  /**
+   *
+   * Role Key ! 0-12 addable prime key
+   *
+   * 0 - unknown user [static assignment]
+   * 1 - known guest : not signed up [static assignment]
+   * 2 - client user [static assignment]
+   * 3 - affily user
+   * 4 - blacklisted [static assignment] 3x to daolist
+   * 5 - client & affily user
+   * 6 - daolisted [dao governance static assignment] 2x to redlist
+   * 7 - promote user
+   * 8 - redlisted [banned permanent static assignment]
+   * 9 - client & promote user
+   * 10 - governance user [permanent static assignment 9 role fallback]
+   * 11 - proposal user [short time assignment 10 role fallabck]
+   * 12 - client, affily & promote user
+   *
+   * 20 - group
+   *
+   * 40 - store
+   *
+   * 60 - director
+   *
+   * 80 - board
+   *
+   * 99 - admin
+   *
+   */
+
+  let role = 0;
+  // if user is new
+  if (role !== 0) {
+    goSignUp();
+  }
+  // else if user is known
+  else {
+    if (role === 99) {
+      goAdmin();
+    } else {
+      if (role === 1) {
+        goSignUp();
+      }
+      // Normal User Accounts role 2 - 12
+      if (role === 2 || role === 3 || role === 5 || role === 7 || role === 9 || role === 12) {
+        goProfile();
+      } else if (role <= 12 || role === 0) {
+        // user has blocked or invalid //
+      }
+    }
+  }
+};
+
+const goSignUp = () => {
+  // open modal
+  // get modal elements
+  // populate modal
+};
+const onAvtTypeChange = () => {};
+const goCreateUserForm = () => {};
+const onReadUserInfo = () => {};
+const onSubmitSignup = () => {};
+
+const goEditUser = () => {};
+const goDelUser = () => {};
+const goProfile = () => {};
+const goAffily = () => {};
+const goPromote = () => {};
+const goError = () => {};
+const goAdmin = () => {};
+const checkAdmin = () => {};
+
+const draw = () => {};
+
 // CONTRACT IMPORT
 /*
 const GreenListData = async () => {

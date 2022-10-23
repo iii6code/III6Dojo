@@ -25,7 +25,9 @@ body {
 #serviceTemp,
 #teamTemp,
 #aboutTemp,
-#netTemp {
+#netTemp,
+#modalTemp,
+#userFormTemp {
   display: none;
 }
 @media screen and (max-width: 624px) {
