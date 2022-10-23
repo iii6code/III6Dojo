@@ -18,7 +18,7 @@ import { stripZeros } from "ethers/lib/utils";
 // globals
 let accounts;
 let network;
-let user;
+let user = {};
 
 const client = require("ipfs-http-client");
 const ipfs = client.create({
@@ -133,7 +133,8 @@ mservice.addEventListener("click", openService);
 mteam.addEventListener("click", openTeam);
 logo.addEventListener("click", openLanding);
 // User Login System
-const onClickConnect = () => {
+const onClickConnect = async () => {
+  // ROLE KEYS
   /**
    *
    * Role Key ! 0-12 addable prime key
@@ -163,10 +164,12 @@ const onClickConnect = () => {
    * 99 - admin
    *
    */
-
-  let role = 0;
+  const user = await checkUser();
+  let role = 0; // user.role;
   // if user is new
-  if (role !== 0) {
+  console.log(role);
+  if (role === 0) {
+    goCatch();
     goSignUp();
   }
   // else if user is known
@@ -182,28 +185,57 @@ const onClickConnect = () => {
         goProfile();
       } else if (role <= 12 || role === 0) {
         // user has blocked or invalid //
+        goError();
       }
     }
   }
 };
-
+const checkUser = () => {};
 const goSignUp = () => {
   // open modal
+  console.log("// sign up //  : ");
+  stage.innerHTML = document.getElementById("userFormTemp").innerHTML;
+  const avtUp = document.getElementById("upBox");
+  const nftUp = document.getElementById("nftBox");
+  const socioUp = document.getElementById("socioBox");
+  const pfpUp = document.getElementById("pfpBox");
+  const picUp = document.getElementById("picBox");
+  avtUp.style.display = "none";
+  nftUp.style.display = "none";
+  socioUp.style.display = "none";
+  picUp.style.display = "none";
+  pfpUp.style.display = "none";
+  const btnUp = document.getElementById("btnUp");
+  const btnNFT = document.getElementById("btnNFT");
+  const btnSocio = document.getElementById("btnSocio");
+  const btnPfp = document.getElementById("btnPfp");
+  const btnPic = document.getElementById("btnPic");
+  btnUp.addEventListener("click", onAvtTypeChange);
+  btnNFT.addEventListener("click", onAvtTypeChange);
+  btnSocio.addEventListener("click", onAvtTypeChange);
+  btnPfp.addEventListener("click", onAvtTypeChange);
+  btnPic.addEventListener("click", onAvtTypeChange);
+
   // get modal elements
   // populate modal
 };
-const onAvtTypeChange = () => {};
+const onAvtTypeChange = (e) => {
+  console.log();
+};
 const goCreateUserForm = () => {};
-const onReadUserInfo = () => {};
+const onReadUserInfo = async () => {};
 const onSubmitSignup = () => {};
 
 const goEditUser = () => {};
 const goDelUser = () => {};
-const goProfile = () => {};
+const goProfile = async () => {
+  const userOBJ = await onReadUserInfo();
+};
 const goAffily = () => {};
 const goPromote = () => {};
 const goError = () => {};
 const goAdmin = () => {};
+const goCatch = () => {};
 const checkAdmin = () => {};
 
 const draw = () => {};

@@ -19,6 +19,10 @@ body {
   background: $bg;
   overflow: hidden;
 }
+input,
+select {
+  width: calc(100% - 4em);
+}
 #landingTemp,
 #walletTemp,
 #appTemp,
