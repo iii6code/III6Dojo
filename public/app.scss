@@ -20,8 +20,21 @@ body {
   overflow: hidden;
 }
 input,
-select {
-  width: calc(100% - 4em);
+select,
+textarea {
+  width: calc(100%);
+  margin-top: 5px;
+}
+input[type="checkbox"] {
+  float: left;
+  width: 32px;
+}
+#check {
+  margin-top: 0.5em;
+  float: left;
+  height: 100%;
+  width: 100%;
+  font-size: 1.3em;
 }
 #landingTemp,
 #walletTemp,

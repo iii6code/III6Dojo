@@ -200,27 +200,89 @@ const goSignUp = () => {
   const socioUp = document.getElementById("socioBox");
   const pfpUp = document.getElementById("pfpBox");
   const picUp = document.getElementById("picBox");
+  const avtBox = document.getElementById("avtBox");
+  const avtType = document.getElementById("avtTypeBox");
+  avtType.style.margin = "1em 0 1em 0";
+  socioUp.style.gridColumn = 1;
+  socioUp.style.gridRow = 2;
+  avtBox.style.gridRow = "1 / 4";
+  avtBox.style.gridColumn = 2;
   avtUp.style.display = "none";
   nftUp.style.display = "none";
-  socioUp.style.display = "none";
-  picUp.style.display = "none";
   pfpUp.style.display = "none";
+  picUp.style.display = "none";
   const btnUp = document.getElementById("btnUp");
   const btnNFT = document.getElementById("btnNFT");
   const btnSocio = document.getElementById("btnSocio");
-  const btnPfp = document.getElementById("btnPfp");
   const btnPic = document.getElementById("btnPic");
   btnUp.addEventListener("click", onAvtTypeChange);
   btnNFT.addEventListener("click", onAvtTypeChange);
   btnSocio.addEventListener("click", onAvtTypeChange);
-  btnPfp.addEventListener("click", onAvtTypeChange);
   btnPic.addEventListener("click", onAvtTypeChange);
 
   // get modal elements
   // populate modal
 };
 const onAvtTypeChange = (e) => {
-  console.log();
+  const avtUp = document.getElementById("upBox");
+  const nftUp = document.getElementById("nftBox");
+  const socioUp = document.getElementById("socioBox");
+  const pfpUp = document.getElementById("pfpBox");
+  const picUp = document.getElementById("picBox");
+  console.log(e.target.value);
+  avtUp.style.display = "none";
+  nftUp.style.display = "none";
+  pfpUp.style.display = "none";
+  picUp.style.display = "none";
+  if (e.target.value === "upload") {
+    avtUp.style.display = "block";
+    avtUp.style.gridColumn = 1;
+    avtUp.style.gridRow = 3;
+  }
+  if (e.target.value === "nft") {
+    nftUp.style.display = "block";
+    nftUp.style.gridColumn = 1;
+    nftUp.style.gridRow = 3;
+  }
+  if (e.target.value === "social") {
+    pfpUp.style.display = "block";
+    pfpUp.style.gridColumn = 1;
+    pfpUp.style.gridRow = 3;
+    let bool = true;
+    console.log("social // ", document.getElementById("userTel").value.length);
+    if (document.getElementById("userTwitter").value.length < 4) {
+      document.getElementById("twtPfp").style.display = "none";
+      bool = false;
+    }
+    if (document.getElementById("userTel").value.length < 4) {
+      document.getElementById("telPfp").style.display = "none";
+      bool = false;
+    }
+    if (document.getElementById("userGithub").value.length < 4) {
+      document.getElementById("gitPfp").style.display = "none";
+      bool = false;
+    }
+    if (document.getElementById("userInsta").value.length < 4) {
+      document.getElementById("insPfp").style.display = "none";
+      bool = false;
+    }
+    if (document.getElementById("userLinked").value.length < 4) {
+      document.getElementById("lnkPfp").style.display = "none";
+      bool = false;
+    }
+    if (document.getElementById("userMedium").value.length < 4) {
+      document.getElementById("mdmPfp").style.display = "none";
+      bool = false;
+    }
+    if (!bool) {
+      document.getElementById("pfpInf").innerHTML = "Please Set at least one social handle !";
+    }
+  }
+  if (e.target.value === "photo") {
+    picUp.style.display = "block";
+    picUp.style.gridColumn = 1;
+    picUp.style.gridRow = 3;
+  }
 };
 const goCreateUserForm = () => {};
 const onReadUserInfo = async () => {};
@@ -240,6 +302,55 @@ const checkAdmin = () => {};
 
 const draw = () => {};
 
+const roll = (base) => {
+  // working bases are 2 / 10 / 16 / 99 / 255
+  let a = Math.floor((Math.random() * (base + 2)) / 2);
+  let b = Math.floor((Math.random() * (base + 2)) / 2);
+  a += 1;
+  b += 1;
+  let c = a + b - 2;
+
+  if (c === base) {
+    if (Math.floor(Math.random() * 2) > 1) {
+      c = base - 1;
+      // console.log("bounds // ", c, " // base // ", base);
+    } else {
+      c = 0;
+      // console.log("bounds // ", c, " // base // ", base);
+    }
+  } // else console.log("roll // ", c, " // base // ", base);
+  return c;
+};
+// working bases are 2 / 10 / 16 / 99 / 255
+const makeId = (base, len) => {
+  let arr = [];
+  let str = "";
+  for (let i = 1; i <= len; i++) {
+    arr[i] = roll(base[i - 1]);
+    str += arr[i].toString(16);
+    // console.log(arr[i].toString(16));
+  }
+  // console.log(len + " character code", str);
+  return str;
+};
+
+const doCollection = (base, len, amnt) => {
+  let arr = [];
+  for (let i = 0; i < amnt; i++) {
+    arr[i] = makeId(base, len, amnt);
+    for (let j = 0; j < i; j++) {
+      if (arr[j] == arr[i]) {
+        console.log("match");
+        i--;
+      }
+    }
+  }
+  return arr;
+};
+const list = doCollection([16, 16, 16, 16, 8, 8, 8, 8, 2, 2, 2, 2], 12, 500);
+
+console.log(list.sort());
+const doRarity = (base, len, amnt, list) => {};
 // CONTRACT IMPORT
 /*
 const GreenListData = async () => {
