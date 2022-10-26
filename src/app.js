@@ -1,9 +1,11 @@
 //////////////////////////////////////////
 //                                      //
 //          MAIN CONTRACT               //
-//          III6 LifeAnd.Eth            //
+//          thedojo.guru                //
 //          stereoIII6                  //
-//          stereodocbush@gmail.com     //
+//          stereo@iii6.xyz             //
+//                                      //
+//                                      //
 //                                      //
 //////////////////////////////////////////
 
@@ -248,35 +250,42 @@ const onAvtTypeChange = (e) => {
     pfpUp.style.display = "block";
     pfpUp.style.gridColumn = 1;
     pfpUp.style.gridRow = 3;
-    let bool = true;
+    let run = 0;
     console.log("social // ", document.getElementById("userTel").value.length);
     if (document.getElementById("userTwitter").value.length < 4) {
       document.getElementById("twtPfp").style.display = "none";
-      bool = false;
-    }
+      console.log("no twitter");
+      run++;
+    } else document.getElementById("twtPfp").style.display = "block";
     if (document.getElementById("userTel").value.length < 4) {
       document.getElementById("telPfp").style.display = "none";
-      bool = false;
-    }
+      console.log("no tme");
+      run++;
+    } else document.getElementById("telPfp").style.display = "block";
     if (document.getElementById("userGithub").value.length < 4) {
       document.getElementById("gitPfp").style.display = "none";
-      bool = false;
-    }
+      console.log("no github");
+      run++;
+    } else document.getElementById("gitPfp").style.display = "block";
     if (document.getElementById("userInsta").value.length < 4) {
       document.getElementById("insPfp").style.display = "none";
-      bool = false;
-    }
+      console.log("no insta");
+      run++;
+    } else document.getElementById("insPfp").style.display = "block";
     if (document.getElementById("userLinked").value.length < 4) {
       document.getElementById("lnkPfp").style.display = "none";
-      bool = false;
-    }
+      console.log("no linked");
+      run++;
+    } else document.getElementById("lnkPfp").style.display = "block";
     if (document.getElementById("userMedium").value.length < 4) {
       document.getElementById("mdmPfp").style.display = "none";
-      bool = false;
-    }
-    if (!bool) {
+      console.log("no medium");
+      run++;
+    } else document.getElementById("mdmPfp").style.display = "block";
+    if (run > 6) {
+      console.log(run);
       document.getElementById("pfpInf").innerHTML = "Please Set at least one social handle !";
-    }
+    } else document.getElementById("pfpInf").innerHTML = "Click to add your social PFP !";
   }
   if (e.target.value === "photo") {
     picUp.style.display = "block";
