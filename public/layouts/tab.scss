@@ -14,6 +14,7 @@
 #defi {
   grid-row: 1;
   grid-column: 4;
+  justify-content: flex-end;
 }
 #logo,
 #copy {
@@ -28,6 +29,36 @@
 }
 #mobbtn {
   display: none;
+}
+#contact:hover,
+#imprint:hover,
+#terms:hover,
+#mcontact:hover,
+#mimprint:hover,
+#mterms:hover {
+  background: $fc;
+  color: $bg;
+}
+#imprint {
+  grid-column: 4;
+}
+#terms {
+  grid-column: 3;
+}
+#contact {
+  grid-column: 2;
+}
+#admin,
+#madmin,
+#admin:hover,
+#madmin:hover {
+  background: none !important;
+  color: darkgrey !important;
+  width: 40%;
+  height: 22px;
+  position: absolute;
+  bottom: 0;
+  left: 30%;
 }
 #stage {
   width: 100%;
@@ -76,10 +107,6 @@
   text-align: center;
   height: 22px;
   padding-top: 5px;
-}
-.link:hover {
-  background: $bg;
-  color: $fc;
 }
 .title {
   grid-column: 1/-1;
