@@ -42,7 +42,7 @@ const goRand = () => {
 
   if (rand < 99999) rand *= 99;
   if (rand < 999999) rand *= 9;
-  console.log(rand);
+  // console.log(rand);
   draw();
 };
 const ids = [];
@@ -52,9 +52,9 @@ for (let i = 0; i < 5555; i++) {
     while (ids[j] === ids[i]) ids[i] = Math.floor(Math.random() * 9999999);
   }
 }
-console.log("dias shuffle", JSON.stringify(ids));
+// console.log("dias shuffle", JSON.stringify(ids));
 // console.log("sorted", JSON.stringify(diasIds.sort()));
-setInterval(goRand, 25000);
+// setInterval(goRand, 25000);
 
 const logo = document.getElementById("logo");
 const wallet = document.getElementById("wallet");
@@ -356,9 +356,9 @@ const doCollection = (base, len, amnt) => {
   }
   return arr;
 };
-const list = doCollection([16, 16, 16, 16, 8, 8, 8, 8, 2, 2, 2, 2], 12, 500);
+// const list = doCollection([16, 16, 16, 16, 8, 8, 8, 8, 2, 2, 2, 2], 12, 500);
 
-console.log(list.sort());
+// console.log(list.sort());
 const doRarity = (base, len, amnt, list) => {};
 // CONTRACT IMPORT
 /*
