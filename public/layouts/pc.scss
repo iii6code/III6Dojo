@@ -29,6 +29,29 @@
 #mobbtn {
   display: none;
 }
+#imprint {
+  grid-column: 4;
+}
+#terms {
+  grid-column: 3;
+}
+#contact {
+  grid-column: 2;
+}
+#contact:hover,
+#imprint:hover,
+#terms:hover,
+#mcontact:hover,
+#mimprint:hover,
+#mterms:hover {
+  background: $fc;
+  color: $bg;
+}
+#admin,
+#madmin {
+  background: none !important;
+  color: none !important;
+}
 #stage {
   width: 100%;
   height: calc(100% - 48px);
@@ -76,10 +99,6 @@
   text-align: center;
   height: 22px;
   padding-top: 5px;
-}
-.link:hover {
-  background: $bg;
-  color: $fc;
 }
 .title {
   grid-column: 1/-1;

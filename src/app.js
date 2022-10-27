@@ -191,6 +191,7 @@ const onClickConnect = async () => {
       }
     }
   }
+  toggle();
 };
 const checkUser = () => {};
 const goSignUp = () => {
