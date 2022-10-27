@@ -67,6 +67,10 @@
   float: left;
   text-align: center;
 }
+.mslink:hover {
+  background-color: white;
+  color: black;
+}
 .thick1,
 .thick2 {
   background: $bg;
