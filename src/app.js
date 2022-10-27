@@ -28,7 +28,11 @@ const ipfs = client.create({
   port: "5001",
   protocol: "https",
 });
-const s0x = 
+const s0x = require("../dist/contracts/s0xFactory.json");
+const Greenlist = require("../dist/contracts/Greenlist.json");
+const FrootyCoolTingz = require("../dist/contracts/FrootyCoolTingz.json");
+const Ice = require("../dist/contracts/ICE.json");
+const Market = require("../dist/contracts/Market.json");
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 if (!ethereum.isConnected()) {
   // alert("install https://metamask.io extension to browser");
