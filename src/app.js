@@ -28,7 +28,7 @@ const ipfs = client.create({
   port: "5001",
   protocol: "https",
 });
-
+const s0x = 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 if (!ethereum.isConnected()) {
   // alert("install https://metamask.io extension to browser");
@@ -362,6 +362,16 @@ const doCollection = (base, len, amnt) => {
 // console.log(list.sort());
 const doRarity = (base, len, amnt, list) => {};
 // CONTRACT IMPORT
+const s0xData = async () => {
+  let a;
+  if (Number(network) === 9000) a = 2;
+  else if (Number(network) === 9001) a = 2;
+  else if (Number(network) === 80001) a = 0;
+  else if (Number(network) === 137) a = 1;
+  const deploymentKey = await Object.keys(s0x.networks)[a];
+  // console.log(deploymentKey, a, network);
+  return new ethers.Contract(s0x.networks[deploymentKey].address, s0x.abi, signer);
+};
 /*
 const GreenListData = async () => {
   let a;

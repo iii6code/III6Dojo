@@ -133,30 +133,26 @@ TREE Token Display
 contract exitSafes {
     // ** CHECKLIST **
     // validation that safe adrress is accessible for everyone
-    address impact;
-    address fortrees;
+    address iii6; // developers conglomerate
+    address dojo; // devtool framework
+    address s0x; // community framework
+    address dias; // dias conglomerate
+    address codebender; // dynamic nft editor
+    address vanByte; // dynamic arts museum
+    address foyl; // digital arts community
+    address vrl; // dynamic tech promo framework
 
     constructor(uint256 _net) {
         if (_net == 1) {
             // AVAX
-            impact = 0x7c3348aa2Cb61784952EC22cD06e69594c47b785;
-            fortrees = 0x6A583112f5536f6cC1c45019b8e61Ccc828B1368;
         } else if (_net == 3) {
             // FANTOM Opera
-            impact = 0x26C546A99D845B836E4938B120791C5DA2c32a7d;
-            fortrees = 0xF4D48CcD13A54400FcC3F5555dA95143a5470dbC;
         } else if (_net == 2) {
             // Fantom Test
-            impact = 0xB668bB8c7E4B0bCEd0A4099beF6d6d7D42F3B810;
-            fortrees = 0x9e84864E46Ca1644d2e60D89A127FDC7347ee056;
         } else if (_net == 5) {
             // Polygon
-            impact = 0x34E9108143157FfDb4168d6C8861987e81089306;
-            fortrees = 0x0cA8dD80519B7cEE294f25DdC132d8Fc1DbD7218;
         } else {
             // FALLBACK
-            impact = 0x47d77319d00A8FFc5ebbdCFd706B50F10bd8Da57;
-            fortrees = 0x7a1579D65c0BD9028c48B8e0C350aB0F625AA45d;
         }
     }
 }
@@ -850,212 +846,12 @@ contract MLQ is ERC20, MathFnx, exitSafes {
     }
 
     receive() external payable {
-        uint256 ethAmntImpact = divide(msg.value, 100) * 15;
-        uint256 ethAmntTrees = msg.value - ethAmntImpact;
-        payable(impact).transfer(ethAmntImpact);
-        payable(fortrees).transfer(ethAmntTrees);
-        uint256 swapRate = divide(MLQ_RATE, uint256(rate));
-        uint256 trees = msg.value * swapRate;
-        transfer(msg.sender, trees);
-    }
-}
-
-// 0 Fuji // 1 Avax // 2 Fantom Test // 4 Fantom Main // 5 Polygon Mumbai // 6 Polygon Main
-contract Trees is ERC20, MathFnx, exitSafes {
-    uint256 MAX_SUPPLY;
-    uint256 public rate;
-    uint256 MLQ_RATE;
-    uint256 public mainRate;
-    uint256 availSupply;
-    address author;
-    address editor;
-    uint256 net;
-    PriceConsumerV3 public ethUsdPrice;
-    IERC20 usdc;
-    MLQ mlq;
-    event Log(uint256 l, address f, address t, uint256 b, uint256 a);
-    uint256 l;
-
-    constructor(
-        address _usdc,
-        address _mlq,
-        address _pc,
-        uint256 _net
-    ) ERC20("Seedling", "S33D") exitSafes(_net) {
-        MAX_SUPPLY = 5000000000000 * 10**18;
-        author = msg.sender;
-        usdc = IERC20(_usdc);
-        mlq = MLQ(payable(_mlq));
-        rate = 94 * 10**15;
-        ethUsdPrice = PriceConsumerV3(_pc);
-        net = _net;
-    }
-
-    modifier isAdmin() {
-        require(msg.sender == author);
-        _;
-    }
-    mapping(address => uint256) public treeClaims;
-
-    function addClaim(address _adr, uint256 _amnt) external returns (bool) {
-        treeClaims[_adr] += _amnt;
-        return true;
-    }
-
-    function getClaims() external returns (bool) {
-        _mint(msg.sender, treeClaims[msg.sender]);
-        treeClaims[msg.sender] = 0;
-        return true;
-    }
-
-    function buyTreeUSDC(uint256 _amount, address _send)
-        external
-        returns (bool)
-    {
-        emit Log(
-            l,
-            _send,
-            impact,
-            usdc.balanceOf(_send),
-            usdc.balanceOf(address(this))
-        );
-        l++;
-        require(
-            usdc.balanceOf(_send) >= _amount * rate,
-            "insufficient usdc balance"
-        );
-        require(
-            availSupply + _amount * 10**18 < MAX_SUPPLY,
-            "insufficient supply"
-        );
-        usdc.transferFrom(_send, fortrees, ((_amount * rate) / 100) * 85);
-        usdc.transferFrom(_send, impact, ((_amount * rate) / 100) * 15);
-        availSupply += _amount * 10**18;
-        _mint(msg.sender, _amount * 10**18);
-        return true;
-    }
-
-    function buyTreesMainnet(uint256 _amount, address _send)
-        external
-        payable
-        returns (bool)
-    {
-        uint256 swapRate = divide(mainRate, rate);
-        emit Log(l, _send, fortrees, _send.balance, address(this).balance);
-        l++;
-        require(
-            _send.balance >= _amount * swapRate,
-            "insufficient usdc balance"
-        );
-        require(
-            availSupply + _amount * 10**18 < MAX_SUPPLY,
-            "insufficient supply"
-        );
-        require(msg.value >= _amount * swapRate, "insufficient usdc balance");
-
-        payable(fortrees).transfer(((_amount * swapRate) / 100) * 85);
-        payable(impact).transfer(((_amount * swapRate) / 100) * 15);
-
-        availSupply += _amount * 10**18;
-        _mint(msg.sender, _amount * 10**18);
-        return true;
-    }
-
-    function setEditor(address _adr) external returns (address) {
-        require(
-            msg.sender == author || msg.sender == editor,
-            "You are not the allowed to perform this action"
-        );
-        return editor = _adr;
-    }
-
-    function setMainRateMan(uint256 _rate) external returns (uint256) {
-        require(
-            msg.sender == author || msg.sender == editor,
-            "You are not the allowed to perform this action"
-        );
-        return mainRate = _rate;
-    }
-
-    function buyTreeMLQ(uint256 _amount, address _send)
-        external
-        returns (bool)
-    {
-        uint256 swapRate = divide(MLQ_RATE, rate);
-        emit Log(
-            l,
-            _send,
-            fortrees,
-            mlq.balanceOf(_send),
-            mlq.balanceOf(address(this))
-        );
-        l++;
-        require(
-            mlq.balanceOf(_send) >= _amount * swapRate,
-            "insufficient usdc balance"
-        );
-        require(
-            availSupply + _amount * 10**18 < MAX_SUPPLY,
-            "insufficient supply"
-        );
-        mlq.transferFrom(_send, fortrees, ((_amount * swapRate) / 100) * 85);
-        mlq.transferFrom(_send, impact, ((_amount * swapRate) / 100) * 15);
-        availSupply += _amount * 10**18;
-        _mint(msg.sender, _amount * 10**18);
-        return true;
-    }
-
-    function donateTrees(uint256 _amount) external isAdmin returns (bool) {
-        require(balanceOf(msg.sender) > _amount * 10**18);
-        _burn(msg.sender, _amount * 10**18);
-        return true;
-    }
-
-    function approveContract(address _contract) external returns (bool) {
-        approve(_contract, balanceOf(msg.sender));
-        return true;
-    }
-
-    function setERC20(address _usdc) external isAdmin returns (bool) {
-        usdc = IERC20(_usdc);
-        return true;
-    }
-
-    function setMLQ(address _mlq) external isAdmin returns (bool) {
-        mlq = MLQ(payable(_mlq));
-        return true;
-    }
-
-    function approveUSDC(uint256 _amnt) external pure returns (bool) {
-        // delegated call to approve
-        return _amnt == _amnt;
-    }
-
-    function trimTrees(uint256 _newPrice) external returns (uint256) {
-        rate = _newPrice;
-        return rate;
-    }
-
-    receive() external payable {
-        uint256 ethAmntImpact = divide(msg.value, 100) * 15;
-        uint256 ethAmntTrees = msg.value - ethAmntImpact;
-        payable(impact).transfer(ethAmntImpact);
-        payable(fortrees).transfer(ethAmntTrees);
-        uint256 swapRate = divide(MLQ_RATE, rate);
-        uint256 trees = msg.value * swapRate;
-        transfer(msg.sender, trees);
-    }
-
-    function withdraw(uint256 _eth, uint256 _tree)
-        external
-        isAdmin
-        returns (bool)
-    {
-        require(_tree * 10**18 <= balanceOf(address(this)));
-        require(_eth * 10**18 <= address(this).balance);
-        transfer(payable(impact), _tree * 10**18);
-        payable(impact).transfer(_eth * 10**18);
-        return true;
+        uint256 val = divide(msg.value, 1000);
+        payable(iii6).transfer(val * 10);
+        payable(dias).transfer(val * 10);
+        payable(dojo).transfer(val * 10);
+        payable(s0x).transfer(val * 10);
+        payable(codebender).transfer(val * 900);
     }
 }
 
@@ -1160,57 +956,15 @@ contract nftProject is ERC721 {
     }
 }
 
-// 0 Fuji // 1 Avax // 2 Fantom Test // 4 Fantom Main // 5 Polygon Mumbai // 6 Polygon Main
-contract EcoMintNFT is nftProject, exitSafes, MathFnx {
-    Trees public trees;
-    uint256 nftPrice;
-    uint256 val;
-
+contract RiteWhabbits is nftProject {
     constructor(
         address _owner,
         string memory _name,
         string memory _sym,
-        address _treeAdr,
         address _usdc,
         address _vrf,
-        address _mlq,
-        uint256 _net
-    ) nftProject(_owner, _name, _sym, _usdc, _vrf, _mlq) exitSafes(_net) {
-        trees = Trees(payable(_treeAdr));
-        nftPrice = 25 * 10**18;
-        val = 94 * 10**15;
-    }
-
-    function setValue(uint256 _val) external returns (uint256) {
-        return val = _val;
-    }
-
-    function ecoMint(uint256 _amnt) external returns (uint256) {
-        require(minted < max);
-        uint256 sub = nftPrice + val;
-        uint256 total = _amnt * sub;
-        uint256 fee = 3 * 10**18;
-        require(total + fee < usdc.balanceOf(msg.sender), "insufficient funds");
-        usdc.transferFrom(msg.sender, impact, fee);
-        usdc.transferFrom(msg.sender, fortrees, divide(total, 100) * 85);
-        usdc.transferFrom(msg.sender, impact, divide(total, 100) * 15);
-        trees.addClaim(msg.sender, _amnt * 10**18);
-        doMint(_amnt);
-        return minted;
-    }
-}
-
-contract RiteWhabbits is EcoMintNFT {
-    constructor(
-        address _owner,
-        string memory _name,
-        string memory _sym,
-        address _treeAdr,
-        address _usdc,
-        address _vrf,
-        address _mlq,
-        uint256 _net
-    ) EcoMintNFT(_owner, _name, _sym, _treeAdr, _usdc, _vrf, _mlq, _net) {}
+        address _mlq
+    ) nftProject(_owner, _name, _sym, _usdc, _vrf, _mlq) {}
 
     mapping(uint256 => bytes) private _tokenStatus;
     mapping(uint256 => uint256) private _tokenVRF;
@@ -1230,299 +984,6 @@ contract RiteWhabbits is EcoMintNFT {
         uint256 nose;
         uint256 mouth;
         uint256 beard;
-    }
-}
-
-contract Co2s is ERC20, MathFnx {
-    IERC20 internal trees;
-    MLQ mlq;
-    uint256 rate;
-    uint256 availSupply;
-    address author;
-    uint256 time;
-    nftProject nft;
-    Friends private friends;
-    struct Bond {
-        uint256 id;
-        address adr;
-        uint256 amount;
-        string region;
-        uint256 stamp;
-        uint256 end;
-        uint256 co2;
-    }
-    struct Tx {
-        uint256 tid;
-        uint256 bid;
-        uint256 co2;
-        uint256 date;
-    }
-    mapping(address => uint256) public myBonds;
-    mapping(uint256 => uint256) public allBonds;
-    mapping(address => mapping(uint256 => uint256)) public myBondedCo2;
-    mapping(address => uint256) public myTxCount;
-    mapping(address => mapping(uint256 => uint256)) public myTxs;
-    Bond[] public bonds;
-    Tx[] public txs;
-    uint256 t;
-    uint256 b;
-    uint256 per;
-
-    constructor(
-        address _contract,
-        uint256 _percent,
-        address _mlq,
-        uint256 _net
-    ) ERC20("Carbon Certificate", "C4RB") {
-        trees = IERC20(_contract);
-        per = _percent;
-        mlq = MLQ(payable(_mlq));
-        author = msg.sender;
-        if (_net == 1 || _net == 3 || _net == 5) time = 3600 * 24 * 365 * 5;
-        else time = 60 * 5;
-    }
-
-    modifier isAdmin() {
-        require(msg.sender == author);
-        _;
-    }
-
-    function setNFT(address _nft) external returns (address) {
-        nft = nftProject(_nft);
-        return address(nft);
-    }
-
-    function showNFTdata(uint256 _id) external view returns (string memory) {
-        // read NFT data by ID
-        bytes memory see_dias = nft.dias(_id);
-        return string(see_dias);
-    }
-
-    function setBondRate(uint256 _rate) external returns (uint256) {
-        return rate = _rate;
-    }
-
-    function _createBond(
-        uint256 _amnt,
-        string memory _loc,
-        uint256 _stamp,
-        address _sender,
-        uint256 _id
-    ) internal returns (uint256) {
-        require(msg.sender == _sender, "you do not own the plantation");
-        bonds.push(
-            Bond(_id, _sender, _amnt, _loc, _stamp, _stamp + time, _amnt * 5)
-        );
-        allBonds[b] = _id;
-        myBondedCo2[_sender][myBonds[_sender]] = _id;
-        myBonds[_sender]++;
-        b++;
-        return b - 1;
-    }
-
-    function createBond(
-        uint256 _amnt,
-        string memory _loc,
-        uint256 _stamp,
-        address _sender,
-        uint256 _id
-    ) external returns (uint256) {
-        return _createBond(_amnt, _loc, _stamp, _sender, _id);
-    }
-
-    function _checkBond(uint256 _id) internal view returns (uint256) {
-        Bond memory bond = bonds[_id];
-        require(msg.sender == bond.adr);
-        if (bond.end > block.timestamp) {
-            uint256 diff = bond.end - block.timestamp;
-            uint256 modo = (time) % 100;
-            uint256 perc = (((time) - modo) / 100) * diff;
-            uint256 mod = bond.co2 % 100;
-            uint256 eq = ((bond.co2 - mod) / 100) * perc;
-            return eq;
-        } else {
-            return bond.co2;
-        }
-    }
-
-    function checkBond(uint256 _id) external view returns (uint256) {
-        return _checkBond(_id);
-    }
-
-    function claimBond(uint256 _id) external returns (uint256 eq) {
-        Bond memory bond = bonds[_id];
-        require(msg.sender == bond.adr);
-        eq = _checkBond(_id);
-        if (eq > 1 * 10**16) {
-            bond.co2 = bond.co2 - eq;
-            txs[t] = Tx(t, _id, eq, block.timestamp);
-            myTxs[msg.sender][myTxCount[msg.sender]] = t;
-            myTxCount[msg.sender]++;
-            bonds[_id] = bond;
-            _mint(bond.adr, eq);
-        }
-    }
-
-    function withdraw(
-        uint256 _eth,
-        uint256 _co2,
-        uint256 _tree
-    ) external isAdmin returns (bool) {
-        require(_co2 * 10**18 <= balanceOf(address(this)));
-        require(_tree * 10**18 <= trees.balanceOf(address(this)));
-        require(_eth * 10**18 <= address(this).balance);
-        transfer(payable(author), _co2 * 10**18);
-        trees.transfer(payable(author), _tree * 10**18);
-        payable(author).transfer(_eth * 10**18);
-        return true;
-    }
-}
-
-contract GardenPool is ERC1155, MathFnx {
-    IERC20 internal TR3EZ;
-    IERC20 internal CO2;
-    IERC20 internal lowC;
-    IERC20 internal highC;
-    address author;
-    uint256 private per;
-    uint256 public collectedFees;
-    struct Garden {
-        uint256 id;
-        address low;
-        uint256 lowTotal;
-        address high;
-        bytes description;
-        uint256 low4high;
-        uint256 maxSize;
-        uint256 currentSize;
-    }
-    Garden[] public gardens;
-    uint256 g;
-
-    constructor(
-        address _trees,
-        address _co2,
-        uint256 _percent
-    ) ERC1155("IMgardens") {
-        author = msg.sender;
-        TR3EZ = IERC20(_trees);
-        CO2 = IERC20(_co2);
-        per = _percent;
-    }
-
-    modifier isAdmin() {
-        require(msg.sender == author);
-        _;
-    }
-
-    function createGarden(
-        string memory _name,
-        address _hi,
-        address _lo
-    ) external returns (bool) {
-        _setURI(_name);
-        _mint(address(this), g, 100 * 10**6, bytes(_name)); // 1 : 10 000 // 100 000 weth : 1 000 000 000 trees = 100% // 1 weth : 10 000 trees = 0,001% of max pool size
-        gardens.push(
-            Garden(g, _hi, 1000000000, _lo, bytes(_name), 10000, 100000, 0)
-        );
-        g++;
-        return true;
-    }
-
-    function addliquidity(uint256 _id, uint256 _low)
-        external
-        payable
-        returns (bool)
-    {
-        uint256 low = _low * 10**6;
-        uint256 high = gardens[_id].low4high * low;
-        lowC = IERC20(gardens[_id].low);
-        highC = IERC20(gardens[_id].high);
-        require(lowC.balanceOf(msg.sender) >= low);
-        require(highC.balanceOf(msg.sender) >= high);
-        lowC.transferFrom(msg.sender, address(this), low);
-        highC.transferFrom(msg.sender, address(this), high);
-        uint256 gardenDrops = divide(100 * 10**6, gardens[_id].lowTotal) * low;
-        safeTransferFrom(
-            address(this),
-            msg.sender,
-            gardens[_id].id,
-            gardenDrops,
-            gardens[_id].description
-        );
-        gardens[_id].currentSize += gardenDrops;
-        return true;
-    }
-
-    function removeLiquidity(uint256 _id, uint256 _gardenDrops)
-        external
-        payable
-        returns (bool)
-    {
-        uint256 low = divide(100 * 10**6, gardens[_id].lowTotal) * _gardenDrops;
-        uint256 high = low * gardens[_id].low4high;
-        lowC = IERC20(gardens[_id].low);
-        highC = IERC20(gardens[_id].high);
-        require(lowC.balanceOf(address(this)) >= low);
-        require(highC.balanceOf(address(this)) >= high);
-        lowC.transferFrom(address(this), msg.sender, low);
-        highC.transferFrom(address(this), msg.sender, high);
-        safeTransferFrom(
-            msg.sender,
-            address(this),
-            gardens[_id].id,
-            _gardenDrops,
-            gardens[_id].description
-        );
-        gardens[_id].currentSize -= _gardenDrops;
-        return true;
-    }
-
-    function swapLowHigh(uint256 _id, uint256 _low)
-        external
-        payable
-        returns (bool)
-    {
-        uint256 low = _low * 10**6;
-        lowC = IERC20(gardens[_id].low);
-        highC = IERC20(gardens[_id].high);
-        require(lowC.balanceOf(msg.sender) >= low);
-        uint256 fee = divide(100 * 10**6, low) * (100 / per);
-        uint256 get = gardens[_id].low4high * (low - fee);
-        require(highC.balanceOf(address(this)) >= get);
-        lowC.transferFrom(msg.sender, address(this), low);
-        highC.transferFrom(address(this), msg.sender, get);
-        collectedFees += fee;
-        return true;
-    }
-
-    function swapHighLow(uint256 _id, uint256 _high)
-        external
-        payable
-        returns (bool)
-    {
-        uint256 high = _high * 10**6;
-        lowC = IERC20(gardens[_id].low);
-        highC = IERC20(gardens[_id].high);
-        require(highC.balanceOf(msg.sender) >= high);
-        uint256 fee = divide(100 * 10**6, high) * (100 / per);
-        uint256 get = divide(high - fee, gardens[_id].low4high);
-        require(highC.balanceOf(address(this)) >= get);
-        highC.transferFrom(msg.sender, address(this), high);
-        lowC.transferFrom(address(this), msg.sender, get);
-        collectedFees += fee;
-        return true;
-    }
-
-    function waterGardens(uint256 _id) external payable returns (uint256) {
-        lowC = IERC20(gardens[_id].low);
-        highC = IERC20(gardens[_id].high);
-        uint256 lBal = lowC.balanceOf(address(this));
-        uint256 hBal = highC.balanceOf(address(this));
-        uint256 rRatio = divide(hBal, lBal);
-        uint256 eRatio = divide(gardens[_id].low4high, 1);
-        uint256 difRatio = divide(100, eRatio) * rRatio;
-        return difRatio;
     }
 }
 
@@ -1728,82 +1189,6 @@ contract s0xPool is MathFnx {
     }
 }
 
-contract ecoverse is nftProject {
-    address admin;
-    address trees;
-    Trees tree;
-    Co2s co2s;
-    mapping(uint256 => uint256) public amount;
-    mapping(uint256 => bytes) public location;
-    mapping(uint256 => address) public ownedBy;
-    mapping(uint256 => uint256) public stamped;
-
-    constructor(
-        address _trees,
-        address _usdc,
-        address _mlq,
-        address _vrf,
-        address _co2
-    )
-        nftProject(
-            msg.sender,
-            "Plantation Certificate",
-            "PLNT8",
-            _usdc,
-            _vrf,
-            _mlq
-        )
-    {
-        admin = msg.sender;
-        tree = Trees(payable(_trees));
-        co2s = Co2s(payable(_co2));
-    }
-
-    modifier isAdmin() {
-        require(msg.sender == admin);
-        _;
-    }
-
-    function mintCertificate(
-        string memory _dias,
-        uint256 _id,
-        uint256 _amnt,
-        string memory _loc
-    ) external returns (bool) {
-        // get trees from user
-        tree.transferFrom(msg.sender, address(this), _amnt);
-        // place info on certificate dias
-        dias[_id] = bytes(_dias);
-        // set certificate info on contract
-        amount[_id] = _amnt;
-        location[_id] = bytes(_loc);
-        ownedBy[_id] = msg.sender;
-        stamped[_id] = block.timestamp;
-        _mint(msg.sender, _id);
-        ntfIdByCount[msg.sender][nftCount[msg.sender]] = _id;
-        nftCount[msg.sender]++;
-        return true;
-    }
-
-    function showDias(uint256 _id) external view returns (string memory) {
-        return string(dias[_id]);
-    }
-
-    function editCertificate(
-        uint256 _id,
-        string memory _dias_new,
-        string memory _loc_new
-    ) external returns (bool) {
-        // check approval
-        require(msg.sender == ownedBy[_id]);
-        // find certificate
-        // overwrite certificate dias
-        dias[_id] = bytes(_dias_new);
-        location[_id] = bytes(_loc_new);
-        return true;
-    }
-}
-
 contract affily8 {
     address[] client;
     uint256 cc;
@@ -1839,13 +1224,14 @@ contract affily8 {
         uint256 _slotV,
         uint256 _used
     ) external returns (bool) {
-        campaigns.push(Campaign(cc, msg.sender, _slots, _cType, _slotV, _used));
-        myCampaigns[msg.sender][occ[msg.sender]] = campaigns[cc];
+        campaigns.push(Campaign(cc, msg.sender, _slots, _ctype, _slotV, _used));
+        myCampaigns[msg.sender][occ[msg.sender]] = cc;
         occ[msg.sender]++;
         cc++;
+        return true;
     }
 
-    function campaignSignUp(uint256 _cc, string decsription)
+    function campaignSignUp(uint256 _cc, string memory decsription)
         external
         returns (bool)
     {}
