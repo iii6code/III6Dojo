@@ -1,9 +1,7 @@
 * {
   box-sizing: border-box;
 }
-$bg: black;
-$fc: darkgrey;
-$bc: white;
+@import "colorsets/init";
 
 body {
   position: absolute;
