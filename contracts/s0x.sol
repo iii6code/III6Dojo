@@ -143,12 +143,17 @@ contract exitSafes {
     address vrl; // dynamic tech promo framework
 
     constructor(uint256 _net) {
+        if (_net == 0) {
+            // AVAX Fuji
+        }
         if (_net == 1) {
             // AVAX
-        } else if (_net == 3) {
-            // FANTOM Opera
         } else if (_net == 2) {
+            // FANTOM Opera
+        } else if (_net == 3) {
             // Fantom Test
+        } else if (_net == 4) {
+            // Polygon Mumbai
         } else if (_net == 5) {
             // Polygon
         } else {
@@ -182,7 +187,7 @@ contract VRFv2Consumer is VRFConsumerBaseV2 {
         0xd729dc84e21ae57ffb6be0053bf2b0668aa2aaf300a2a7b2ddf7dc0bb6e875a8;
     // */
 
-    /* 4 => /
+    /* 4 => */
     // Polygon Mumbai coordinator. For other networks,
     // see https://docs.chain.link/docs/vrf-contracts/#configurations
     address vrfCoordinator = 0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed;
@@ -216,7 +221,7 @@ contract VRFv2Consumer is VRFConsumerBaseV2 {
         0x06eb0e2ea7cca202fc7c8258397a36f33d88568d2522b37aaa3b14ff6ee1b696;
     // */
 
-    /* 0 => */
+    /* 0 => 
     // AVAX Fuji coordinator. For other networks,
     // see https://docs.chain.link/docs/vrf-contracts/#configurations
     address vrfCoordinator = 0x2eD832Ba664535e5886b75D64C46EB9a228C2610;
