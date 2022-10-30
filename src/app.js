@@ -17,6 +17,9 @@ import { sha256 } from "crypto-hash";
 import UAuth from "@uauth/js";
 import { create } from "underscore";
 import { stripZeros } from "ethers/lib/utils";
+import { logo, wallet, mwallet, btn, mbtn, app, mapp, net, mnet, about, mabout, team, mteam, service, mservice, MoBtn, MobNav, admin, madmin, imprint, mimprint, terms, mterms, contact, mcontact, closeMob, stage } from "./elements";
+import { mob_toggle, toggle, a, showAdmin, fadeAdmin, daAdmin, openLanding, openWallet, openApp, openNet, openAbout, openService, openTeam, openImprint, openTerms, openContact } from "./nav";
+
 // globals
 let accounts;
 let network;
@@ -28,6 +31,13 @@ const ipfs = client.create({
   port: "5001",
   protocol: "https",
 });
+const s0x = require("../dist/contracts/s0xFactory.json");
+const Friends = require("../dist/contracts/Friends.json");
+const Groups = require("../dist/contracts/Groups.json");
+const Greenlist = require("../dist/contracts/Greenlist.json");
+const FrootyCoolTingz = require("../dist/contracts/FrootyCoolTingz.json");
+const Ice = require("../dist/contracts/ICE.json");
+const Market = require("../dist/contracts/Market.json");
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 if (!ethereum.isConnected()) {
@@ -56,69 +66,11 @@ for (let i = 0; i < 5555; i++) {
 // console.log("sorted", JSON.stringify(diasIds.sort()));
 // setInterval(goRand, 25000);
 
-const logo = document.getElementById("logo");
-const wallet = document.getElementById("wallet");
-const btn = document.getElementById("connect");
-const app = document.getElementById("app");
-const net = document.getElementById("net");
-const about = document.getElementById("about");
-const service = document.getElementById("service");
-const team = document.getElementById("team");
-const mwallet = document.getElementById("mwallet");
-const mbtn = document.getElementById("mconnect");
-const mapp = document.getElementById("mapp");
-const mnet = document.getElementById("mnet");
-const mabout = document.getElementById("mabout");
-const mservice = document.getElementById("mservice");
-const mteam = document.getElementById("mteam");
-const MoBtn = document.getElementById("mobbtn");
-const MobNav = document.getElementById("mobnav");
-const closeMob = document.getElementById("closemob");
-const stage = document.getElementById("stage");
-
-let mob_toggle = true;
-const toggle = () => {
-  mob_toggle = !mob_toggle;
-  if (mob_toggle == false) {
-    MobNav.style.display = "grid";
-    MoBtn.style.transform = "rotate(0deg)";
-  } else {
-    MobNav.style.display = "none";
-    MoBtn.style.transform = "rotate(90deg)";
-  }
-  console.log(mob_toggle);
-};
-const openLanding = () => {
-  MobNav.style.display = "none";
-  MoBtn.style.transform = "rotate(90deg)";
-  stage.innerHTML = document.getElementById("landingTemp").innerHTML;
-  console.log(mob_toggle);
-};
-const openWallet = () => {
-  toggle();
-  stage.innerHTML = document.getElementById("walletTemp").innerHTML;
-};
-const openApp = () => {
-  toggle();
-  stage.innerHTML = document.getElementById("appTemp").innerHTML;
-};
-const openNet = () => {
-  toggle();
-  stage.innerHTML = document.getElementById("netTemp").innerHTML;
-};
-const openAbout = () => {
-  toggle();
-  stage.innerHTML = document.getElementById("aboutTemp").innerHTML;
-};
-const openService = () => {
-  toggle();
-  stage.innerHTML = document.getElementById("serviceTemp").innerHTML;
-};
-const openTeam = () => {
-  toggle();
-  stage.innerHTML = document.getElementById("teamTemp").innerHTML;
-};
+admin.style.opacity = 0;
+madmin.style.opacity = 0;
 // Navigation Listeners
+admin.addEventListener("click", showAdmin);
+madmin.addEventListener("click", showAdmin);
 MoBtn.addEventListener("click", toggle);
 closeMob.addEventListener("click", toggle);
 wallet.addEventListener("click", openWallet);
@@ -133,7 +85,14 @@ mnet.addEventListener("click", openNet);
 mabout.addEventListener("click", openAbout);
 mservice.addEventListener("click", openService);
 mteam.addEventListener("click", openTeam);
+contact.addEventListener("click", openContact);
+terms.addEventListener("click", openTerms);
+imprint.addEventListener("click", openImprint);
+mcontact.addEventListener("click", openContact);
+mterms.addEventListener("click", openTerms);
+mimprint.addEventListener("click", openImprint);
 logo.addEventListener("click", openLanding);
+
 // User Login System
 const onClickConnect = async () => {
   // ROLE KEYS
@@ -362,6 +321,146 @@ const doCollection = (base, len, amnt) => {
 // console.log(list.sort());
 const doRarity = (base, len, amnt, list) => {};
 // CONTRACT IMPORT
+const s0xData = async () => {
+  let a;
+  if (Number(network) === 9000) a = 2;
+  else if (Number(network) === 9001) a = 2;
+  else if (Number(network) === 80001) a = 0;
+  else if (Number(network) === 137) a = 1;
+  const deploymentKey = await Object.keys(s0x.networks)[a];
+  return new ethers.Contract(s0x.networks[deploymentKey].address, s0x.abi, signer);
+};
+const s0xLoad = async () => {
+  const S0X = await s0xData();
+  // Is User
+  const isUser = await S0X.isU(_adr)
+    .then((res) => {
+      console.log("// makeUser response : ", res);
+      // action
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
+  isUser.wait().then((res) => {
+    console.log("// makeUser response : ", res);
+    // action
+    return res;
+  });
+  // Get Role
+  const getRole = await S0X.getRole(_adr)
+    .then((res) => {
+      console.log("// makeUser response : ", res);
+      // action
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
+  getRole.wait().then((res) => {
+    console.log("// makeUser response : ", res);
+    // action
+    return res;
+  });
+  // Get Name
+  const getName = await S0X.getName(_adr)
+    .then((res) => {
+      console.log("// makeUser response : ", res);
+      // action
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
+  getName.wait().then((res) => {
+    console.log("// makeUser response : ", res);
+    // action
+    return res;
+  });
+  // Make User
+  const makeUser = await S0X.createUserAccount(_dias, _user, _name)
+    .then((res) => {
+      console.log("// makeUser response : ", res);
+      // action
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
+  makeUser.wait().then((res) => {
+    console.log("// makeUser response : ", res);
+    // action
+    return res;
+  });
+  // Edit User
+  const editUser = await S0X.editUser(_dias)
+    .then((res) => {
+      console.log("// makeUser response : ", res);
+      // action
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
+  editUser.wait().then((res) => {
+    console.log("// makeUser response : ", res);
+    // action
+    return res;
+  });
+  // Admin Edit User
+  const adminEditUser = await S0X.adminEditUser(_dias)
+    .then((res) => {
+      console.log("// makeUser response : ", res);
+      // action
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
+  adminEditUser.wait().then((res) => {
+    console.log("// makeUser response : ", res);
+    // action
+    return res;
+  });
+  // Show User
+  const showUser = await S0X.editUser(_adr)
+    .then((res) => {
+      console.log("// makeUser response : ", res);
+      // action
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
+  showUser.wait().then((res) => {
+    console.log("// makeUser response : ", res);
+    // action
+    return res;
+  });
+  // Show Impacts
+  const showImpx = await S0X.showImpx(_adr)
+    .then((res) => {
+      console.log("// makeUser response : ", res);
+      // action
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
+  showImpx.wait().then((res) => {
+    console.log("// makeUser response : ", res);
+    // action
+    return res;
+  });
+};
 /*
 const GreenListData = async () => {
   let a;
