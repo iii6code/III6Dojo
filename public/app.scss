@@ -1,9 +1,7 @@
 * {
   box-sizing: border-box;
 }
-$bg: black;
-$fc: darkgrey;
-$bc: white;
+@import "colorsets/init";
 
 body {
   position: absolute;
@@ -35,6 +33,15 @@ input[type="checkbox"] {
   height: 100%;
   width: 100%;
   font-size: 1.3em;
+}
+#logo {
+  margin: 0;
+  padding: 0;
+}
+#logIMG {
+  margin-top: 2px;
+  height: 18px;
+  width: auto;
 }
 #landingTemp,
 #walletTemp,

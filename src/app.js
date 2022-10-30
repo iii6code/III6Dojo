@@ -23,7 +23,6 @@ import { mob_toggle, toggle, a, showAdmin, fadeAdmin, daAdmin, openLanding, open
 // globals
 let accounts;
 let network;
-let user = {};
 
 const client = require("ipfs-http-client");
 const ipfs = client.create({
@@ -39,11 +38,14 @@ const FrootyCoolTingz = require("../dist/contracts/FrootyCoolTingz.json");
 const Ice = require("../dist/contracts/ICE.json");
 const Market = require("../dist/contracts/Market.json");
 
+/*
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 if (!ethereum.isConnected()) {
   // alert("install https://metamask.io extension to browser");
 }
 let signer = provider.getSigner();
+*/
+
 // const url = "https://gateway.pinata.cloud/ipfs/QmamRUaez9fyXpeuTuiKCNvrKSsLxid4hzyKKkJXSi67LL/";
 const url = "./images/";
 let rand = 1234567;
@@ -69,6 +71,7 @@ for (let i = 0; i < 5555; i++) {
 admin.style.opacity = 0;
 madmin.style.opacity = 0;
 // Navigation Listeners
+
 admin.addEventListener("click", showAdmin);
 madmin.addEventListener("click", showAdmin);
 MoBtn.addEventListener("click", toggle);
@@ -93,8 +96,51 @@ mterms.addEventListener("click", openTerms);
 mimprint.addEventListener("click", openImprint);
 logo.addEventListener("click", openLanding);
 
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+if (!ethereum.isConnected()) {
+  // alert("install https://metamask.io extension to browser");
+}
+let signer = provider.getSigner();
+let user;
+console.log("// signer // ", signer);
 // User Login System
 const onClickConnect = async () => {
+  try {
+    btn.innerHTML = "SIGNUP";
+    // set eventlistener for profile button
+    // get wallet address and account data of client and store in main state accounts
+    accounts = await ethereum.request({ method: "eth_requestAccounts" });
+    user = accounts[0];
+    // get network data
+    network = await ethereum.request({ method: "net_version" });
+    let uData = await checkUser();
+    console.log("// Check User // ", uData);
+    let role = uData;
+    if (role === 0) {
+      goCatch();
+      goSignUp();
+    }
+    // else if user is known
+    else {
+      if (role === 99) {
+        goAdmin();
+      } else {
+        if (role === 1) {
+          goSignUp();
+        }
+        // Normal User Accounts role 2 - 12
+        if (role === 2 || role === 3 || role === 5 || role === 7 || role === 9 || role === 12) {
+          goProfile();
+        } else if (role <= 12 || role === 0) {
+          // user has blocked or invalid //
+          goError();
+        }
+      }
+    }
+  } catch (error) {
+    console.error("connect error", error);
+    btn.innerText = "LOG";
+  }
   // ROLE KEYS
   /**
    *
@@ -125,34 +171,42 @@ const onClickConnect = async () => {
    * 99 - admin
    *
    */
-  const user = await checkUser();
+
   let role = 0; // user.role;
   // if user is new
-  console.log(role);
-  if (role === 0) {
-    goCatch();
-    goSignUp();
-  }
-  // else if user is known
-  else {
-    if (role === 99) {
-      goAdmin();
-    } else {
-      if (role === 1) {
-        goSignUp();
-      }
-      // Normal User Accounts role 2 - 12
-      if (role === 2 || role === 3 || role === 5 || role === 7 || role === 9 || role === 12) {
-        goProfile();
-      } else if (role <= 12 || role === 0) {
-        // user has blocked or invalid //
-        goError();
-      }
-    }
-  }
+  // console.log(uData);
+
   toggle();
 };
-const checkUser = () => {};
+const checkUser = async () => {
+  const S0X = await s0xData();
+  // Is User
+  const isUser = await S0X.isU(user)
+    .then((res) => {
+      console.log("// makeUser response : ", res);
+      // action
+
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
+  if (isUser === true) {
+    const role = await S0X.getRole(user)
+      .then((res) => {
+        console.log("// makeUser response : ", Number(res._hex));
+        // action
+
+        return Number(res._hex);
+      })
+      .catch((err) => {
+        console.error(err);
+        return err;
+      });
+    return isUser, role;
+  } else return isUser, 0;
+};
 const goSignUp = () => {
   // open modal
   console.log("// sign up //  : ");
@@ -265,7 +319,10 @@ const goProfile = async () => {
 const goAffily = () => {};
 const goPromote = () => {};
 const goError = () => {};
-const goAdmin = () => {};
+const goAdmin = () => {
+  console.log("// admin // ");
+  btn.innerHTML = "@";
+};
 const goCatch = () => {};
 const checkAdmin = () => {};
 
@@ -323,11 +380,10 @@ const doRarity = (base, len, amnt, list) => {};
 // CONTRACT IMPORT
 const s0xData = async () => {
   let a;
-  if (Number(network) === 9000) a = 2;
-  else if (Number(network) === 9001) a = 2;
-  else if (Number(network) === 80001) a = 0;
-  else if (Number(network) === 137) a = 1;
+  if (Number(network) === 80001) a = 0;
+  if (Number(network) === 137) a = 1;
   const deploymentKey = await Object.keys(s0x.networks)[a];
+  console.log(deploymentKey);
   return new ethers.Contract(s0x.networks[deploymentKey].address, s0x.abi, signer);
 };
 const s0xLoad = async () => {
