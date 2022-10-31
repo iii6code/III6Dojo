@@ -6,15 +6,15 @@
 
 > @author : stereoIII6
 
-> @opSec : xnode
+> @opSec co-author : xnode
 
-> @frontEnd : SirHeeb
+> @frontEnd co-author : SirHeeb
 
 > @company : flashLAB Inc, III6 Ltd, DIAS by flashLAB Inc
 
-> @emails : stereo@codebender.xyz, xnode@codebender.xyz, sirHeeb@codebender.xyz
+> @emails : stereo@dojo.guru, xnode@dojo.guru, sirHeeb@dojo.guru
 
-> @devwebsite : https://bareknuckle.flashlab.xyz
+> @devwebsite : https://dev.dojo.guru
 
 > @about : DOJO is a vanilla truffe web3 bareknuckle boilerplate setup that allows an easy quick setup for defi projects and dapps. It uses the most basic setup but allow complex projects without overbloated npm libraries no one can keep up to date with all the modern features that other frameworks on npm deliver. The Dojo is made to deploy on multiple chains one at a time.
 
@@ -66,46 +66,7 @@ You should be ready to go !
 
 > If you edit the sourcecode your Server automatically updates the website on save.
 
-## Directory Structure & Important Files
-
-```root
-: build // build dir
-:: contracts // abi build dir
-::: soxiety.json // contract data incl abi
-
-: contract
-:: s0xiety.sol // smart contract
-
-: src // source code dir JS
-:: app.js // project Source JS (CODE HERE)
-:: three.js // threejs based 3d bg animation (CODE HERE)
-
-: migrations // blockchain migration dir
-:: 1_initial_migration.js // migration init
-:: 2_deploy_s0x.js // smart contract migration conf
-
-: public // source dir HTML
-:: images
-::: favicon.png // page favicon
-::: logo.png // website logo
-:: cols
-::: dark.scss
-::: irie.scss
-::: light.scss
-::: metal.scss
-::: woody.scss
-:: app.html // source code HTML (CODE HERE)
-:: app.scss
-
-: package.json // npm config
-: package-lock.json
-: truffle-config.js // truffle config
-: webpack.config.js // webpack config
-
-: .conf_env // default hidden vars envelope preset
-: .env // hidden vars envelope
-: .gitignore // git ignore file list
-```
+> Check out `https://dojo.guru` to find out how to develop your boilerplate dapp.
 
 ## Minimum Dependencies
 
