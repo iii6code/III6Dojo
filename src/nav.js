@@ -1,4 +1,4 @@
-import { MoBtn, MobNav, stage } from "./elements";
+import { MoBtn, MobNav, stage, init, eco, irie, modern } from "./elements";
 
 export let a = 0;
 export const showAdmin = async () => {
@@ -109,5 +109,4 @@ export const openContact = () => {
 };
 export const goColor = (e) => {
   console.log(e.target.id);
-  
-}
+};
