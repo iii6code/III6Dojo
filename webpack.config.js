@@ -27,10 +27,10 @@ module.exports = {
       reconnect: true,
     },
     allowedHosts: ["127.0.0.1"],
-    port: 6060,
+    port: 8080,
     open: true,
     hot: true,
     liveReload: true,
   },
-  plugins: [new HtmlWebpackPlugin({ title: "Frooty Cool Tingz", file: "index.html", template: "public/app.html" }), new CopyWebpackPlugin({ patterns: [{ from: "public/images", to: "images" }] }), new CopyWebpackPlugin({ patterns: [{ from: "public/json", to: "json" }] })],
+  plugins: [new HtmlWebpackPlugin({ title: "DOJOv2", file: "index.html", template: "public/app.html" }), new CopyWebpackPlugin({ patterns: [{ from: "public/images", to: "images" }] }), new CopyWebpackPlugin({ patterns: [{ from: "public/json", to: "json" }] })],
 };

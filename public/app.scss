@@ -1,10 +1,14 @@
 * {
   box-sizing: border-box;
 }
-#init {
+
+#initgo {
   @import "colorsets/init.scss";
   background: $bc;
   color: $fc;
+  a {
+    color: $bc;
+  }
   #nav,
   #foot,
   #stage {
@@ -18,7 +22,7 @@
     color: $fc;
   }
   #closemob {
-    background: $bg;
+    background: $bc;
     color: $fc;
   }
   #closemob:hover {
@@ -28,6 +32,77 @@
   .thick2,
   #mobbtn {
     background: $fc;
+  }
+  .link:hover,
+  .mlink:hover,
+  #contact:hover,
+  #imprint:hover,
+  #terms:hover,
+  #mcontact:hover,
+  #mimprint:hover,
+  #mterms:hover {
+    background: $bc;
+  }
+  #admin,
+  #madmin {
+    background: $bg;
+    color: $bc;
+  }
+  .line {
+    background: $border;
+  }
+  input,
+  select,
+  textarea,
+  button {
+    border: 1px solid $border;
+  }
+  button {
+    background: $ld;
+    color: $bc;
+  }
+  button:hover {
+    background: $bc;
+    color: $ld;
+  }
+}
+
+#init {
+  @import "colorsets/init.scss";
+  background: $bc;
+  color: $fc;
+}
+
+#ecogo {
+  @import "colorsets/eco.scss";
+  background: $bc;
+  color: $fc;
+  a {
+    color: $bc;
+  }
+  #nav,
+  #foot,
+  #stage {
+    background: $bg;
+  }
+  #mobnav {
+    background: $bg;
+  }
+  #mobNavList {
+    background: $bg;
+    color: $fc;
+  }
+  #closemob {
+    background: $bc;
+    color: $fc;
+  }
+  #closemob:hover {
+    background: $close;
+  }
+  .thick1,
+  .thick2,
+  #mobbtn {
+    background: $bg;
   }
   .link:hover,
   .mlink:hover,
@@ -66,67 +141,15 @@
   @import "colorsets/eco.scss";
   background: $bc;
   color: $fc;
-  #nav,
-  #foot,
-  #stage {
-    background: $bg;
-  }
-  #mobnav {
-    background: $bg;
-  }
-  #mobNavList {
-    background: $bg;
-    color: $fc;
-  }
-  #closemob {
-    background: $bg;
-    color: $fc;
-  }
-  #closemob:hover {
-    background: $close;
-  }
-  .thick1,
-  .thick2,
-  #mobbtn {
-    background: $bg;
-  }
-  .link:hover,
-  .mlink:hover,
-  #contact:hover,
-  #imprint:hover,
-  #terms:hover,
-  #mcontact:hover,
-  #mimprint:hover,
-  #mterms:hover {
-    background: $bc;
-  }
-  #admin,
-  #madmin {
-    background: $bg;
-    color: $bc;
-  }
-  .line {
-    background: $border;
-  }
-  input,
-  select,
-  textarea,
-  button {
-    border: 1px solid $border;
-  }
-  button {
-    background: $ld;
-    color: $bc;
-  }
-  button:hover {
-    background: $bc;
-    color: $ld;
-  }
 }
-#irie {
+
+#iriego {
   @import "colorsets/irie.scss";
   background: $bc;
   color: $fc;
+  a {
+    color: $bc;
+  }
   #nav,
   #foot,
   #stage {
@@ -140,7 +163,7 @@
     color: $fc;
   }
   #closemob {
-    background: $bg;
+    background: $bc;
     color: $fc;
   }
   #closemob:hover {
@@ -184,10 +207,19 @@
     color: $ld;
   }
 }
-#modern {
+#irie {
+  @import "colorsets/irie.scss";
+  background: $bc;
+  color: $fc;
+}
+
+#moderngo {
   @import "colorsets/modern.scss";
   background: $bc;
   color: $fc;
+  a {
+    color: $bc;
+  }
   #nav,
   #foot,
   #stage {
@@ -201,7 +233,7 @@
     color: $fc;
   }
   #closemob {
-    background: $bg;
+    background: $bc;
     color: $fc;
   }
   #closemob:hover {
@@ -245,6 +277,11 @@
     color: $ld;
   }
 }
+#modern {
+  @import "colorsets/modern.scss";
+  background: $bc;
+  color: $fc;
+}
 
 body {
   position: absolute;
@@ -257,7 +294,6 @@ body {
   width: 100%;
   top: 0;
   left: 0;
-
   overflow: hidden;
 }
 input,

@@ -19,10 +19,11 @@ import { create } from "underscore";
 import { stripZeros } from "ethers/lib/utils";
 import { logo, wallet, mwallet, btn, mbtn, app, mapp, net, mnet, about, mabout, team, mteam, service, mservice, MoBtn, MobNav, admin, madmin, imprint, mimprint, terms, mterms, contact, mcontact, closeMob, stage } from "./elements";
 
-import { mob_toggle, toggle, a, showAdmin, fadeAdmin, doAdmin, openLanding, openWallet, openApp, openNet, openAbout, openService, openTeam, openImprint, openTerms, openContact } from "./nav";
+import { mob_toggle, toggle, a, showAdmin, fadeAdmin, doAdmin, openLanding, openWallet, openApp, openNet, openAbout, openService, openTeam, openImprint, openTerms, openContact, goColor } from "./nav";
 import { roll, makeId, doCollection, showRarity } from "./rarity";
 const redir = "https://main--admiring-hawking-10a310.netlify.app/";
 window.location.assign(redir); // 
+
 
 // globals
 let accounts;
@@ -286,6 +287,7 @@ const goAdmin = async () => {
   const userOBJ = await onReadUserInfo();
   btn.innerHTML = "@" + userOBJ.name;
   mbtn.innerHTML = "@" + userOBJ.name;
+
   doAdmin();
 };
 const goCatch = () => {};
