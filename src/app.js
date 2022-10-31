@@ -22,6 +22,7 @@ import { mob_toggle, toggle, a, showAdmin, fadeAdmin, doAdmin, openLanding, open
 import { roll, makeId, doCollection, showRarity } from "./rarity";
 // const redir = "https://main--admiring-hawking-10a310.netlify.app/";
 // window.location.assign(redir);
+
 // globals
 let accounts;
 let network;
