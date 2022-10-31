@@ -1,7 +1,8 @@
 * {
   box-sizing: border-box;
 }
-#init {
+
+#initgo {
   @import "colorsets/init.scss";
   background: $bc;
   color: $fc;
@@ -62,7 +63,14 @@
     color: $ld;
   }
 }
-#eco {
+
+#init {
+  @import "colorsets/init.scss";
+  background: $bc;
+  color: $fc;
+}
+
+#ecogo {
   @import "colorsets/eco.scss";
   background: $bc;
   color: $fc;
@@ -123,7 +131,13 @@
     color: $ld;
   }
 }
-#irie {
+#eco {
+  @import "colorsets/eco.scss";
+  background: $bc;
+  color: $fc;
+}
+
+#iriego {
   @import "colorsets/irie.scss";
   background: $bc;
   color: $fc;
@@ -184,7 +198,13 @@
     color: $ld;
   }
 }
-#modern {
+#irie {
+  @import "colorsets/irie.scss";
+  background: $bc;
+  color: $fc;
+}
+
+#moderngo {
   @import "colorsets/modern.scss";
   background: $bc;
   color: $fc;
@@ -245,6 +265,11 @@
     color: $ld;
   }
 }
+#modern {
+  @import "colorsets/modern.scss";
+  background: $bc;
+  color: $fc;
+}
 
 body {
   position: absolute;
@@ -257,7 +282,6 @@ body {
   width: 100%;
   top: 0;
   left: 0;
-
   overflow: hidden;
 }
 input,

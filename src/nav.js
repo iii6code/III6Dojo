@@ -1,4 +1,4 @@
-import { MoBtn, MobNav, stage, init, eco, irie, modern } from "./elements";
+import { MoBtn, MobNav, stage } from "./elements";
 
 export let a = 0;
 export const showAdmin = async () => {
@@ -64,6 +64,14 @@ export const doAdmin = () => {
   MobNav.style.display = "none";
   MoBtn.style.transform = "rotate(90deg)";
   stage.innerHTML = document.getElementById("adminTemp").innerHTML;
+  const init = document.getElementById("init");
+  const eco = document.getElementById("eco");
+  const irie = document.getElementById("irie");
+  const modern = document.getElementById("modern");
+  init.addEventListener("click", goColor);
+  irie.addEventListener("click", goColor);
+  eco.addEventListener("click", goColor);
+  modern.addEventListener("click", goColor);
 };
 export const openLanding = () => {
   MobNav.style.display = "none";
@@ -108,6 +116,6 @@ export const openContact = () => {
   stage.innerHTML = document.getElementById("contactTemp").innerHTML;
 };
 export const goColor = (e) => {
-  console.log(e.target.id);
-  document.body.id = e.target.id;
+  console.log("// go color // ", e.target.id);
+  document.body.id = e.target.value + "go";
 };

@@ -25,7 +25,3 @@ export const terms = document.getElementById("terms");
 export const mterms = document.getElementById("mterms");
 export const contact = document.getElementById("contact");
 export const mcontact = document.getElementById("mcontact");
-export const init = document.getElementById("init");
-export const eco = document.getElementById("eco");
-export const irie = document.getElementById("irie");
-export const modern = document.getElementById("modern");
