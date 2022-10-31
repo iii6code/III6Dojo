@@ -1,7 +1,250 @@
 * {
   box-sizing: border-box;
 }
-@import "colorsets/init";
+#init {
+  @import "colorsets/init.scss";
+  background: $bc;
+  color: $fc;
+  #nav,
+  #foot,
+  #stage {
+    background: $bg;
+  }
+  #mobnav {
+    background: $bg;
+  }
+  #mobNavList {
+    background: $bg;
+    color: $fc;
+  }
+  #closemob {
+    background: $bg;
+    color: $fc;
+  }
+  #closemob:hover {
+    background: $close;
+  }
+  .thick1,
+  .thick2,
+  #mobbtn {
+    background: $fc;
+  }
+  .link:hover,
+  .mlink:hover,
+  #contact:hover,
+  #imprint:hover,
+  #terms:hover,
+  #mcontact:hover,
+  #mimprint:hover,
+  #mterms:hover {
+    background: $bc;
+  }
+  #admin,
+  #madmin {
+    background: $bg;
+    color: $bc;
+  }
+  .line {
+    background: $border;
+  }
+  input,
+  select,
+  textarea,
+  button {
+    border: 1px solid $border;
+  }
+  button {
+    background: $ld;
+    color: $bc;
+  }
+  button:hover {
+    background: $bc;
+    color: $ld;
+  }
+}
+#eco {
+  @import "colorsets/eco.scss";
+  background: $bc;
+  color: $fc;
+  #nav,
+  #foot,
+  #stage {
+    background: $bg;
+  }
+  #mobnav {
+    background: $bg;
+  }
+  #mobNavList {
+    background: $bg;
+    color: $fc;
+  }
+  #closemob {
+    background: $bg;
+    color: $fc;
+  }
+  #closemob:hover {
+    background: $close;
+  }
+  .thick1,
+  .thick2,
+  #mobbtn {
+    background: $bg;
+  }
+  .link:hover,
+  .mlink:hover,
+  #contact:hover,
+  #imprint:hover,
+  #terms:hover,
+  #mcontact:hover,
+  #mimprint:hover,
+  #mterms:hover {
+    background: $bc;
+  }
+  #admin,
+  #madmin {
+    background: $bg;
+    color: $bc;
+  }
+  .line {
+    background: $border;
+  }
+  input,
+  select,
+  textarea,
+  button {
+    border: 1px solid $border;
+  }
+  button {
+    background: $ld;
+    color: $bc;
+  }
+  button:hover {
+    background: $bc;
+    color: $ld;
+  }
+}
+#irie {
+  @import "colorsets/irie.scss";
+  background: $bc;
+  color: $fc;
+  #nav,
+  #foot,
+  #stage {
+    background: $bg;
+  }
+  #mobnav {
+    background: $bg;
+  }
+  #mobNavList {
+    background: $bg;
+    color: $fc;
+  }
+  #closemob {
+    background: $bg;
+    color: $fc;
+  }
+  #closemob:hover {
+    background: $close;
+  }
+  .thick1,
+  .thick2,
+  #mobbtn {
+    background: $fc;
+  }
+  .link:hover,
+  .mlink:hover,
+  #contact:hover,
+  #imprint:hover,
+  #terms:hover,
+  #mcontact:hover,
+  #mimprint:hover,
+  #mterms:hover {
+    background: $bc;
+  }
+  #admin,
+  #madmin {
+    background: $bg;
+    color: $bc;
+  }
+  .line {
+    background: $border;
+  }
+  input,
+  select,
+  textarea,
+  button {
+    border: 1px solid $border;
+  }
+  button {
+    background: $ld;
+    color: $bc;
+  }
+  button:hover {
+    background: $bc;
+    color: $ld;
+  }
+}
+#modern {
+  @import "colorsets/modern.scss";
+  background: $bc;
+  color: $fc;
+  #nav,
+  #foot,
+  #stage {
+    background: $bg;
+  }
+  #mobnav {
+    background: $bg;
+  }
+  #mobNavList {
+    background: $bg;
+    color: $fc;
+  }
+  #closemob {
+    background: $bg;
+    color: $fc;
+  }
+  #closemob:hover {
+    background: $close;
+  }
+  .thick1,
+  .thick2,
+  #mobbtn {
+    background: $bg;
+  }
+  .link:hover,
+  .mlink:hover,
+  #contact:hover,
+  #imprint:hover,
+  #terms:hover,
+  #mcontact:hover,
+  #mimprint:hover,
+  #mterms:hover {
+    background: $bc;
+  }
+  #admin,
+  #madmin {
+    background: $bg;
+    color: $bc;
+  }
+  .line {
+    background: $border;
+  }
+  input,
+  select,
+  textarea,
+  button {
+    border: 1px solid $border;
+  }
+  button {
+    background: $ld;
+    color: $bc;
+  }
+  button:hover {
+    background: $bc;
+    color: $ld;
+  }
+}
 
 body {
   position: absolute;
@@ -14,7 +257,7 @@ body {
   width: 100%;
   top: 0;
   left: 0;
-  background: $bg;
+
   overflow: hidden;
 }
 input,
@@ -22,17 +265,19 @@ select,
 textarea {
   width: calc(100%);
   margin-top: 5px;
+  height: 33px;
+  border-radius: 9px;
 }
 input[type="checkbox"] {
   float: left;
-  width: 32px;
+  width: 24px;
 }
 #check {
   margin-top: 0.5em;
   float: left;
   height: 100%;
-  width: 100%;
-  font-size: 1.3em;
+  width: 50%;
+  font-size: 1em;
 }
 #logo {
   margin: 0;
@@ -51,8 +296,35 @@ input[type="checkbox"] {
 #aboutTemp,
 #netTemp,
 #modalTemp,
-#userFormTemp {
+#userFormTemp,
+#adminTemp,
+#contactTemp,
+#termsTemp,
+#imprintTemp {
   display: none;
+}
+.tiny {
+  font-size: 0.8em;
+  font-weight: 100;
+  width: 100%;
+  float: left;
+}
+.half {
+  width: calc(50% - 2em);
+  margin-left: 1em;
+  float: left;
+}
+
+input,
+textarea,
+select,
+option {
+  padding-left: 2em;
+}
+button {
+  border-radius: 9px;
+  font-size: 2em;
+  height: 66px;
 }
 @media screen and (max-width: 624px) {
   @import "layouts/mobil";

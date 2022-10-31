@@ -7,7 +7,7 @@
     <link rel="icon" type="image/x-icon" href="./images/fav.png" />
     <title>DOJOv2 | YOUR_TITLE_HERE</title>
   </head>
-  <body>
+  <body id="irie">
     <div id="nav">
       <div class="navlayout">
         <div id="start" class="bar">
@@ -126,10 +126,11 @@
     <div id="userFormTemp" class="form">
       <input type="hidden" id="userObject" />
       <div id="dataBox">
-        <input type="text" id="userName" placeholder="name*" />
-        <input type="email" id="userEmail" placeholder="email*" />
+        <p>Connection Data</p>
+        <input type="text" id="userName" placeholder="name*" required />
+        <input type="email" id="userEmail" placeholder="email*" required />
         <input type="email" id="userWWW" placeholder="https://website.me" />
-        <select id="country" name="country">
+        <select id="country" name="country" required>
           <option>select country *</option>
           <option value="AF">Afghanistan</option>
           <option value="AX">Aland Islands</option>
@@ -384,21 +385,23 @@
           <option value="ZM">Zambia</option>
           <option value="ZW">Zimbabwe</option>
         </select>
-        <textarea id="status" placeholder="status message* ..."></textarea>
-        <p>* Required Fields</p>
+        <textarea id="status" placeholder="status message* ..." required></textarea>
+        <p class="tiny">* Required Fields</p>
       </div>
       <div id="socioBox">
-        <input type="email" id="userTwitter" placeholder="@twt_handle**" />
-        <input type="email" id="userTel" placeholder="@tme_handle**" />
-        <input type="email" id="userGithub" placeholder="@github_handle**" />
-        <input type="email" id="userInsta" placeholder="@insta_handle**" />
-        <input type="email" id="userLinked" placeholder="@linkedin_handle**" />
-        <input type="email" id="userMedium" placeholder="@medium_handle**" />
-        <p>** At least 1 Social Handle is required</p>
+        <p>Social Data</p>
+        <input type="email" class="half" id="userTwitter" placeholder="@twt_handle**" />
+        <input type="email" class="half" id="userTel" placeholder="@tme_handle**" />
+        <input type="email" class="half" id="userGithub" placeholder="@github_handle**" />
+        <input type="email" class="half" id="userInsta" placeholder="@insta_handle**" />
+        <input type="email" class="half" id="userLinked" placeholder="@linkedin_handle**" />
+        <input type="email" class="half" id="userMedium" placeholder="@medium_handle**" />
+        <p class="tiny">** At least 1 Social Handle is required</p>
       </div>
       <div id="avtBox">
+        <p>Avatar Preview</p>
         <div id="avatarPreview">
-          <img src="" id="avatarImage" />
+          <img src="./images/avt_default.png" id="avatarImage" />
         </div>
         <div id="avtTypeBox">
           <input type="button" id="btnUp" value="upload" />
@@ -409,33 +412,37 @@
       </div>
 
       <div id="upBox">
+        <p>Upload an Image</p>
         <input type="file" id="fileUpload" hidden />
         <input type="button" id="selectBtn" value="select" />
         <input type="button" id="uploadBtn" value="upload image" />
         <input type="text" id="userName" placeholder="IPFS HASH #" disabled />
       </div>
       <div id="nftBox">
+        <p>Connect an NFT</p>
         <div id="manNftBox">
           <input type="text" id="contract" placeholder="contract" />
           <input type="text" id="id" placeholder="id" />
-          <div id="check"><input type="checkbox" id="dias" checked /> DIAS Compliant</div>
-          <div id="check"><input type="checkbox" id="solbond" checked /> s0xbond Compliant</div>
+          <input type="button" id="dias" class="half" value="DIAS" />
+          <input type="button" id="solbond" class="half" value="S0X" />
           <input type="button" name="avtType" id="avtType" value="upload image" />
         </div>
       </div>
       <div id="pfpBox">
-        <input type="button" id="twtPfp" value="get twitter pfp" />
-        <input type="button" id="telPfp" value="get telegram pfp" />
-        <input type="button" id="gitPfp" value="get github pfp" />
-        <input type="button" id="insPfp" value="get insta pfp" />
-        <input type="button" id="lnkPfp" value="get linked pfp" />
-        <input type="button" id="mdmPfp" value="get medium pfp" />
-        <p id="pfpInf">Click to add your social PFP !</p>
+        <p>Use a Social PFP</p>
+        <input type="button" class="half" id="twtPfp" value="get twitter pfp" />
+        <input type="button" class="half" id="telPfp" value="get telegram pfp" />
+        <input type="button" class="half" id="gitPfp" value="get github pfp" />
+        <input type="button" class="half" id="insPfp" value="get insta pfp" />
+        <input type="button" class="half" id="lnkPfp" value="get linked pfp" />
+        <input type="button" class="half" id="mdmPfp" value="get medium pfp" />
       </div>
       <div id="picBox">
+        <p>Take a Snapshot</p>
         <input type="button" id="webcam" value="webcam" />
         <input type="button" id="clipboard" value="clipboard" />
       </div>
+      <button id="submit_create">CREATE ACCOUNT</button>
     </div>
   </body>
 </html>
