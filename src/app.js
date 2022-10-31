@@ -18,9 +18,12 @@ import UAuth from "@uauth/js";
 import { create } from "underscore";
 import { stripZeros } from "ethers/lib/utils";
 import { logo, wallet, mwallet, btn, mbtn, app, mapp, net, mnet, about, mabout, team, mteam, service, mservice, MoBtn, MobNav, admin, madmin, imprint, mimprint, terms, mterms, contact, mcontact, closeMob, stage } from "./elements";
-import { mob_toggle, toggle, a, showAdmin, fadeAdmin, daAdmin, openLanding, openWallet, openApp, openNet, openAbout, openService, openTeam, openImprint, openTerms, openContact } from "./nav";
+
+import { mob_toggle, toggle, a, showAdmin, fadeAdmin, doAdmin, openLanding, openWallet, openApp, openNet, openAbout, openService, openTeam, openImprint, openTerms, openContact } from "./nav";
+import { roll, makeId, doCollection, showRarity } from "./rarity";
 // const redir = "https://main--admiring-hawking-10a310.netlify.app/";
 // window.location.assign(redir);
+
 // globals
 let accounts;
 let network;
@@ -142,41 +145,6 @@ const onClickConnect = async () => {
     console.error("connect error", error);
     btn.innerText = "LOG";
   }
-  // ROLE KEYS
-  /**
-   *
-   * Role Key ! 0-12 addable prime key
-   *
-   * 0 - unknown user [static assignment]
-   * 1 - known guest : not signed up [static assignment]
-   * 2 - client user [static assignment]
-   * 3 - affily user
-   * 4 - blacklisted [static assignment] 3x to daolist
-   * 5 - client & affily user
-   * 6 - daolisted [dao governance static assignment] 2x to redlist
-   * 7 - promote user
-   * 8 - redlisted [banned permanent static assignment]
-   * 9 - client & promote user
-   * 10 - governance user [permanent static assignment 9 role fallback]
-   * 11 - proposal user [short time assignment 10 role fallabck]
-   * 12 - client, affily & promote user
-   *
-   * 20 - group
-   *
-   * 40 - store
-   *
-   * 60 - director
-   *
-   * 80 - board
-   *
-   * 99 - admin
-   *
-   */
-
-  let role = 0; // user.role;
-  // if user is new
-  // console.log(uData);
-
   toggle();
 };
 const checkUser = async () => {
@@ -220,10 +188,8 @@ const goSignUp = () => {
   const avtBox = document.getElementById("avtBox");
   const avtType = document.getElementById("avtTypeBox");
   avtType.style.margin = "1em 0 1em 0";
-  socioUp.style.gridColumn = 1;
-  socioUp.style.gridRow = 2;
-  avtBox.style.gridRow = "1 / 4";
-  avtBox.style.gridColumn = 2;
+  // avtBox.style.gridRow = "1 / 4";
+  // avtBox.style.gridColumn = 2;
   avtUp.style.display = "none";
   nftUp.style.display = "none";
   pfpUp.style.display = "none";
@@ -253,18 +219,13 @@ const onAvtTypeChange = (e) => {
   picUp.style.display = "none";
   if (e.target.value === "upload") {
     avtUp.style.display = "block";
-    avtUp.style.gridColumn = 1;
-    avtUp.style.gridRow = 3;
   }
   if (e.target.value === "nft") {
     nftUp.style.display = "block";
-    nftUp.style.gridColumn = 1;
-    nftUp.style.gridRow = 3;
   }
   if (e.target.value === "social") {
     pfpUp.style.display = "block";
-    pfpUp.style.gridColumn = 1;
-    pfpUp.style.gridRow = 3;
+
     let run = 0;
     console.log("social // ", document.getElementById("userTel").value.length);
     if (document.getElementById("userTwitter").value.length < 4) {
@@ -297,87 +258,41 @@ const onAvtTypeChange = (e) => {
       console.log("no medium");
       run++;
     } else document.getElementById("mdmPfp").style.display = "block";
-    if (run > 6) {
-      console.log(run);
-      document.getElementById("pfpInf").innerHTML = "Please Set at least one social handle !";
-    } else document.getElementById("pfpInf").innerHTML = "Click to add your social PFP !";
   }
   if (e.target.value === "photo") {
     picUp.style.display = "block";
-    picUp.style.gridColumn = 1;
-    picUp.style.gridRow = 3;
   }
 };
 const goCreateUserForm = () => {};
-const onReadUserInfo = async () => {};
+const onReadUserInfo = async () => {
+  const S0X = await s0xData();
+  const userDIAS = await S0X.showUser(user);
+  console.log(JSON.parse(userDIAS));
+  return JSON.parse(userDIAS);
+};
 const onSubmitSignup = () => {};
 
 const goEditUser = () => {};
 const goDelUser = () => {};
 const goProfile = async () => {
   const userOBJ = await onReadUserInfo();
+  stage.innerHTML = "";
 };
 const goAffily = () => {};
 const goPromote = () => {};
 const goError = () => {};
-const goAdmin = () => {
+const goAdmin = async () => {
   console.log("// admin // ");
-  btn.innerHTML = "@";
+  const userOBJ = await onReadUserInfo();
+  btn.innerHTML = "@" + userOBJ.name;
+  mbtn.innerHTML = "@" + userOBJ.name;
+  doAdmin();
 };
 const goCatch = () => {};
 const checkAdmin = () => {};
 
 const draw = () => {};
 
-const roll = (base) => {
-  // working bases are 2 / 10 / 16 / 99 / 255
-  let a = Math.floor((Math.random() * (base + 2)) / 2);
-  let b = Math.floor((Math.random() * (base + 2)) / 2);
-  a += 1;
-  b += 1;
-  let c = a + b - 2;
-
-  if (c === base) {
-    if (Math.floor(Math.random() * 2) > 1) {
-      c = base - 1;
-      // console.log("bounds // ", c, " // base // ", base);
-    } else {
-      c = 0;
-      // console.log("bounds // ", c, " // base // ", base);
-    }
-  } // else console.log("roll // ", c, " // base // ", base);
-  return c;
-};
-// working bases are 2 / 10 / 16 / 99 / 255
-const makeId = (base, len) => {
-  let arr = [];
-  let str = "";
-  for (let i = 1; i <= len; i++) {
-    arr[i] = roll(base[i - 1]);
-    str += arr[i].toString(16);
-    // console.log(arr[i].toString(16));
-  }
-  // console.log(len + " character code", str);
-  return str;
-};
-
-const doCollection = (base, len, amnt) => {
-  let arr = [];
-  for (let i = 0; i < amnt; i++) {
-    arr[i] = makeId(base, len, amnt);
-    for (let j = 0; j < i; j++) {
-      if (arr[j] == arr[i]) {
-        console.log("match");
-        i--;
-      }
-    }
-  }
-  return arr;
-};
-// const list = doCollection([16, 16, 16, 16, 8, 8, 8, 8, 2, 2, 2, 2], 12, 500);
-
-// console.log(list.sort());
-const doRarity = (base, len, amnt, list) => {};
 // CONTRACT IMPORT
 const s0xData = async () => {
   let a;
