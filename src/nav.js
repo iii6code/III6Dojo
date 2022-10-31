@@ -107,3 +107,7 @@ export const openContact = () => {
   toggle();
   stage.innerHTML = document.getElementById("contactTemp").innerHTML;
 };
+export const goColor = (e) => {
+  console.log(e.target.id);
+  
+}
