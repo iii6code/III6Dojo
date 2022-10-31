@@ -109,4 +109,5 @@ export const openContact = () => {
 };
 export const goColor = (e) => {
   console.log(e.target.id);
+  document.body.id = e.target.id;
 };
