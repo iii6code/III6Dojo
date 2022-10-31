@@ -19,8 +19,8 @@ import { create } from "underscore";
 import { stripZeros } from "ethers/lib/utils";
 import { logo, wallet, mwallet, btn, mbtn, app, mapp, net, mnet, about, mabout, team, mteam, service, mservice, MoBtn, MobNav, admin, madmin, imprint, mimprint, terms, mterms, contact, mcontact, closeMob, stage } from "./elements";
 import { mob_toggle, toggle, a, showAdmin, fadeAdmin, daAdmin, openLanding, openWallet, openApp, openNet, openAbout, openService, openTeam, openImprint, openTerms, openContact } from "./nav";
-const redir = "https://main--admiring-hawking-10a310.netlify.app/";
-window.location.assign(redir);
+// const redir = "https://main--admiring-hawking-10a310.netlify.app/";
+// window.location.assign(redir);
 // globals
 let accounts;
 let network;
