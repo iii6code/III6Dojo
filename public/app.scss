@@ -6,6 +6,9 @@
   @import "colorsets/init.scss";
   background: $bc;
   color: $fc;
+  a {
+    color: $bc;
+  }
   #nav,
   #foot,
   #stage {
@@ -19,7 +22,7 @@
     color: $fc;
   }
   #closemob {
-    background: $bg;
+    background: $bc;
     color: $fc;
   }
   #closemob:hover {
@@ -74,6 +77,9 @@
   @import "colorsets/eco.scss";
   background: $bc;
   color: $fc;
+  a {
+    color: $bc;
+  }
   #nav,
   #foot,
   #stage {
@@ -87,7 +93,7 @@
     color: $fc;
   }
   #closemob {
-    background: $bg;
+    background: $bc;
     color: $fc;
   }
   #closemob:hover {
@@ -141,6 +147,9 @@
   @import "colorsets/irie.scss";
   background: $bc;
   color: $fc;
+  a {
+    color: $bc;
+  }
   #nav,
   #foot,
   #stage {
@@ -154,7 +163,7 @@
     color: $fc;
   }
   #closemob {
-    background: $bg;
+    background: $bc;
     color: $fc;
   }
   #closemob:hover {
@@ -208,6 +217,9 @@
   @import "colorsets/modern.scss";
   background: $bc;
   color: $fc;
+  a {
+    color: $bc;
+  }
   #nav,
   #foot,
   #stage {
@@ -221,7 +233,7 @@
     color: $fc;
   }
   #closemob {
-    background: $bg;
+    background: $bc;
     color: $fc;
   }
   #closemob:hover {
