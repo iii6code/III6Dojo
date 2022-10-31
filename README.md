@@ -1,8 +1,8 @@
-# theDOJO v2.22.10
+# DOJO v2.22.10
 
-![image](./public/images/theDojoLogo.png)
+![image](./public/images/theDojoSignet.png)
 
-> @title : theDOJO v2.22.10
+> @title : DOJO v2.22.10
 
 > @author : stereoIII6
 
@@ -12,11 +12,11 @@
 
 > @company : flashLAB Inc, III6 Ltd, DIAS by flashLAB Inc
 
-> @emails : stereo@flashLab.xyz, xnode@flashlab.xyz, sirHeeb@flashlab.xyz
+> @emails : stereo@codebender.xyz, xnode@codebender.xyz, sirHeeb@codebender.xyz
 
 > @devwebsite : https://bareknuckle.flashlab.xyz
 
-> @about : theDOJO is a vanilla truffe web3 bareknuckle boilerplate setup that allows an easy quick setup for defi projects and dapps. It uses the most basic setup but allow complex projects without overbloated npm libraries no one can keep up to date with all the modern features that other frameworks on npm deliver. The Dojo is made to deploy on multiple chains one at a time.
+> @about : DOJO is a vanilla truffe web3 bareknuckle boilerplate setup that allows an easy quick setup for defi projects and dapps. It uses the most basic setup but allow complex projects without overbloated npm libraries no one can keep up to date with all the modern features that other frameworks on npm deliver. The Dojo is made to deploy on multiple chains one at a time.
 
 > @devtech : truffle, solidity, javascript, json, html, css, sass
 
