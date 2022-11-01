@@ -48,11 +48,11 @@ You should be ready to go !
 
 ## Initialization
 
-> You will need to open `.conf_env` and edit the seedphrase, admin address &
+> You will need to open `.env.conf` and edit the seedphrase, admin address &
 
 > Your private infura api code from https://infura.io needs to be added inside
 
-> finally save the file as `.env` in the root dir.
+> finally save the file as `.env` in the root dir and include `.env` to your `.gitignore` file.
 
 > :: CAUTION : make sure not to leave sensitive data in any file but `.env`. In production these values will have to be hidden server vars. Only use Mumbai Testnetwork until you know what you are doing. Be cautionate about which seedphrase and admin account you intend to use for which project to protect your funds. ::
 
@@ -67,18 +67,3 @@ You should be ready to go !
 > If you edit the sourcecode your Server automatically updates the website on save.
 
 > Check out `https://dojo.guru` to find out how to develop your boilerplate dapp.
-
-## Minimum Dependencies
-
-@metamask/detect-provider
-@openzeppelin/contracts
-@openzeppelin/test-helpers
-@truffle/hdwallet-provider
-bignumber
-dotenv
-ethers
-ipfs-http-client
-gridjs
-mocha
-sass
-underscore

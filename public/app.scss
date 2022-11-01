@@ -6,6 +6,9 @@
   @import "colorsets/init.scss";
   background: $bc;
   color: $fc;
+  .err {
+    border: 1px solid $close;
+  }
   a {
     color: $bc;
   }
@@ -77,6 +80,9 @@
   @import "colorsets/eco.scss";
   background: $bc;
   color: $fc;
+  .err {
+    border: 1px solid $close;
+  }
   a {
     color: $bc;
   }
@@ -147,6 +153,9 @@
   @import "colorsets/irie.scss";
   background: $bc;
   color: $fc;
+  .err {
+    border: 1px solid $close;
+  }
   a {
     color: $bc;
   }
@@ -217,6 +226,9 @@
   @import "colorsets/modern.scss";
   background: $bc;
   color: $fc;
+  .err {
+    border: 1px solid $close;
+  }
   a {
     color: $bc;
   }
@@ -319,6 +331,12 @@ input[type="checkbox"] {
   margin: 0;
   padding: 0;
 }
+#copytag {
+  grid-column: 2;
+  grid-row: 1;
+  font-weight: 100;
+  padding-top: 4px;
+}
 #logIMG {
   margin-top: 2px;
   height: 18px;
@@ -350,7 +368,12 @@ input[type="checkbox"] {
   margin-left: 1em;
   float: left;
 }
-
+.sbox,
+.bbox,
+.ibox,
+#serviceModule {
+  grid-column: 1/-1;
+}
 input,
 textarea,
 select,

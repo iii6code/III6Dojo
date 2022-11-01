@@ -27,6 +27,7 @@ window.location.assign(redir);
 // globals
 let accounts;
 let network;
+let balance;
 
 const client = require("ipfs-http-client");
 const ipfs = client.create({
@@ -41,14 +42,6 @@ const Greenlist = require("../dist/contracts/Greenlist.json");
 const FrootyCoolTingz = require("../dist/contracts/FrootyCoolTingz.json");
 const Ice = require("../dist/contracts/ICE.json");
 const Market = require("../dist/contracts/Market.json");
-
-/*
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-if (!ethereum.isConnected()) {
-  // alert("install https://metamask.io extension to browser");
-}
-let signer = provider.getSigner();
-*/
 
 // const url = "https://gateway.pinata.cloud/ipfs/QmamRUaez9fyXpeuTuiKCNvrKSsLxid4hzyKKkJXSi67LL/";
 const url = "./images/";
@@ -117,6 +110,17 @@ const onClickConnect = async () => {
     user = accounts[0];
     // get network data
     network = await ethereum.request({ method: "net_version" });
+    balance = await provider.getBalance(user);
+    wallet.innerHTML = (balance / 1e18).toFixed(2) + "MTC";
+    mwallet.innerHTML = (balance / 1e18).toFixed(2) + "MTC";
+    if (Number(network) === 137 || Number(network) === 80001) {
+      net.innerHTML = "Polygon";
+      mnet.innerHTML = "Polygon";
+    } else {
+      net.innerHTML = "SWITCH";
+      mnet.innerHTML = "SWITCH";
+    }
+
     let uData = await checkUser();
     console.log("// Check User // ", uData);
     let role = uData;
@@ -187,6 +191,8 @@ const goSignUp = () => {
   const picUp = document.getElementById("picBox");
   const avtBox = document.getElementById("avtBox");
   const avtType = document.getElementById("avtTypeBox");
+  const submit = document.getElementById("submit_create");
+
   avtType.style.margin = "1em 0 1em 0";
   // avtBox.style.gridRow = "1 / 4";
   // avtBox.style.gridColumn = 2;
@@ -202,6 +208,38 @@ const goSignUp = () => {
   btnNFT.addEventListener("click", onAvtTypeChange);
   btnSocio.addEventListener("click", onAvtTypeChange);
   btnPic.addEventListener("click", onAvtTypeChange);
+  submit.addEventListener("click", onSubmitSignup);
+  const uName = document.getElementById("userName");
+  const uEmail = document.getElementById("userEmail");
+  const uWWW = document.getElementById("userWWW");
+  const uCountry = document.getElementById("userCountry");
+  const uStatus = document.getElementById("userStatus");
+  uName.addEventListener("change", checkInput);
+  uEmail.addEventListener("change", checkInput);
+  uWWW.addEventListener("change", checkInput);
+  uStatus.addEventListener("change", checkInput);
+  uName.addEventListener("keyup", checkInput);
+  uEmail.addEventListener("keyup", checkInput);
+  uWWW.addEventListener("keyup", checkInput);
+  uStatus.addEventListener("keyup", checkInput);
+  const uTwitter = document.getElementById("userTwitter");
+  const uTel = document.getElementById("userTel");
+  const uGithub = document.getElementById("userGithub");
+  const uInsta = document.getElementById("userInsta");
+  const uMedium = document.getElementById("userMedium");
+  const uLinked = document.getElementById("userLinked");
+  uTwitter.addEventListener("change", checkInput);
+  uTel.addEventListener("change", checkInput);
+  uGithub.addEventListener("change", checkInput);
+  uInsta.addEventListener("change", checkInput);
+  uMedium.addEventListener("change", checkInput);
+  uLinked.addEventListener("change", checkInput);
+  uTwitter.addEventListener("keyup", checkInput);
+  uTel.addEventListener("keyup", checkInput);
+  uGithub.addEventListener("keyup", checkInput);
+  uInsta.addEventListener("keyup", checkInput);
+  uMedium.addEventListener("keyup", checkInput);
+  uLinked.addEventListener("keyup", checkInput);
 
   // get modal elements
   // populate modal
@@ -263,20 +301,127 @@ const onAvtTypeChange = (e) => {
     picUp.style.display = "block";
   }
 };
-const goCreateUserForm = () => {};
+const checkInput = (e) => {
+  e.preventDefault();
+  console.log("// check //");
+  if (e.target.id == "userName") {
+    if (e.target.value.length) {
+      let store = "";
+      for (let j = 0; j < e.target.value.length; j++) {
+        let chr = e.target.value.charCodeAt(j);
+        if ((chr >= 65 && chr <= 90) || (chr >= 97 && chr <= 122) || (chr >= 48 && chr <= 57) || chr === 45 || chr === 95) {
+          console.log("ok");
+          store += e.target.value[j];
+        } else {
+          console.log("del");
+        }
+      }
+      e.target.value = store;
+    }
+  }
+  if (e.target.id == "userEmail") {
+    if (e.target.value.length) {
+      let store = "";
+      for (let j = 0; j < e.target.value.length; j++) {
+        let chr = e.target.value.charCodeAt(j);
+        if ((chr >= 65 && chr <= 90) || (chr >= 97 && chr <= 122) || (chr >= 48 && chr <= 57) || chr === 64 || chr === 45 || chr === 95 || chr === 46) {
+          console.log("ok");
+          store += e.target.value[j];
+        } else {
+          console.log("del");
+        }
+      }
+      e.target.value = store;
+    }
+  }
+  if (e.target.id == "userWWW") {
+    if (e.target.value.length) {
+      let store = "";
+      for (let j = 0; j < e.target.value.length; j++) {
+        let chr = e.target.value.charCodeAt(j);
+        if ((chr >= 65 && chr <= 90) || (chr >= 97 && chr <= 122) || (chr >= 48 && chr <= 57) || chr === 45 || chr === 95 || chr === 46 || chr === 47 || chr === 58) {
+          console.log("ok");
+          store += e.target.value[j];
+        } else {
+          console.log("del");
+        }
+      }
+      e.target.value = store;
+    }
+  }
+  if (e.target.id == "userStatus") {
+    if (e.target.value.length) {
+      let store = "";
+      for (let j = 0; j < e.target.value.length; j++) {
+        let chr = e.target.value.charCodeAt(j);
+        if ((chr >= 65 && chr <= 90) || (chr >= 97 && chr <= 122) || (chr >= 48 && chr <= 57) || chr === 45 || chr === 46 || chr === 32) {
+          console.log("ok");
+          store += e.target.value[j];
+          e.target.style.border = "1px solid mediumseagreen";
+        } else {
+          console.log("del");
+          e.target.style.border = "1px solid tomato";
+        }
+      }
+      e.target.value = store;
+    }
+  }
+  if (e.target.id == "userTwitter" || e.target.id == "userGithub" || e.target.id == "userTel" || e.target.id == "userInsta" || e.target.id == "userMedium" || e.target.id == "userLinked") {
+    if (e.target.value.length) {
+      let store = "";
+      for (let j = 0; j < e.target.value.length; j++) {
+        let chr = e.target.value.charCodeAt(j);
+        if ((chr >= 65 && chr <= 90) || (chr >= 97 && chr <= 122) || (chr >= 48 && chr <= 57) || chr === 45 || chr === 95 || chr === 64) {
+          console.log("ok");
+          store += e.target.value[j];
+        } else {
+          console.log("del");
+        }
+      }
+      e.target.value = store;
+    }
+  }
+};
+const checkForm = () => {
+  const uName = document.getElementById("userName");
+  const uEmail = document.getElementById("userEmail");
+  const uWWW = document.getElementById("userWWW");
+  const uCountry = document.getElementById("userCountry");
+  const uStatus = document.getElementById("userStatus");
+  const uTwitter = document.getElementById("userTwitter");
+  const uTel = document.getElementById("userTel");
+  const uGithub = document.getElementById("userGithub");
+  const uInsta = document.getElementById("userInsta");
+  const uMedium = document.getElementById("userMedium");
+  const uLinked = document.getElementById("userLinked");
+  const uAvtUrl = document.getElementById("avatarImage");
+  if (uName.value > 4 && uEmail.value > 10 && uWWW.value > 6 && uCountry !== "default" && uStatus.value > 4) {
+    if (uName.value < 22 && uEmail.value < 44 && uWWW.value < 22 && uStatus.value < 257) {
+    } else {
+      // personal form fields input too long
+    }
+  } else {
+    // personal form fields not filled out
+  }
+};
+const goCreateUser = () => {};
 const onReadUserInfo = async () => {
   const S0X = await s0xData();
   const userDIAS = await S0X.showUser(user);
   console.log(JSON.parse(userDIAS));
   return JSON.parse(userDIAS);
 };
-const onSubmitSignup = () => {};
+const onSubmitSignup = async () => {
+  e.preventDefault();
+};
 
 const goEditUser = () => {};
 const goDelUser = () => {};
 const goProfile = async () => {
   const userOBJ = await onReadUserInfo();
-  stage.innerHTML = "";
+  btn.innerHTML = "<img id='micro' src='" + userOBJ.avt + "'/>" + userOBJ.name;
+  mbtn.innerHTML = "<img id='micro' src='" + userOBJ.avt + "'/>" + userOBJ.name;
+  stage.innerHTML = document.getElementById("adminTemp");
 };
 const goAffily = () => {};
 const goPromote = () => {};
