@@ -805,6 +805,10 @@
     "id": 0,
     "diasId": 999999,
     "diasName": "ninetynine ninetynine ninetynine",
+    "format": {
+      "width": 500,
+      "height": 500
+    },
     "traits": {
       "background": 0,
       "workspace": 0,

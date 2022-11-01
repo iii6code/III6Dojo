@@ -63,7 +63,7 @@ export const doAdmin = () => {
   console.log("// admin //");
   MobNav.style.display = "none";
   MoBtn.style.transform = "rotate(90deg)";
-  stage.innerHTML = document.getElementById("adminTemp").innerHTML;
+  stage.innerHTML = document.getElementById("adminProfileTemp").innerHTML;
   const init = document.getElementById("init");
   const eco = document.getElementById("eco");
   const irie = document.getElementById("irie");

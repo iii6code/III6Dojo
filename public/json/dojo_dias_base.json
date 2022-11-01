@@ -1,0 +1,38 @@
+{
+  "profileObject": {
+    "name": "DOJO Profile Solbond DIAS",
+    "sym": "DOJO",
+    "author": "bareknuckle@dojo.guru",
+    "image": "https://ipfs.io/ipfs",
+    "type": "solbond_profile",
+    "id": 0,
+    "diasId": 999999,
+    "diasName": "ninetynine ninetynine ninetynine",
+    "format": {
+      "width": "100%",
+      "height": "100%"
+    },
+    "traits": {
+      "uAddress": "",
+      "uName": "",
+      "uEmail": "",
+      "uWWW": "",
+      "uCountry": "",
+      "uStatus": "",
+      "uSocial": {
+        "twitter": "",
+        "insta": "",
+        "github": "",
+        "linked": "",
+        "medium": "",
+        "tele": ""
+      },
+      "uAvtType": {
+        "dias": false,
+        "solbond": false
+      },
+      "uAvt": "",
+      "uCol": "init"
+    }
+  }
+}

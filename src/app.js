@@ -21,9 +21,10 @@ import { logo, wallet, mwallet, btn, mbtn, app, mapp, net, mnet, about, mabout, 
 
 import { mob_toggle, toggle, a, showAdmin, fadeAdmin, doAdmin, openLanding, openWallet, openApp, openNet, openAbout, openService, openTeam, openImprint, openTerms, openContact, goColor } from "./nav";
 import { roll, makeId, doCollection, showRarity } from "./rarity";
-const redir = "https://main--admiring-hawking-10a310.netlify.app/";
-window.location.assign(redir); // 
 
+//*
+const redir = "https://main--admiring-hawking-10a310.netlify.app/";
+window.location.assign(redir); // */
 
 // globals
 let accounts;
@@ -112,11 +113,17 @@ const onClickConnect = async () => {
     // get network data
     network = await ethereum.request({ method: "net_version" });
     balance = await provider.getBalance(user);
-    wallet.innerHTML = (balance / 1e18).toFixed(2) + "MTC";
-    mwallet.innerHTML = (balance / 1e18).toFixed(2) + "MTC";
+    wallet.innerHTML = (balance / 1e18).toFixed(2);
+    mwallet.innerHTML = (balance / 1e18).toFixed(2);
     if (Number(network) === 137 || Number(network) === 80001) {
-      net.innerHTML = "Polygon";
-      mnet.innerHTML = "Polygon";
+      net.innerHTML = "<img src='https://cdn.iconscout.com/icon/free/png-256/polygon-token-4086724-3379854.png' id='micro' />";
+      mnet.innerHTML = "<img src='https://cdn.iconscout.com/icon/free/png-256/polygon-token-4086724-3379854.png' id='micro' /> POLYGON";
+    } else if (Number(network) === 9001 || Number(network) === 9000) {
+      net.innerHTML = "<img src='https://assets.coingecko.com/coins/images/24023/large/evmos.png' id='micro' />";
+      mnet.innerHTML = "<img src='https://assets.coingecko.com/coins/images/24023/large/evmos.png' id='micro' /> EVMOS";
+    } else if (Number(network) === 1 || Number(network) === 4) {
+      net.innerHTML = "<img src='https://cdn.worldvectorlogo.com/logos/ethereum-eth.svg' id='micro' />";
+      mnet.innerHTML = "<img src='https://cdn.worldvectorlogo.com/logos/ethereum-eth.svg' id='micro' /> ETH";
     } else {
       net.innerHTML = "SWITCH";
       mnet.innerHTML = "SWITCH";
@@ -193,10 +200,7 @@ const goSignUp = () => {
   const avtBox = document.getElementById("avtBox");
   const avtType = document.getElementById("avtTypeBox");
   const submit = document.getElementById("submit_create");
-
   avtType.style.margin = "1em 0 1em 0";
-  // avtBox.style.gridRow = "1 / 4";
-  // avtBox.style.gridColumn = 2;
   avtUp.style.display = "none";
   nftUp.style.display = "none";
   pfpUp.style.display = "none";
@@ -241,9 +245,6 @@ const goSignUp = () => {
   uInsta.addEventListener("keyup", checkInput);
   uMedium.addEventListener("keyup", checkInput);
   uLinked.addEventListener("keyup", checkInput);
-
-  // get modal elements
-  // populate modal
 };
 const onAvtTypeChange = (e) => {
   const avtUp = document.getElementById("upBox");
@@ -261,6 +262,12 @@ const onAvtTypeChange = (e) => {
   }
   if (e.target.value === "nft") {
     nftUp.style.display = "block";
+    const uContract = document.getElementById("contract");
+    const uTokId = document.getElementById("tokid");
+    uContract.addEventListener("change", checkInput);
+    uTokId.addEventListener("change", checkInput);
+    uContract.addEventListener("keyup", checkInput);
+    uTokId.addEventListener("keyup", checkInput);
   }
   if (e.target.value === "social") {
     pfpUp.style.display = "block";
@@ -382,6 +389,36 @@ const checkInput = (e) => {
       e.target.value = store;
     }
   }
+  if (e.target.id == "contract") {
+    if (e.target.value.length) {
+      let store = "";
+      for (let j = 0; j < e.target.value.length; j++) {
+        let chr = e.target.value.charCodeAt(j);
+        if ((chr >= 48 && chr <= 57) || (chr >= 97 && chr <= 102) || (chr >= 65 && chr <= 70) || chr === 120) {
+          console.log("ok");
+          store += e.target.value[j];
+        } else {
+          console.log("del");
+        }
+      }
+      e.target.value = store;
+    }
+  }
+  if (e.target.id == "tokid") {
+    if (e.target.value.length) {
+      let store = "";
+      for (let j = 0; j < e.target.value.length; j++) {
+        let chr = e.target.value.charCodeAt(j);
+        if (chr >= 48 && chr <= 57) {
+          console.log("ok");
+          store += e.target.value[j];
+        } else {
+          console.log("del");
+        }
+      }
+      e.target.value = store;
+    }
+  }
 };
 const checkForm = () => {
   const uName = document.getElementById("userName");
@@ -396,33 +433,205 @@ const checkForm = () => {
   const uMedium = document.getElementById("userMedium");
   const uLinked = document.getElementById("userLinked");
   const uAvtUrl = document.getElementById("avatarImage");
-  if (uName.value > 4 && uEmail.value > 10 && uWWW.value > 6 && uCountry !== "default" && uStatus.value > 4) {
-    if (uName.value < 22 && uEmail.value < 44 && uWWW.value < 22 && uStatus.value < 257) {
+  const submit = document.getElementById("submit_create");
+  let goSub = false;
+  if (uName.value.length > 4 && uEmail.value.length > 10 && uCountry.value !== "default" && uStatus.value.length > 4) {
+    if (uName.value.length < 22 && uEmail.value.length < 44 && uWWW.value.length < 22 && uStatus.value.length < 257) {
+      if ((uTwitter.value.length > 4 && uTwitter.value.length < 22) || (uTel.value.length > 4 && uTel.value.length < 22) || (uGithub.value.length > 4 && uGithub.value.length < 22) || (uInsta.value.length > 4 && uInsta.value.length < 22) || (uMedium.value.length > 4 && uMedium.value.length < 22) || (uLinked.value.length > 4 && uLinked.value.length < 22)) {
+        console.log("go");
+        goSub = true;
+      } else {
+        // no social selected at leat one social connection needed
+        console.log("no social");
+        goSub = false;
+        // submit.disabled = true;
+      }
     } else {
       // personal form fields input too long
+      console.log("no too long");
+      goSub = false;
+      // submit.disabled = true;
     }
   } else {
     // personal form fields not filled out
+    console.log("no input", uName.value, uEmail.value);
+    goSub = false;
+    // submit.disabled = true;
   }
+  return goSub;
 };
-const goCreateUser = () => {};
+const goCreateUser = async (e) => {
+  console.log("// go create // ");
+};
 const onReadUserInfo = async () => {
   const S0X = await s0xData();
   const userDIAS = await S0X.showUser(user);
-  console.log(JSON.parse(userDIAS));
+  console.log(userDIAS);
   return JSON.parse(userDIAS);
 };
-const onSubmitSignup = async () => {
-  e.preventDefault();
+const rotate = () => {
+  setInterval(tick, 100);
 };
+let turn = 0;
+const tick = () => {
+  const loader = document.getElementById("loader");
+  // console.log(turn);
+  turn += 6.125;
+  loader.style.transform = "rotate(" + turn + "deg)";
+};
+const onSubmitSignup = async (e) => {
+  e.preventDefault();
+  const submit = document.getElementById("submit_create");
 
+  let goSubNow = checkForm();
+  console.log("// submit signup //", goSubNow);
+
+  if (goSubNow) {
+    submit.innerHTML = "<div id='loader'><div id='square'></div></div>In Progress";
+    const loader = document.getElementById("loader");
+    const uName = document.getElementById("userName");
+    const uEmail = document.getElementById("userEmail");
+    const uWWW = document.getElementById("userWWW");
+    const uCountry = document.getElementById("userCountry");
+    const uStatus = document.getElementById("userStatus");
+    const uTwitter = document.getElementById("userTwitter");
+    const uTel = document.getElementById("userTel");
+    const uGithub = document.getElementById("userGithub");
+    const uInsta = document.getElementById("userInsta");
+    const uMedium = document.getElementById("userMedium");
+    const uLinked = document.getElementById("userLinked");
+    const uAvt = document.getElementById("avatarImage");
+
+    loader.style.display = "block";
+    let diasFTCH = await fetch("./json/dojo_dias_base.json")
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        return json;
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
+    diasFTCH.profileObject.diasId = 0;
+    diasFTCH.profileObject.traits.uName = uName.value;
+    diasFTCH.profileObject.traits.uAvt = uAvt.src;
+    diasFTCH.profileObject.traits.uEmail = uEmail.value;
+    diasFTCH.profileObject.traits.uWWW = uWWW.value;
+    diasFTCH.profileObject.traits.uCountry = uCountry.value;
+    diasFTCH.profileObject.traits.uStatus = uStatus.value;
+    diasFTCH.profileObject.traits.uCountry = uCountry.value;
+    diasFTCH.profileObject.traits.uSocial.twitter = uTwitter.value;
+    diasFTCH.profileObject.traits.uSocial.tele = uTel.value;
+    diasFTCH.profileObject.traits.uSocial.insta = uInsta.value;
+    diasFTCH.profileObject.traits.uSocial.github = uGithub.value;
+    diasFTCH.profileObject.traits.uSocial.linked = uLinked.value;
+    diasFTCH.profileObject.traits.uSocial.medium = uMedium.value;
+    console.log(diasFTCH);
+    let name = uName.value;
+    const S0X = await s0xData();
+    const id = await S0X.isU(user);
+    rotate();
+
+    const makeUser = await S0X.createUserAccount(JSON.stringify(diasFTCH), user, name)
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    makeUser.wait().then((res) => {
+      console.log(res);
+      goProfile();
+      return res;
+    });
+  } else {
+    giveHints();
+  }
+};
+const giveHints = () => {
+  console.log("// hints //");
+  const uName = document.getElementById("userName");
+  const uEmail = document.getElementById("userEmail");
+  const uWWW = document.getElementById("userWWW");
+  const uCountry = document.getElementById("userCountry");
+  const uStatus = document.getElementById("userStatus");
+  const uTwitter = document.getElementById("userTwitter");
+  const uTel = document.getElementById("userTel");
+  const uGithub = document.getElementById("userGithub");
+  const uInsta = document.getElementById("userInsta");
+  const uMedium = document.getElementById("userMedium");
+  const uLinked = document.getElementById("userLinked");
+  if (uName.value.length <= 4 || uName.value.length >= 22) uName.style.border = "1px solid tomato";
+  if (uEmail.value.length <= 10 || uEmail.value.length >= 22) uEmail.style.border = "1px solid tomato";
+  if (uWWW.value.length >= 44) uWWW.style.border = "1px solid tomato";
+  if (uCountry.value === "default") uCountry.style.border = "1px solid tomato";
+  if (uStatus.value.length <= 12 || uStatus.value.length >= 22) uStatus.style.border = "1px solid tomato";
+  if (uTwitter.value.length <= 4 || uTwitter.value.length >= 22) uTwitter.style.border = "1px solid tomato";
+  if (uTel.value.length <= 4 || uTel.value.length >= 22) uTel.style.border = "1px solid tomato";
+  if (uGithub.value.length <= 4 || uGithub.value.length >= 22) uGithub.style.border = "1px solid tomato";
+  if (uInsta.value.length <= 4 || uInsta.value.length >= 22) uInsta.style.border = "1px solid tomato";
+  if (uMedium.value.length <= 4 || uMedium.value.length >= 22) uMedium.style.border = "1px solid tomato";
+  if (uLinked.value.length <= 4 || uLinked.value.length >= 22) uLinked.style.border = "1px solid tomato";
+};
 const goEditUser = () => {};
 const goDelUser = () => {};
 const goProfile = async () => {
   const userOBJ = await onReadUserInfo();
-  btn.innerHTML = "<img id='micro' src='" + userOBJ.avt + "'/>" + userOBJ.name;
-  mbtn.innerHTML = "<img id='micro' src='" + userOBJ.avt + "'/>" + userOBJ.name;
-  stage.innerHTML = document.getElementById("adminTemp");
+  console.log(userOBJ);
+  btn.innerHTML = "<img id='micro' src='" + userOBJ.profileObject.traits.uAvt + "'/>";
+  mbtn.innerHTML = "<img id='micro' src='" + userOBJ.profileObject.traits.uAvt + "'/>" + userOBJ.profileObject.traits.uName;
+  stage.innerHTML = document.getElementById("userProfileTemp").innerHTML;
+  const uName = document.getElementById("userName");
+  const uEmail = document.getElementById("userEmail");
+  const uWWW = document.getElementById("userWWW");
+  const uCountry = document.getElementById("userCountry");
+  const uStatus = document.getElementById("userStatus");
+  const uTwitter = document.getElementById("userTwitter");
+  const uTel = document.getElementById("userTel");
+  const uGithub = document.getElementById("userGithub");
+  const uInsta = document.getElementById("userInsta");
+  const uMedium = document.getElementById("userMedium");
+  const uLinked = document.getElementById("userLinked");
+  const uAvt = document.getElementById("avatarImage");
+  uName.value = userOBJ.profileObject.traits.uName;
+  uEmail.value = userOBJ.profileObject.traits.uEmail;
+  uWWW.value = userOBJ.profileObject.traits.uWWW;
+  uCountry.value = userOBJ.profileObject.traits.uCountry;
+  uStatus.value = userOBJ.profileObject.traits.uStatus;
+  uTwitter.value = userOBJ.profileObject.traits.uSocial.twitter;
+  uTel.value = userOBJ.profileObject.traits.uSocial.tele;
+  uInsta.value = userOBJ.profileObject.traits.uSocial.insta;
+  uGithub.value = userOBJ.profileObject.traits.uSocial.github;
+  uLinked.value = userOBJ.profileObject.traits.uSocial.linked;
+  uMedium.value = userOBJ.profileObject.traits.uSocial.medium;
+  uAvt.src = userOBJ.profileObject.traits.uAvt;
+  const avtUp = document.getElementById("upBox");
+  const nftUp = document.getElementById("nftBox");
+  const socioUp = document.getElementById("socioBox");
+  const pfpUp = document.getElementById("pfpBox");
+  const picUp = document.getElementById("picBox");
+  const avtBox = document.getElementById("avtBox");
+  const avtType = document.getElementById("avtTypeBox");
+  const submit = document.getElementById("submit_edit");
+  avtType.style.margin = "1em 0 1em 0";
+  avtUp.style.display = "none";
+  nftUp.style.display = "none";
+  pfpUp.style.display = "none";
+  picUp.style.display = "none";
+  btnUp.addEventListener("click", onAvtTypeChange);
+  btnNFT.addEventListener("click", onAvtTypeChange);
+  btnSocio.addEventListener("click", onAvtTypeChange);
+  btnPic.addEventListener("click", onAvtTypeChange);
+  const init = document.getElementById("init");
+  const eco = document.getElementById("eco");
+  const irie = document.getElementById("irie");
+  const modern = document.getElementById("modern");
+  init.addEventListener("click", goColor);
+  irie.addEventListener("click", goColor);
+  eco.addEventListener("click", goColor);
+  modern.addEventListener("click", goColor);
 };
 const goAffily = () => {};
 const goPromote = () => {};
