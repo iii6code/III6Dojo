@@ -16,7 +16,7 @@
 
 > @devwebsite : https://dev.dojo.guru
 
-> @about : DOJO is a vanilla truffe web3 bareknuckle boilerplate setup that allows an easy quick setup for defi projects and dapps. It uses the most basic setup but allow complex projects without overbloated npm libraries no one can keep up to date with all the modern features that other frameworks on npm deliver. The Dojo is made to deploy on multiple chains one at a time.
+> @about : DOJO is a vanilla truffe web3 bareknuckle boilerplate setup that allows an easy quick setup for defi projects and dapps. It uses the most basic setup but allow complex projects without overbloated npm libraries. No one can keep up to date with all the modern features that other frameworks on npm deliver. The Dojo is made to deploy on multiple chains one at a time.
 
 > @devtech : truffle, solidity, javascript, json, html, css, sass
 
@@ -33,6 +33,8 @@
 You should be ready to go !
 
 ## Installation
+
+Once you have everything installed :
 
 > Install Truffle `npm i -g truffle`
 

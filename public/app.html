@@ -112,7 +112,7 @@
     </div>
     <div id="walletTemp" class="stage">
       <div id="headline" class="title">Wallet</div>
-      <div id="module" class="txt">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
+      <div id="module" class="txt"></div>
     </div>
     <div id="appTemp" class="stage">
       <div id="headline" class="title">App</div>
@@ -122,11 +122,11 @@
       <div id="headline" class="title">Networks</div>
       <div id="module" class="list">
         <div id="eth" class="mlink"><img src="https://cdn.worldvectorlogo.com/logos/ethereum-eth.svg" id="micro" /> Mainnet</div>
-        <div id="rinkeby" class="mlink blend"><img src="https://cdn.worldvectorlogo.com/logos/ethereum-eth.svg" id="micro" /> Rinkeby</div>
+        <div id="rinkeby" class="mlink"><img src="https://cdn.worldvectorlogo.com/logos/ethereum-eth.svg" id="micro" /> Rinkeby</div>
         <div id="polygon" class="mlink"><img src="https://cdn.iconscout.com/icon/free/png-256/polygon-token-4086724-3379854.png" id="micro" /> Polygon</div>
-        <div id="mumbai" class="mlink blend"><img src="https://cdn.iconscout.com/icon/free/png-256/polygon-token-4086724-3379854.png" id="micro" /> Mumbai</div>
+        <div id="mumbai" class="mlink"><img src="https://cdn.iconscout.com/icon/free/png-256/polygon-token-4086724-3379854.png" id="micro" /> Mumbai</div>
         <div id="evmos" class="mlink"><img src="https://assets.coingecko.com/coins/images/24023/large/evmos.png" id="micro" /> Evmos</div>
-        <div id="tevmos" class="mlink blend"><img src="https://assets.coingecko.com/coins/images/24023/large/evmos.png" id="micro" /> tEvmos</div>
+        <div id="tevmos" class="mlink"><img src="https://assets.coingecko.com/coins/images/24023/large/evmos.png" id="micro" /> tEvmos</div>
       </div>
     </div>
     <div id="aboutTemp" class="stage">
@@ -490,6 +490,12 @@
           <option value="ZW">Zimbabwe</option>
         </select>
         <textarea id="userStatus" placeholder="status message* ..." min="4" max="256" pattern="[A-Za-z]{4,256}" required></textarea>
+        <div id="ColorBox" class="bar">
+          <input id="init" type="button" value="init" />
+          <input id="eco" type="button" value="eco" />
+          <input id="irie" type="button" value="irie" />
+          <input id="modern" type="button" value="modern" />
+        </div>
         <p class="tiny">* Required Fields</p>
       </div>
       <div id="socioBox">
@@ -551,7 +557,6 @@
         CREATE ACCOUNT
       </button>
     </div>
-
     <div id="userProfileTemp" class="form">
       <input type="hidden" id="userObject" />
       <div id="dataBox">
