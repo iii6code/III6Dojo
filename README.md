@@ -16,7 +16,7 @@
 
 > @devwebsite : https://dev.dojo.guru
 
-> @about : DOJO is a vanilla truffe web3 bareknuckle boilerplate setup that allows an easy quick setup for defi projects and dapps. It uses the most basic setup but allows complex projects without overbloated npm libraries.
+> @about : DOJO is a development framework that allows blockchain projects to spin up, develop and launch dynamic NFT collectibles and web3 social communities in no time. It is compliant to the decentralised interactive asset standard (DIAS), wich allows dynamic assets to be built on multiple layers and let layers react to changes that occur via real world data feeds.
 
 > @devtech : truffle, solidity, javascript, json, html, css, sass
 
