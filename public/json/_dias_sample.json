@@ -1,0 +1,278 @@
+{
+  "diasSampleObject": {
+    "name": "DIAS-Sample-Object",
+    "sym": "DIAS-SO",
+    "author": "dias@dojo.guru",
+    "image": "https://ipfs.io/ipfs/#",
+    "type": "art/musicalbum/ebook/webapp/ads",
+    "id": 0,
+    "diasId": 999999,
+    "diasName": "ninetynine ninetynine ninetynine",
+    "format": {
+      "width": "100%",
+      "height": "100%"
+    },
+    "traits": {
+      "layers": 8,
+      "background-far": "",
+      "background-mid": "",
+      "background-close": "",
+      "body": "",
+      "body-shirt": "",
+      "eyes": "",
+      "mouth": "",
+      "glasses": "",
+      "hat": "",
+      "arm1": "",
+      "arm2": ""
+    },
+    "layers": [
+      {
+        "id": 1,
+        "name": "background-far",
+        "data": {
+          "type": "image/audio/video/text/svg/pdf/web",
+          "name": "filename/text/sourcecode",
+          "ipfs": "ipfs#/file/fontfile",
+          "url": "https://fileurl/fonturl"
+        },
+        "oracle": {
+          "type": "api/oracle/contract/userinput/modinput",
+          "mode": "read/iterate/input/random",
+          "name": "oraclename",
+          "source": "datasource",
+          "contract": "0x0",
+          "function": "call"
+        },
+        "keys": [
+          {
+            "id": 0,
+            "name": "start",
+            "trigger": {
+              "value": 0,
+              "action": "",
+              "ext-adr": "",
+              "ext-func": "",
+              "ext-params": ""
+            },
+            "paralax-lvl": -5,
+            "w": 100,
+            "h": 100,
+            "x": 0,
+            "y": 0,
+            "sw": 100,
+            "sh": 100,
+            "r": 0,
+            "o": 100,
+            "av": {
+              "allow": false,
+              "stop": false,
+              "start": false,
+              "pause": false,
+              "goto": 0
+            },
+            "svg": {
+              "c": "#000000",
+              "bc": "#ffffff"
+            }
+          },
+          {
+            "id": 1,
+            "name": "end",
+            "trigger": {
+              "value": 100,
+              "action": "",
+              "ext-adr": "",
+              "ext-func": "",
+              "ext-params": ""
+            },
+            "paralax-lvl": -5,
+            "w": 100,
+            "h": 100,
+            "x": 50,
+            "y": 50,
+            "sw": 100,
+            "sh": 100,
+            "r": 0,
+            "o": 100,
+            "av": {
+              "allow": false,
+              "stop": false,
+              "start": false,
+              "pause": false,
+              "goto": 0
+            },
+            "svg": {
+              "c": "#000000",
+              "bc": "#ffffff"
+            }
+          }
+        ]
+      },
+      {
+        "id": "...",
+        "name": "...",
+        "data": {
+          "type": "image/audio/video/text/svg/pdf/web",
+          "name": "filename/text/sourcecode",
+          "ipfs": "ipfs#/file/fontfile",
+          "url": "https://fileurl/fonturl"
+        },
+        "oracle": {
+          "type": "api/oracle/contract/userinput/modinput",
+          "mode": "read/iterate/input/random",
+          "name": "oraclename",
+          "source": "datasource",
+          "contract": "0x0",
+          "function": "call"
+        },
+        "keys": [
+          {
+            "id": 0,
+            "name": "start",
+            "trigger": {
+              "value": 0,
+              "action": "",
+              "ext-adr": "",
+              "ext-func": "",
+              "ext-params": ""
+            },
+            "paralax-lvl": -5,
+            "w": 100,
+            "h": 100,
+            "x": 0,
+            "y": 0,
+            "sw": 100,
+            "sh": 100,
+            "r": 0,
+            "o": 100,
+            "av": {
+              "allow": false,
+              "stop": false,
+              "start": false,
+              "pause": false,
+              "goto": 0
+            },
+            "svg": {
+              "c": "#000000",
+              "bc": "#ffffff"
+            }
+          },
+          {
+            "id": 1,
+            "name": "end",
+            "trigger": {
+              "value": 100,
+              "action": "",
+              "ext-adr": "",
+              "ext-func": "",
+              "ext-params": ""
+            },
+            "paralax-lvl": -5,
+            "w": 100,
+            "h": 100,
+            "x": 50,
+            "y": 50,
+            "sw": 100,
+            "sh": 100,
+            "r": 0,
+            "o": 100,
+            "av": {
+              "allow": false,
+              "stop": false,
+              "start": false,
+              "pause": false,
+              "goto": 0
+            },
+            "svg": {
+              "c": "#000000",
+              "bc": "#ffffff"
+            }
+          }
+        ]
+      },
+      {
+        "id": "n",
+        "name": "background-far",
+        "data": {
+          "type": "image/audio/video/text/svg/pdf/web",
+          "name": "filename/text/sourcecode",
+          "ipfs": "ipfs#/file/fontfile",
+          "url": "https://fileurl/fonturl"
+        },
+        "oracle": {
+          "type": "api/oracle/contract/userinput/modinput",
+          "mode": "read/iterate/input/random",
+          "name": "oraclename",
+          "source": "datasource",
+          "contract": "0x0",
+          "function": "call"
+        },
+        "keys": [
+          {
+            "id": 0,
+            "name": "start",
+            "trigger": {
+              "value": 0,
+              "action": "",
+              "ext-adr": "",
+              "ext-func": "",
+              "ext-params": ""
+            },
+            "paralax-lvl": -5,
+            "w": 100,
+            "h": 100,
+            "x": 0,
+            "y": 0,
+            "sw": 100,
+            "sh": 100,
+            "r": 0,
+            "o": 100,
+            "av": {
+              "allow": false,
+              "stop": false,
+              "start": false,
+              "pause": false,
+              "goto": 0
+            },
+            "svg": {
+              "c": "#000000",
+              "bc": "#ffffff"
+            }
+          },
+          {
+            "id": 1,
+            "name": "end",
+            "trigger": {
+              "value": 100,
+              "action": "",
+              "ext-adr": "",
+              "ext-func": "",
+              "ext-params": ""
+            },
+            "paralax-lvl": -5,
+            "w": 100,
+            "h": 100,
+            "x": 50,
+            "y": 50,
+            "sw": 100,
+            "sh": 100,
+            "r": 0,
+            "o": 100,
+            "av": {
+              "allow": false,
+              "stop": false,
+              "start": false,
+              "pause": false,
+              "goto": 0
+            },
+            "svg": {
+              "c": "#000000",
+              "bc": "#ffffff"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
