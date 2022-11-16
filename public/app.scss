@@ -59,6 +59,14 @@
   textarea,
   button {
     border: 1px solid $border;
+    
+  }
+  input{
+  margin: 10px 5px;
+
+  border-radius:1px ;
+  border: 1px solid white;
+ 
   }
   button {
     background: $ld;
@@ -143,6 +151,11 @@
   textarea,
   button {
     border: 1px solid $border;
+  }
+  input {
+    justify-content: center;
+    align-items: center;
+  
   }
   button {
     background: $ld;
