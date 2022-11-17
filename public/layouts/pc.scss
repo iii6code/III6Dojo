@@ -48,16 +48,44 @@
   top: 24px;
   left: 0;
   overflow-y: scroll;
-  padding: 13em 8em 0 13em;
+  padding: 13em 8em 0 8em;
+}
+#dataBox {
+  grid-row: 1/2;
+  text-align: center;
+  grid-column: 3/5;
+
+}
+#socioBox {
+  grid-row: 2/3;
+  text-align: center;
+  grid-column: 3/5;
+ 
 }
 #avtBox {
   grid-row: 1/4;
   text-align: center;
+  grid-column: -1;
+  margin-top: -5em;
+}
+#avatarImage {
+  width: 200px;
+  height: 200px;
+}
+#upBox,
+#nftBox,
+#pfpBox,
+#picBox {
+  grid-row: 1/4;
+  text-align: center;
+  grid-column: 1/3;
+ 
 }
 #submit_create,
 #submit_edit {
-  grid-column: 3;
+  grid-column:3/5;
   grid-row: 4;
+  justify-items: center;
 }
 #foot {
   width: 100%;
@@ -86,6 +114,7 @@
   display: grid;
   grid-gap: 1em;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+ 
 }
 
 .box {
@@ -152,12 +181,12 @@
 }
 
 img {
-  height: auto;
-  width: auto;
+  height: 400px;
+  width: 400px;
 }
 
 
-a.my-button{
+.my-button{
   background: linear-gradient(to right,orange,#dda800);
   background-color: #d19f00;
   color: #fff;
@@ -166,7 +195,7 @@ a.my-button{
   font-weight:600;
   font-style: normal;
   text-decoration: none;
-  padding: 14px 15px;
+  padding: 10px 5px;
   border: 1px solid #000000;
   border-radius: 10px;
   display: inline-flex;
@@ -174,26 +203,33 @@ a.my-button{
   align-items: center;
   box-shadow: 1px 4px 20px 1px #2D2D2D;
   transition: .5s ;
+  text-align: left;
+  line-height: 30px;
+  height: 50px;
+  
+  
  
  }
- a.my-button span{
-  margin-left:15px;
+ .my-button span{
+  
   display: block;
-  width: 29px;
-  height: 29px;
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiPg0KICA8ZGVmcz4NCiAgICA8Y2xpcFBhdGggaWQ9ImNsaXAtcGF0aCI+DQogICAgICA8cmVjdCB4PSItNCIgeT0iLTI1IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgZmlsbD0ibm9uZSIvPg0KICAgIDwvY2xpcFBhdGg+DQogICAgPGNsaXBQYXRoIGlkPSJjbGlwLXBhdGgtMiI+DQogICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlXzEiIGRhdGEtbmFtZT0iUmVjdGFuZ2xlIDEiIHdpZHRoPSIxNDIiIGhlaWdodD0iMTAwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMC4zMzMgOS4xMjgpIiBmaWxsPSJub25lIi8+DQogICAgPC9jbGlwUGF0aD4NCiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImxpbmVhci1ncmFkaWVudCIgeDE9IjAuOTg2IiB5MT0iMC41MDciIHgyPSItMC4wMjgiIHkyPSIwLjUyMiIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giPg0KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmIi8+DQogICAgICA8c3RvcCBvZmZzZXQ9IjAuNTMxIiBzdG9wLWNvbG9yPSIjZDlkOWQ5Ii8+DQogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9ImdyYXkiLz4NCiAgICA8L2xpbmVhckdyYWRpZW50Pg0KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ibGluZWFyLWdyYWRpZW50LTIiIHgxPSIwLjk4NiIgeTE9IjAuNDkzIiB4Mj0iLTAuMDI4IiB5Mj0iMC40NzgiIHhsaW5rOmhyZWY9IiNsaW5lYXItZ3JhZGllbnQiLz4NCiAgPC9kZWZzPg0KICA8ZyBpZD0iU2Nyb2xsX0dyb3VwXzEiIGRhdGEtbmFtZT0iU2Nyb2xsIEdyb3VwIDEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQgMjUpIiBjbGlwLXBhdGg9InVybCgjY2xpcC1wYXRoKSIgc3R5bGU9Imlzb2xhdGlvbjogaXNvbGF0ZSI+DQogICAgPGcgaWQ9ImxvZ28tdyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEwLjMzMyAtOS4xMjgpIiBjbGlwLXBhdGg9InVybCgjY2xpcC1wYXRoLTIpIj4NCiAgICAgIDxnIGlkPSJHcm91cF80MCIgZGF0YS1uYW1lPSJHcm91cCA0MCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNC45NDEgNC40ODkpIj4NCiAgICAgICAgPGcgaWQ9Ikdyb3VwXzM4IiBkYXRhLW5hbWU9Ikdyb3VwIDM4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDAuMDAxKSI+DQogICAgICAgICAgPHJlY3QgaWQ9IlJlY3RhbmdsZV82MyIgZGF0YS1uYW1lPSJSZWN0YW5nbGUgNjMiIHdpZHRoPSI3NS44ODciIGhlaWdodD0iMjUuMjk2IiByeD0iMTIuNjQ4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxOC4wMzMgMzcuMjI1KSByb3RhdGUoNDUpIiBmaWxsPSJ1cmwoI2xpbmVhci1ncmFkaWVudCkiLz4NCiAgICAgICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlXzY0IiBkYXRhLW5hbWU9IlJlY3RhbmdsZSA2NCIgd2lkdGg9Ijc1Ljg4NyIgaGVpZ2h0PSIyNS4yOTYiIHJ4PSIxMi42NDgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgNTMuNjYpIHJvdGF0ZSgtNDUpIiBmaWxsPSIjZmZmIi8+DQogICAgICAgICAgPGNpcmNsZSBpZD0iRWxsaXBzZV8xIiBkYXRhLW5hbWU9IkVsbGlwc2UgMSIgY3g9IjcuODQyIiBjeT0iNy44NDIiIHI9IjcuODQyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMS4xMyA0NS4wODEpIiBmaWxsPSIjZDlkYmZmIi8+DQogICAgICAgIDwvZz4NCiAgICAgICAgPGcgaWQ9Ikdyb3VwXzM5IiBkYXRhLW5hbWU9Ikdyb3VwIDM5IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MC4wNzkgMCkiPg0KICAgICAgICAgIDxyZWN0IGlkPSJSZWN0YW5nbGVfNjMtMiIgZGF0YS1uYW1lPSJSZWN0YW5nbGUgNjMiIHdpZHRoPSI3NS44ODciIGhlaWdodD0iMjUuMjk2IiByeD0iMTIuNjQ4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3MS41NDcgNTUuMTEyKSByb3RhdGUoMTM1KSIgZmlsbD0idXJsKCNsaW5lYXItZ3JhZGllbnQtMikiLz4NCiAgICAgICAgICA8cmVjdCBpZD0iUmVjdGFuZ2xlXzY0LTIiIGRhdGEtbmFtZT0iUmVjdGFuZ2xlIDY0IiB3aWR0aD0iNzUuODg3IiBoZWlnaHQ9IjI1LjI5NiIgcng9IjEyLjY0OCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTMuODA3IDcxLjU0Nykgcm90YXRlKC0xMzUpIiBmaWxsPSIjZmZmIi8+DQogICAgICAgICAgPGNpcmNsZSBpZD0iRWxsaXBzZV8xLTIiIGRhdGEtbmFtZT0iRWxsaXBzZSAxIiBjeD0iNy44NDIiIGN5PSI3Ljg0MiIgcj0iNy44NDIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ0Ljg4IDQ1LjA4MikiIGZpbGw9IiNkOWRiZmYiLz4NCiAgICAgICAgPC9nPg0KICAgICAgPC9nPg0KICAgIDwvZz4NCiAgPC9nPg0KPC9zdmc+DQo=);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
   background-repeat: no-repeat;
   background-size: contain;
   transform:  rotate(0deg);
+  padding: 0 0 10px 0;
  }
- a.my-button:hover{
+ .my-button:hover{
   background: linear-gradient(to right,#e8bc5d ,#efc260);
   background-color: #eabc5a;
   box-shadow: 1px 1px 20px 1px #ffec95;
  }
- a.my-button:active{
+ .my-button:active{
   transform: scale(1.15);
  }
+
 
  div.glow {
   background: 50% 100% / 50% 50% no-repeat
@@ -320,3 +356,60 @@ a.my-button{
   }
 }
 
+#bigbox{
+  display: grid;
+  grid-column: 3/6;
+  transition:  0.5s ease-in-out;
+  grid-row: 1/-1;
+  padding:2em;
+  margin: 2em 6em;
+  border-radius: 10px;
+  height: fit-content;
+
+}
+#bigbox:hover {
+  background-color: #181818;
+  box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
+  -webkit-box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
+  -moz-box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
+ 
+}
+
+
+#smallbox{
+  
+  grid-column: -1;
+  transition:  0.5s ease-in-out;
+  column-width: 350px;
+  grid-row: 0/6;
+  padding:2em;
+  margin: 2em 0 0 0;
+  border-radius: 10px;
+
+}
+#smallbox:hover {
+  background-color: #181818;
+  box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
+  -webkit-box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
+  -moz-box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
+ 
+}
+#medbox{
+  display: grid;
+  grid-column: 1/3;
+  column-width: 350px;
+  transition:  0.5s ease-in-out;
+  grid-row: 1/2;
+  padding:3em 2em 2em 2em ;
+  margin: 2em 0 0 0;
+  border-radius: 10px;
+  height: fit-content;
+
+}
+#medbox:hover {
+  background-color: #181818;
+  box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
+  -webkit-box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
+  -moz-box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
+ 
+}
