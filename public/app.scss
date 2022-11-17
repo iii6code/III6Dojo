@@ -16,6 +16,7 @@
   #foot,
   #stage {
     background: $bg;
+    background: linear-gradient(90deg, rgba($bg, 0.5) 20%, rgba($ld, 1) 80%);
   }
   #mobnav {
     background: $bg;
@@ -88,7 +89,8 @@
 
 #ecogo {
   @import "colorsets/eco.scss";
-  background: $bc;
+  background: $bg;
+  background: linear-gradient(90deg, rgba($bg, 0.5) 20%, rgba($ld, 1) 80%);
   color: $fc;
   .err {
     border: 1px solid $close;
@@ -171,7 +173,8 @@
 
 #iriego {
   @import "colorsets/irie.scss";
-  background: $bc;
+  background: $bg;
+  background: linear-gradient(90deg, rgba($bg, 0.5) 20%, rgba($ld, 1) 80%);
   color: $fc;
   .err {
     border: 1px solid $close;
@@ -254,7 +257,8 @@
 
 #moderngo {
   @import "colorsets/modern.scss";
-  background: $bc;
+  background: $bg;
+  background: linear-gradient(90deg, rgba($bg, 0.5) 20%, rgba($ld, 1) 80%);
   color: $fc;
   .err {
     border: 1px solid $close;
