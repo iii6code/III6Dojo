@@ -446,7 +446,7 @@ contract Users {
     // takes address , dias , and role to edit and store your user profile in user mapping
     function editUser(string memory _dias) external returns (bool) {
         string memory _name = name[msg.sender];
-        return makeUser(msg.sender, bytes(_dias), 2, _name);
+        return makeUser(msg.sender, bytes(_dias), roles[msg.sender], _name);
     }
 
     // shows user dias by address input

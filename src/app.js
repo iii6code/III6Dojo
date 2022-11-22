@@ -18,7 +18,6 @@ import UAuth from "@uauth/js";
 import { create } from "underscore";
 import { stripZeros } from "ethers/lib/utils";
 import { logo, wallet, mwallet, btn, mbtn, app, mapp, net, mnet, about, mabout, team, mteam, service, mservice, MoBtn, MobNav, admin, madmin, imprint, mimprint, terms, mterms, contact, mcontact, closeMob, stage } from "./elements";
-
 import { mob_toggle, toggle, a, showAdmin, fadeAdmin, doAdmin, openLanding, openWallet, openApp, openNet, openAbout, openService, openTeam, openImprint, openTerms, openContact, goColor } from "./nav";
 import { roll, makeId, doCollection, showRarity } from "./rarity";
 
@@ -141,6 +140,10 @@ const onClickConnect = async () => {
           goSignUp();
         }
         // Normal User Accounts role 2 - 12
+        // 0 catch user
+        // 1 new user
+        // 2 affily8
+        // 3
         if (role === 2 || role === 3 || role === 5 || role === 7 || role === 9 || role === 12) {
           goProfile();
         } else if (role <= 12 || role === 0) {
