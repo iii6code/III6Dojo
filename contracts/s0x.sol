@@ -1195,13 +1195,18 @@ contract s0xPool is MathFnx {
 }
 
 contract affily8 {
+    // get Users Contract
+    Users public users;
+    nftProject public afl8;
+
     address[] client;
     uint256 cc;
     address[] public publisher;
     uint256 pubc;
     address[] public advertiser;
     uint256 adc;
-    address owner;
+    address private owner;
+    address[3] private mods;
     mapping(address => uint256) occ;
     mapping(address => mapping(uint256 => uint256)) myCampaigns;
 
@@ -1212,6 +1217,8 @@ contract affily8 {
         uint256 cType; // 0-view, 1-click, 2-sale
         uint256 slotValue;
         uint256 used;
+        bytes dias;
+        bool online;
     }
     Campaign[] public campaigns;
     modifier onlyO() {
@@ -1219,21 +1226,52 @@ contract affily8 {
         _;
     }
 
-    constructor() {
+    constructor(address _user) {
         owner = msg.sender;
+        mods[0] = owner;
+        mods[1] = owner;
+        mods[2] = owner;
+        users = Users(_user);
+    }
+
+    function editMods(uint256 _mod, address _newMod)
+        external
+        returns (address)
+    {
+        return mods[_mod] = _newMod;
     }
 
     function createCampaign(
         uint256 _slots,
         uint256 _ctype,
         uint256 _slotV,
-        uint256 _used
+        uint256 _used,
+        string memory _dias
     ) external returns (bool) {
-        campaigns.push(Campaign(cc, msg.sender, _slots, _ctype, _slotV, _used));
+        campaigns.push(
+            Campaign(
+                cc,
+                msg.sender,
+                _slots,
+                _ctype,
+                _slotV,
+                _used,
+                bytes(_dias),
+                true
+            )
+        );
         myCampaigns[msg.sender][occ[msg.sender]] = cc;
         occ[msg.sender]++;
         cc++;
         return true;
+    }
+
+    function adminAlterCampaign(uint256 _cc, bool _state)
+        external
+        returns (bool)
+    {
+        require(msg.sender == owner);
+        return campaigns[_cc].online = _state;
     }
 
     function campaignSignUp(uint256 _cc, string memory decsription)
