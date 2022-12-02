@@ -74,6 +74,8 @@ import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "./iii6VRFConsumer.sol";
+import "./iii6Math.sol";
+import "./iii6safes.sol";
 
 contract nftProject is ERC721 {
     address public owner;
@@ -174,37 +176,5 @@ contract nftProject is ERC721 {
 
     function holder(uint256 _id) external view returns (address) {
         return ownerOf(_id);
-    }
-}
-
-//@audit. Is this finished?
-contract RiteWhabbits is nftProject {
-    constructor(
-        address _owner,
-        string memory _name,
-        string memory _sym,
-        address _usdc,
-        address _vrf,
-        address _mlq
-    ) nftProject(_owner, _name, _sym, _vrf) {}
-
-    mapping(uint256 => bytes) private _tokenStatus;
-    mapping(uint256 => uint256) private _tokenVRF;
-    mapping(uint256 => bytes) private _tokenTraitScramble;
-    struct Traits {
-        uint256 bg0; // far landscape
-        uint256 bg1; // mid
-        uint256 bg2; // near
-        uint256 bodybg0; // min body shape
-        uint256 bodybg1; // female shape < .5
-        uint256 bodybg2; // male shape >= .5
-        uint256 hair;
-        uint256 hat;
-        uint256 eyes;
-        uint256 eyebrows;
-        uint256 glasses;
-        uint256 nose;
-        uint256 mouth;
-        uint256 beard;
     }
 }
