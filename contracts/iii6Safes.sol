@@ -73,3 +73,37 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+
+contract iii6Safes {
+    // ** CHECKLIST **
+
+    // validation that safe adrress is accessible for everyone
+    address iii6; // developers conglomerate
+    address dojo; // devtool framework
+    address s0x; // community framework
+    address dias; // dias conglomerate
+    address codebender; // dynamic nft editor
+    address vanByte; // dynamic arts museum
+    address foyl; // digital arts community
+    address vrl; // dynamic tech promo framework
+
+    //@audit: why not use block.chainid to always get the correct id and avoid possible confusions
+    constructor(uint256 _net) {
+        if (_net == 0) {
+            // AVAX Fuji
+        }
+        if (_net == 1) {
+            // AVAX
+        } else if (_net == 2) {
+            // FANTOM Opera
+        } else if (_net == 3) {
+            // Fantom Test
+        } else if (_net == 4) {
+            // Polygon Mumbai
+        } else if (_net == 5) {
+            // Polygon
+        } else {
+            // FALLBACK
+        }
+    }
+}

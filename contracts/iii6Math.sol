@@ -73,3 +73,33 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+
+contract iii6Math {
+    // Math Function Extension
+    // division function for solidity
+    function divide(uint256 _a, uint256 _b) internal pure returns (uint256) {
+        uint256 rem = _a % _b;
+        return ((_a - rem) / _b);
+    }
+
+    // generates unique id nr
+    function uniqID(string memory _inf) internal pure returns (uint256) {
+        bytes32 BHash = keccak256(abi.encode(_inf));
+        return uint256(BHash);
+    }
+
+    // gives back the smaller wallet address
+    function smaller(address _a, address _b)
+        internal
+        pure
+        returns (address s, address l)
+    {
+        if (_a < _b) {
+            s = _a;
+            l = _b;
+        } else if (_a > _b) {
+            s = _b;
+            l = _a;
+        }
+    }
+}

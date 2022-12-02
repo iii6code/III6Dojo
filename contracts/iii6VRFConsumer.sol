@@ -43,10 +43,10 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //                                                                                                                                                                                  //
 //      @company        ::              Fractio Holding                                                                                                                                                                       //
-//      @title          ::              iii6 NFT Model                                                                                                                            //
-//      @description    ::              ERC721 Model Preset Contract                                                                                                                           //
+//      @title          ::              iii6 Price Consumer                                                                                                                            //
+//      @description    ::              Fractio Holding Price Oracle Contract                                                                                                                           //
 //      @version        ::              0.0.1                                                                                                                                       //
-//      @purpose        ::              ERC20 Model Preset                                                                                                          //
+//      @purpose        ::              Multinet Oracle Price Feed                                                                                                           //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
@@ -73,138 +73,109 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
-import "./iii6VRFConsumer.sol";
 
-contract nftProject is ERC721 {
-    address public owner;
-    uint256 public minted;
-    uint256 public max;
-    string public nam;
-    string public sym;
+contract VRFv2Consumer is VRFConsumerBaseV2 {
+    VRFCoordinatorV2Interface COORDINATOR;
 
-    VRFv2Consumer public vrf;
+    // Your subscription ID.
+    uint64 s_subscriptionId;
+    uint256 net;
 
-    // token id # => dias obj %
-    mapping(uint256 => bytes) public dias;
-    // user address @ => nft count #
-    mapping(address => uint256) public nftCount;
-    // user address @ => nft count # => nft id #
-    mapping(address => mapping(uint256 => uint256)) public ntfIdByCount;
+    uint32 constant callbackGasLimit = 100000;
+    uint16 constant requestConfirmations = 3;
+    uint32 constant numWords = 7;
 
-    error InvalidAmount();
+    mapping(uint256 => uint256[]) public s_requestIdToRandomWords;
+    mapping(uint256 => address) public s_requestIdToAddress;
+    uint256 public s_requestId;
+    address s_owner;
 
-    constructor(
-        address _owner,
-        string memory _name,
-        string memory _sym,
-        address _vrf
-    ) ERC721(_name, _sym) {
-        owner = _owner;
-        nam = _name;
-        sym = _sym;
-        max = 1000;
-        vrf = VRFv2Consumer(_vrf);
+    // 0 Fuji // 1 Avax // 2 Fantom Test // 3 Fantom Main // 4 Polygon Mumbai // 5 Polygon Main
+    /* 5 => /
+    // Polygon Main coordinator. For other networks,
+    // see https://docs.chain.link/docs/vrf-contracts/#configurations
+    address vrfCoordinator = 0xAE975071Be8F8eE67addBC1A82488F1C24858067;
+    bytes32 keyHash =
+        0xd729dc84e21ae57ffb6be0053bf2b0668aa2aaf300a2a7b2ddf7dc0bb6e875a8;
+    // */
+
+    /* 4 => */
+    // Polygon Mumbai coordinator. For other networks,
+    // see https://docs.chain.link/docs/vrf-contracts/#configurations
+    address vrfCoordinator = 0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed;
+    bytes32 keyHash =
+        0x4b09e658ed251bcafeebbc69400383d49f344ace09b9576fe248bb02c003fe9f;
+
+    // */
+
+    /* 3 => /
+    // Fantom Main coordinator. For other networks,
+    // see https://docs.chain.link/docs/vrf-contracts/#configurations
+    address vrfCoordinator = 0xd5D517aBE5cF79B7e95eC98dB0f0277788aFF634;
+    bytes32 keyHash =
+        0x64ae04e5dba58bc08ba2d53eb33fe95bf71f5002789692fe78fb3778f16121c9;
+
+    // */
+
+    /* 2 => /
+    // Fantom Test coordinator. For other networks,
+    // see https://docs.chain.link/docs/vrf-contracts/#configurations
+    address vrfCoordinator = 0xbd13f08b8352A3635218ab9418E340c60d6Eb418;
+    bytes32 keyHash =
+        0x121a143066e0f2f08b620784af77cccb35c6242460b4a8ee251b4b416abaebd4;
+    // */
+
+    /* 1 => /
+    // AVAX coordinator. For other networks,
+    // see https://docs.chain.link/docs/vrf-contracts/#configurations
+    address vrfCoordinator = 0x2eD832Ba664535e5886b75D64C46EB9a228C2610;
+    bytes32 keyHash =
+        0x06eb0e2ea7cca202fc7c8258397a36f33d88568d2522b37aaa3b14ff6ee1b696;
+    // */
+
+    /* 0 => 
+    // AVAX Fuji coordinator. For other networks,
+    // see https://docs.chain.link/docs/vrf-contracts/#configurations
+    address vrfCoordinator = 0x2eD832Ba664535e5886b75D64C46EB9a228C2610;
+    bytes32 keyHash =
+        0x354d2f95da55398f44b7cff77da56283d9c6c829a4bdf1bbcaf2ad6a4d081f61;
+
+    // */
+
+    constructor(uint64 subscriptionId) VRFConsumerBaseV2(vrfCoordinator) {
+        COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
+        s_owner = msg.sender;
+        s_subscriptionId = subscriptionId;
     }
 
-    function isOwner(address _adr) external view returns (bool) {
-        return _adr == owner ? true : false;
+    function randy(uint256 _rid) external view returns (uint256[] memory) {
+        return s_requestIdToRandomWords[_rid];
     }
 
-    function getName() external view returns (string memory) {
-        return nam;
+    // Assumes the subscription is funded sufficiently.
+    function requestRandomWords() external returns (uint256) {
+        uint256 requestId = COORDINATOR.requestRandomWords(
+            keyHash,
+            s_subscriptionId,
+            requestConfirmations,
+            callbackGasLimit,
+            numWords
+        );
+        s_requestIdToAddress[requestId] = msg.sender;
+
+        // Store the latest requestId for this example.
+        s_requestId = requestId;
+
+        // Return the requestId to the requester.
+        return requestId;
     }
 
-    function getSym() external view returns (string memory) {
-        return sym;
-    }
-
-    function mint(uint256 _amnt) external returns (uint256) {
-        if (minted >= max || minted + _amnt >= max) revert InvalidAmount();
-        _doMint(_amnt);
-        return minted;
-    }
-
-    function getVrfId() internal returns (uint256[] memory) {
-        uint256 rid = vrf.requestRandomWords();
-        return vrf.randy(rid);
-    }
-
-    function grabIds(uint256 count) external view returns (uint256 ids) {
-        return ids = ntfIdByCount[msg.sender][count];
-    }
-
-    // @audit. this mints way too much. eg amount is 3
-    //@high.
-    function _doMint(uint256 _amnt) internal returns (uint256) {
-        _mint(msg.sender, minted); // if "minted" is "4" at this point, it will mint 4 to caller
-        ++minted; // then update this value
-
-        // this will pass
-        if (_amnt >= 2) {
-            _mint(msg.sender, minted); // and mint again, this time 5. Up to this point 9 tokens are minted
-            minted++;
-
-            if (_amnt >= 3) {
-                _mint(msg.sender, minted);
-                minted++;
-
-                if (_amnt >= 4) {
-                    _mint(msg.sender, minted);
-                    minted++;
-
-                    if (_amnt >= 5) {
-                        _mint(msg.sender, minted);
-                        minted++;
-
-                        if (_amnt >= 6) {
-                            _mint(msg.sender, minted);
-                            minted++;
-
-                            if (_amnt >= 7) {
-                                _mint(msg.sender, minted);
-                                minted++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return minted;
-    }
-
-    function holder(uint256 _id) external view returns (address) {
-        return ownerOf(_id);
-    }
-}
-
-//@audit. Is this finished?
-contract RiteWhabbits is nftProject {
-    constructor(
-        address _owner,
-        string memory _name,
-        string memory _sym,
-        address _usdc,
-        address _vrf,
-        address _mlq
-    ) nftProject(_owner, _name, _sym, _vrf) {}
-
-    mapping(uint256 => bytes) private _tokenStatus;
-    mapping(uint256 => uint256) private _tokenVRF;
-    mapping(uint256 => bytes) private _tokenTraitScramble;
-    struct Traits {
-        uint256 bg0; // far landscape
-        uint256 bg1; // mid
-        uint256 bg2; // near
-        uint256 bodybg0; // min body shape
-        uint256 bodybg1; // female shape < .5
-        uint256 bodybg2; // male shape >= .5
-        uint256 hair;
-        uint256 hat;
-        uint256 eyes;
-        uint256 eyebrows;
-        uint256 glasses;
-        uint256 nose;
-        uint256 mouth;
-        uint256 beard;
+    function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords)
+        internal
+        override
+    {
+        // You can return the value to the requester,
+        // but this example simply stores it.
+        s_requestIdToRandomWords[requestId] = randomWords;
     }
 }
