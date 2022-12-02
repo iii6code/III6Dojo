@@ -130,8 +130,10 @@ TREE Token Display
  */
 
 // 0 Fuji // 1 Avax // 2 Fantom Test // 3 Fantom Main // 4 Polygon Mumbai // 5 Polygon Main
+// @audit: rename to ExitSafes
 contract exitSafes {
     // ** CHECKLIST **
+
     // validation that safe adrress is accessible for everyone
     address iii6; // developers conglomerate
     address dojo; // devtool framework
@@ -142,6 +144,7 @@ contract exitSafes {
     address foyl; // digital arts community
     address vrl; // dynamic tech promo framework
 
+    //@audit: why not use block.chainid to always get the correct id and avoid possible confusions
     constructor(uint256 _net) {
         if (_net == 0) {
             // AVAX Fuji
@@ -336,6 +339,7 @@ contract PriceConsumerV3 {
     }
 }
 
+//@idea. could return the remainder as well
 contract MathFnx {
     // Math Function Extension
     // division function for solidity
@@ -376,6 +380,15 @@ library MLQlib {
     uint256 public constant CIRC_RESERVE = 1 * 10**9 * MLQ_DIG;
 }
 
+/* @audit: declare user roles as constant variables
+    Admin (access all areas) role#99
+    Moderator (access advertiser area) role#90
+    Campaign Creator (access creator area) role#9
+    Advertiser (access advertiser area) role#8
+    Affily8 (access client area) role#2
+    Guest (access signup area) role#1
+    New User (access signup area) role#0
+*/
 contract Users {
     // user data storage for conglomerate
     address private s0x; // s0x admin
@@ -388,14 +401,18 @@ contract Users {
     // user profile array // user# => dias%
     mapping(address => bytes) public users;
     mapping(address => bool) private isUser;
+
     // role // user# => role$
     mapping(address => uint256) private roles;
+
     // only admin allowed function modifier
     mapping(address => Impact) public impx;
     mapping(address => string) public name;
 
+    error Unathorized();
+
     modifier isAdmin() {
-        require(msg.sender == s0x);
+        if (msg.sender != s0x) revert Unathorized();
         _;
     }
 
@@ -417,20 +434,20 @@ contract Users {
         string memory _name
     ) internal returns (bool) {
         users[_adr] = _dias;
+        isUser[_adr] = true;
         roles[_adr] = _r;
         impx[_adr] = Impact(0, 0, 0);
         name[_adr] = _name;
-        isUser[_adr] = true;
         return true;
     }
 
-    // takes dias to create guest user profile
+    /// @notice takes dias to create guest user profile
     function createUserAccount(
         string memory _dias,
         address _user,
         string calldata _name
     ) external returns (bool) {
-        return makeUser(_user, bytes(_dias), 2, _name);
+        return makeUser(_user, bytes(_dias), 2, _name); // role 2 is Affily8
     }
 
     // takes address , dias , and role to admin edit and store a user profile in user mapping
@@ -446,7 +463,7 @@ contract Users {
     // takes address , dias , and role to edit and store your user profile in user mapping
     function editUser(string memory _dias) external returns (bool) {
         string memory _name = name[msg.sender];
-        return makeUser(msg.sender, bytes(_dias), roles[msg.sender], _name);
+        return makeUser(msg.sender, bytes(_dias), 2, _name);
     }
 
     // shows user dias by address input
@@ -482,23 +499,29 @@ contract Users {
 
 contract Friends is MathFnx {
     Users private user;
+
     // frenz // you# => frenz# => isfriend?
     mapping(address => mapping(address => bool)) public frenz; // people following you
+
     // degenz // you# => degenz# => isfriend?
     mapping(address => mapping(address => bool)) public degenz; // people you follow
+
     // connection bool // smaller# => bigger# => friends$ // friends : $0=unrelated, $1=hype, $2=nest
     uint256 c;
     mapping(address => mapping(address => uint256)) public connection;
     mapping(address => uint256) public frenzCount;
     mapping(address => uint256) public degenzCount;
     mapping(address => mapping(uint256 => address)) public frenzByCount;
+
     // user degenerated you
     modifier degenerated(address _adr) {
         require(degenz[msg.sender][_adr] == true || msg.sender == _adr); // do you follow or is it yourself
         _;
     }
+
     // user frenzonned you
     modifier frenzoned(address _adr) {
+        if (!frenz[_adr][msg.sender] || msg.sender != _adr) revert();
         require(frenz[_adr][msg.sender] || msg.sender == _adr); // is he following or is it yourself
         _;
     }
@@ -508,32 +531,37 @@ contract Friends is MathFnx {
         c = 1;
     }
 
+    ///
     function showMe() external view returns (string memory) {
         return user.showUser(msg.sender);
     }
 
+    ///
     function showYou(address _adr) external view returns (string memory) {
         return user.showUser(_adr);
     }
 
+    ///
     function getRole(address _adr) external view returns (uint256) {
         return user.getRole(_adr);
     }
 
+    ///
     function follow(address _adr, address _sender) external returns (uint256) {
         degenz[_adr][_sender] = true;
-        degenzCount[_adr]++;
+        ++degenzCount[_adr];
         frenz[_sender][_adr] = true;
         frenzByCount[_sender][frenzCount[_sender]] = _adr;
-        frenzCount[_sender]++;
+        ++frenzCount[_sender];
         (address s, address l) = smaller(_adr, _sender);
         if (connection[s][l] == 0) {
             connection[s][l] = c;
-            c++;
+            ++c;
             return (connection[s][l]);
         } else return (connection[s][l]);
     }
 
+    ///
     function doShowStatus(address _adr, address _sender)
         external
         view
@@ -555,14 +583,17 @@ contract Friends is MathFnx {
         );
     }
 
+    ///
     function doFrenzCount(address _adr) external view returns (uint256) {
         return frenzCount[_adr];
     }
 
+    ///
     function doDegenzCount(address _adr) external view returns (uint256) {
         return degenzCount[_adr];
     }
 
+    ///
     function doShowFrenz(address _adr, uint256 _c)
         external
         view
@@ -571,6 +602,7 @@ contract Friends is MathFnx {
         return frenzByCount[_adr][_c];
     }
 
+    ///
     function isFrenz(address _a, address _b) external view returns (bool) {
         return frenz[_a][_b];
     }
@@ -583,6 +615,7 @@ contract Groups is MathFnx {
     string public name; // group name
     uint256 private m; // member count
     uint256 private state; // 0-private (no invite), 1-bothchecked, 2-ulike, 3-likeu, 4-bothcheckedofulike, 5-public, 9-secret, 99-admin
+
     mapping(uint256 => address) public members; // address by id
     mapping(address => uint256) public mNum; // id by address
     uint256 private c; // content count
@@ -610,13 +643,14 @@ contract Groups is MathFnx {
     }
 
     function addUser(address _adr) external returns (address) {
-        if (state == 0)
-            require(m < 2); // private state one allows 2 users only
+        if (state == 0) {
+            if (m >= 2) revert();
+            // require(m < 2); // private state one allows 2 users only
             // require(user.isU(msg.sender) == true);
             // require(user.isU(_adr) == true);
-        else if (state == 1) {
-            require(friend.isFrenz(owner, _adr));
-            require(friend.isFrenz(_adr, owner));
+        } else if (state == 1) {
+            if (!friend.isFrenz(owner, _adr)) revert();
+            if (!friend.isFrenz(_adr, owner)) revert();
         } // only degenz&frenz allowed
         /*
         else if(state == 2) {
@@ -635,22 +669,22 @@ contract Groups is MathFnx {
         */
         members[m] = _adr;
         mNum[_adr] = m;
-        m++;
+        ++m;
         return _adr;
     }
 
     function removeUser(address _adr) external returns (address) {
-        require(state != 0);
-        members[mNum[_adr]] = 0x0000000000000000000000000000000000000000;
+        if (state == 0) revert();
+        members[mNum[_adr]] = address(0);
         mNum[_adr] = 0;
         return _adr;
     }
 
     function addContent(string memory _cnt) external returns (string memory) {
         content[msg.sender][myContent[msg.sender]] = bytes(_cnt);
-        myContent[msg.sender]++;
+        ++myContent[msg.sender];
         cntnt[c] = bytes(_cnt);
-        c++;
+        ++c;
         return _cnt;
     }
 
@@ -660,8 +694,8 @@ contract Groups is MathFnx {
     {
         replys[_c][r[_c]] = bytes(_rply);
         myReplys[msg.sender][myRplyCount[msg.sender]] = bytes(_rply);
-        myRplyCount[msg.sender]++;
-        return r[_c]++;
+        ++myRplyCount[msg.sender];
+        return ++r[_c];
     }
 }
 
@@ -755,9 +789,7 @@ contract s0xFactory is Users, MathFnx {
     }
 }
 
-contract USDC is ERC20 {
-    constructor() ERC20("US Dollar Coin", "USDC") {}
-
+contract USDC is ERC20("US Dollar Coin", "USDC") {
     function dropUSDC() external {
         _mint(msg.sender, 100 * 10**18);
     }
@@ -766,6 +798,7 @@ contract USDC is ERC20 {
 // 0 Fuji // 1 Avax // 2 Fantom Test // 4 Fantom Main // 5 Polygon Mumbai // 6 Polygon Main
 contract MLQ is ERC20, MathFnx, exitSafes {
     using MLQlib for *;
+
     address private admin;
     int256 public rate;
     uint256 public PUB_SUPPLY;
@@ -774,6 +807,10 @@ contract MLQ is ERC20, MathFnx, exitSafes {
     PriceConsumerV3 public ethUsdPrice;
     mapping(address => uint256) public mlqBalance;
     USDC usdc;
+
+    error InsufficientBalance();
+    error Unathorized();
+    error InsufficientMLQ();
 
     constructor(
         address _usdc,
@@ -789,14 +826,14 @@ contract MLQ is ERC20, MathFnx, exitSafes {
     function setMLQRate() internal returns (int256) {
         int256 price = ethUsdPrice.EthUsdPrice();
         uint256 newRate = divide(uint256(price), 100);
-        rate = int256(newRate);
+        if (rate != 0) rate = int256(newRate);
         return rate;
     }
 
     function setMainRate() internal returns (int256) {
         int256 price = ethUsdPrice.MainUsdPrice();
         uint256 newRate = divide(uint256(price), 100);
-        rate = int256(newRate);
+        if (rate != 0) rate = int256(newRate);
         return rate;
     }
 
@@ -810,9 +847,10 @@ contract MLQ is ERC20, MathFnx, exitSafes {
         setMainRate();
         uint256 swapRate = divide(mainRate, MLQ_RATE);
         uint256 amnt = msg.value * swapRate;
-        require(amnt > address(this).balance, "insufficient balance");
+        if (amnt <= address(this).balance) revert InsufficientBalance();
+
         // find maincurr price for mlq
-        require(PUB_SUPPLY >= amnt);
+        if (PUB_SUPPLY < amnt) revert();
         _mint(msg.sender, amnt);
         mlqBalance[msg.sender] += amnt;
         PUB_SUPPLY -= amnt;
@@ -822,7 +860,7 @@ contract MLQ is ERC20, MathFnx, exitSafes {
     function buyMlqUSDC(uint256 _amnt) external payable returns (uint256) {
         setMLQRate();
         uint256 amnt = _amnt * uint256(rate) * 10**10;
-        require(PUB_SUPPLY >= amnt);
+        if (PUB_SUPPLY < amnt) revert();
         usdc.transferFrom(msg.sender, address(this), amnt);
         _mint(msg.sender, _amnt * 10**18);
         mlqBalance[msg.sender] = _amnt * 10**18;
@@ -835,15 +873,15 @@ contract MLQ is ERC20, MathFnx, exitSafes {
     }
 
     function withdraw(uint256 _amnt) external returns (uint256) {
+        if (msg.sender != admin) revert Unathorized();
         uint256 amnt = MLQlib.MLQ_DIG * _amnt;
-        require(admin == msg.sender);
-        require(mlqBalance[address(this)] >= amnt);
+        if (mlqBalance[address(this)] < amnt) revert InsufficientMLQ();
         transferFrom(address(this), admin, amnt);
         return amnt;
     }
 
     function flush() external returns (uint256) {
-        require(admin == msg.sender);
+        if (msg.sender != admin) revert Unathorized();
         transferFrom(address(this), admin, mlqBalance[address(this)]);
         payable(admin).transfer(address(this).balance);
         usdc.transferFrom(address(this), admin, usdc.balanceOf(address(this)));
@@ -866,15 +904,19 @@ contract nftProject is ERC721 {
     uint256 public max;
     string public nam;
     string public sym;
+
     VRFv2Consumer public vrf;
     ERC20 public usdc;
     MLQ public mlq;
+
     // token id # => dias obj %
     mapping(uint256 => bytes) public dias;
     // user address @ => nft count #
     mapping(address => uint256) public nftCount;
     // user address @ => nft count # => nft id #
     mapping(address => mapping(uint256 => uint256)) public ntfIdByCount;
+
+    error InvalidAmount();
 
     constructor(
         address _owner,
@@ -885,17 +927,16 @@ contract nftProject is ERC721 {
         address _mlq
     ) ERC721(_name, _sym) {
         owner = _owner;
-        max = 1000;
         nam = _name;
         sym = _sym;
-        vrf = VRFv2Consumer(_vrf);
+        max = 1000;
         usdc = ERC20(_usdc);
+        vrf = VRFv2Consumer(_vrf);
         mlq = MLQ(payable(_mlq));
     }
 
     function isOwner(address _adr) external view returns (bool) {
-        if (_adr == owner) return true;
-        else return false;
+        _adr == owner ? true : false;
     }
 
     function getName() external view returns (string memory) {
@@ -907,8 +948,8 @@ contract nftProject is ERC721 {
     }
 
     function mint(uint256 _amnt) external returns (uint256) {
-        require(minted < max);
-        doMint(_amnt);
+        if (minted >= max || minted + _amnt >= max) revert InvalidAmount();
+        _doMint(_amnt);
         return minted;
     }
 
@@ -921,11 +962,15 @@ contract nftProject is ERC721 {
         return ids = ntfIdByCount[msg.sender][count];
     }
 
-    function doMint(uint256 _amnt) internal returns (uint256) {
-        _mint(msg.sender, minted);
-        minted++;
+    // @audit. this mints way too much. eg amount is 3
+    //@high.
+    function _doMint(uint256 _amnt) internal returns (uint256) {
+        _mint(msg.sender, minted); // if "minted" is "4" at this point, it will mint 4 to caller
+        ++minted; // then update this value
+
+        // this will pass
         if (_amnt >= 2) {
-            _mint(msg.sender, minted);
+            _mint(msg.sender, minted); // and mint again, this time 5. Up to this point 9 tokens are minted
             minted++;
 
             if (_amnt >= 3) {
@@ -961,6 +1006,7 @@ contract nftProject is ERC721 {
     }
 }
 
+//@audit. Is this finished?
 contract RiteWhabbits is nftProject {
     constructor(
         address _owner,
@@ -994,11 +1040,13 @@ contract RiteWhabbits is nftProject {
 
 contract COIN is ERC20, MathFnx {
     using MLQlib for *;
-    address private admin;
-    uint256 public rate;
-    uint256 public PUB_SUPPLY;
-    uint256 public MAX_SUPPLY;
+
+    address private admin; // @audit. declare as internal since there are getter functions
+    uint256 public rate; // @audit. declare as internal since there are getter functions
+    uint256 public PUB_SUPPLY; // @audit. declare as internal since there are getter functions
+    uint256 public MAX_SUPPLY; // @audit. declare as internal since there are getter functions
     string public title;
+
     mapping(address => uint256) public coinBalance;
 
     constructor(
@@ -1037,8 +1085,8 @@ contract COIN is ERC20, MathFnx {
 
     function buyMlq(uint256 _amnt) external payable returns (uint256) {
         uint256 amnt = MLQlib.MLQ_DIG * _amnt;
-        require(PUB_SUPPLY >= amnt);
-        require(divide(msg.value, 100) >= amnt);
+        if (PUB_SUPPLY < amnt) revert();
+        if (divide(msg.value, 100) < amnt) revert();
         _mint(msg.sender, amnt);
         coinBalance[msg.sender] = amnt;
         PUB_SUPPLY += amnt;
@@ -1051,14 +1099,14 @@ contract COIN is ERC20, MathFnx {
 
     function withdraw(uint256 _amnt) external returns (uint256) {
         uint256 amnt = MLQlib.MLQ_DIG * _amnt;
-        require(admin == msg.sender);
-        require(coinBalance[address(this)] >= amnt);
+        if (msg.sender != admin) revert();
+        if (coinBalance[address(this)] < amnt) revert();
         transferFrom(address(this), admin, amnt);
         return amnt;
     }
 
     function flush() external returns (uint256) {
-        require(admin == msg.sender);
+        if (msg.sender != admin) revert();
         transferFrom(address(this), admin, coinBalance[address(this)]);
         payable(admin).transfer(address(this).balance);
         return address(this).balance;
@@ -1071,6 +1119,7 @@ contract s0xPool is MathFnx {
     COIN public sec;
     COIN public pool;
     uint256 p;
+
     struct Pool {
         uint256 id;
         address pool;
@@ -1083,6 +1132,7 @@ contract s0xPool is MathFnx {
         uint256 distrib;
         uint256 xRate;
     }
+
     uint256 t;
     struct Token {
         uint256 id;
@@ -1092,6 +1142,7 @@ contract s0xPool is MathFnx {
         uint256 mintedSupply;
         uint256 priceInEth;
     }
+
     uint256 s;
     struct Safe {
         uint256 id;
@@ -1099,6 +1150,7 @@ contract s0xPool is MathFnx {
         address token;
         uint256 safeBalance;
     }
+
     mapping(uint256 => Pool) public poolz;
     mapping(uint256 => Token) public tokenz;
     mapping(uint256 => Safe) public safez;
@@ -1113,7 +1165,7 @@ contract s0xPool is MathFnx {
             coin.getMinted(),
             coin.getRate()
         );
-        t++;
+        ++t;
         return address(coin);
     }
 
@@ -1121,11 +1173,11 @@ contract s0xPool is MathFnx {
         string memory _name,
         string memory _sym,
         uint256 _rate,
-        uint256 _max
+        uint256 _maxSupply
     ) external returns (address) {
-        coin = new COIN(_name, _sym, _rate, _max, msg.sender);
-        tokenz[t] = Token(t, _name, address(coin), _max, 0, _rate);
-        t++;
+        coin = new COIN(_name, _sym, _rate, _maxSupply, msg.sender);
+        tokenz[t] = Token(t, _name, address(coin), _maxSupply, 0, _rate);
+        ++t;
         return address(coin);
     }
 
@@ -1138,18 +1190,19 @@ contract s0xPool is MathFnx {
         // get token contracts
         main = COIN(_main);
         sec = COIN(_sec);
+
         // detect currency eth value per token
         uint256 mEthPrice = divide(10**18, main.getRate()); // example // 10^18 / 100 = 10^16
         uint256 sEthPrice = divide(10**18, sec.getRate()); // example // 10^18 / 100000 = 10^13
+
         // detect dif ratio
         uint256 dRate; // difference ratio
-        if (sEthPrice < mEthPrice)
+        if (sEthPrice < mEthPrice) {
             dRate = divide(mEthPrice, sEthPrice); // example // 10^16 / 10^13 = 1000
-        else dRate = divide(sEthPrice, mEthPrice); // example // null
-        uint256 xRate;
-        xRate =
-            ((mEthPrice * main.getMax()) + (sEthPrice * sec.getMax())) /
-            100;
+        } else dRate = divide(sEthPrice, mEthPrice); // example // null
+
+        uint256 xRate = ((mEthPrice * main.getMax()) +
+            (sEthPrice * sec.getMax())) / 100;
         pool = new COIN(_name, _psym, xRate, 100 * 10**18, msg.sender); // example // 100 * 10^18
         poolz[p] = Pool(
             p,
@@ -1164,20 +1217,21 @@ contract s0xPool is MathFnx {
             xRate
         );
 
-        p++;
+        ++p;
         /*
-
         // 0xbd5b354220B250DF257ed5e988Fe8FE81CdB6235 MLQ
         // 0x7e54D10fda1dBAf0aA2eB842942B3B924fcfd947 LYX
-
         mlq 10000000000000000eth * 1000000mlq
         lyx 10000000000000eth * 1000000000lyx
         shk 600000000000000000000eth * 100shk
-
         */
         return address(coin);
     }
 
+    /// @notice Adds MIlquidity
+    /// @param _p ...
+    /// @param _mIn ...
+    /// @return ...
     function addMilquidity(uint256 _p, uint256 _mIn)
         external
         returns (
@@ -1194,90 +1248,88 @@ contract s0xPool is MathFnx {
     }
 }
 
-contract affily8 {
-    // get Users Contract
-    Users public users;
-    nftProject public afl8;
-
+//@audit: unfinished
+contract Affily8 {
     address[] client;
-    uint256 cc;
+    uint256 cc; // @audit: Is this the count? Why not use the length of array?
+
     address[] public publisher;
     uint256 pubc;
+
     address[] public advertiser;
     uint256 adc;
-    address private owner;
-    address[3] private mods;
+
+    address owner;
+
+    Users public users;
+
+    // we could make an abstract contract Errors to declared them all in one plance and inherit from it
+    error Unathorized();
+    error InsufficientValue();
+
     mapping(address => uint256) occ;
     mapping(address => mapping(uint256 => uint256)) myCampaigns;
+
+    // Campaign type: 0 => view, 1 => click, 2 => sale, 3=> Lead
+    enum Types {
+        View,
+        Click,
+        Sale,
+        Lead
+    }
 
     struct Campaign {
         uint256 id;
         address publisher;
         uint256 slots;
-        uint256 cType; // 0-view, 1-click, 2-sale
+        Types campaignType;
         uint256 slotValue;
         uint256 used;
-        bytes dias;
-        bool online;
     }
     Campaign[] public campaigns;
+
     modifier onlyO() {
-        require(msg.sender == owner);
+        if (msg.sender != owner) revert Unathorized();
         _;
     }
 
-    constructor(address _user) {
+    constructor(address _usersAddr) {
         owner = msg.sender;
-        mods[0] = owner;
-        mods[1] = owner;
-        mods[2] = owner;
-        users = Users(_user);
-    }
-
-    function editMods(uint256 _mod, address _newMod)
-        external
-        returns (address)
-    {
-        return mods[_mod] = _newMod;
+        users = Users(_usersAddr);
     }
 
     function createCampaign(
         uint256 _slots,
-        uint256 _ctype,
+        Types _ctype,
         uint256 _slotV,
-        uint256 _used,
-        string memory _dias
-    ) external returns (bool) {
-        campaigns.push(
-            Campaign(
-                cc,
-                msg.sender,
-                _slots,
-                _ctype,
-                _slotV,
-                _used,
-                bytes(_dias),
-                true
-            )
-        );
+        uint256 _used
+    ) external payable returns (bool) {
+        uint256 callerRole = users.getRole(msg.sender);
+        if (callerRole != 2 || callerRole != 9) revert Unathorized();
+
+        // @todo: get price  according to type and multiply by slots
+        if (msg.value < _slots) revert InsufficientValue();
+
+        campaigns.push(Campaign(cc, msg.sender, _slots, _ctype, _slotV, _used));
         myCampaigns[msg.sender][occ[msg.sender]] = cc;
-        occ[msg.sender]++;
-        cc++;
+        ++occ[msg.sender];
+        ++cc;
         return true;
     }
 
-    function adminAlterCampaign(uint256 _cc, bool _state)
+    function campaignSignUp(uint256 _cc, string memory description)
         external
         returns (bool)
     {
-        require(msg.sender == owner);
-        return campaigns[_cc].online = _state;
-    }
+        Campaign memory currentCampaign = campaigns[_cc];
 
-    function campaignSignUp(uint256 _cc, string memory decsription)
-        external
-        returns (bool)
-    {}
+        if (currentCampaign.campaignType == Types.View) _payPerViewSignUp();
+        if (currentCampaign.campaignType == Types.Click) _payPerClickSignUp();
+        if (currentCampaign.campaignType == Types.Sale) _payPerSaleSignUp();
+        if (currentCampaign.campaignType == Types.Lead) _payPerLeadSignUp();
+
+        return true;
+    }
 
     function approveCampaignAdvertiser(uint256 _cc, address _adv)
         external
@@ -1285,6 +1337,16 @@ contract affily8 {
     {}
 
     function campaignRefCode(uint256 _cc) external returns (string memory) {}
+
+    // Affily8 transfers 1 % to whoever signed up for a campaign
+    function _payPerViewSignUp() internal returns (bool) {}
+
+    // Affily8 transfers 10 % to whoever signed up for a campaign
+    function _payPerClickSignUp() internal returns (bool) {}
+
+    function _payPerSaleSignUp() internal returns (bool) {}
+
+    function _payPerLeadSignUp() internal returns (bool) {}
 }
 
 // MAINNET CHECKLIST
