@@ -84,7 +84,8 @@ contract iii6DiaModel is ERC721 {
     string public nam;
     string public sym;
 
-    VRFv2Consumer public vrf;
+    iii6VRFMumbai public vrfMumbai;
+    iii6VRFMatic public vrfMatic;
 
     // token id # => dias obj %
     mapping(uint256 => bytes) public dias;
@@ -98,14 +99,32 @@ contract iii6DiaModel is ERC721 {
     constructor(
         address _owner,
         string memory _name,
-        string memory _sym,
-        address _vrf
+        string memory _sym
     ) ERC721(_name, _sym) {
         owner = _owner;
         nam = _name;
         sym = _sym;
         max = 1000;
-        vrf = VRFv2Consumer(_vrf);
+        if (block.chainid == 1) {
+            // ETH MAINNET
+            // mumbai consumer @ (deploy contract iii6VRFMatic and paste address here)
+            // sub @ https://vrf.chain.link/mumbai/320 (go to link and add consumer by pasting address)
+            // vrfMatic = iii6VRFMatic(_xOx_); // paste address where _xOx_ and uncomment start of line
+        }
+        if (block.chainid == 137) {
+            // POLYGON MAINNET
+            // mumbai consumer @ (deploy contract iii6VRFMatic and paste address here)
+            // sub @ https://vrf.chain.link/mumbai/320 (go to link and add consumer by pasting address)
+            // vrfMatic = iii6VRFMatic(_xOx_); // paste address where _xOx_ and uncomment start of line
+        }
+        if (block.chainid == 80001) {
+            // POLYGON MUMBAI TESTNET
+            // mumbai consumer @ 0x39b6a3aA14a9d34c674389281b09604ECdede228
+            // sub @ https://vrf.chain.link/mumbai/2022
+            vrfMumbai = iii6VRFMumbai(
+                0x39b6a3aA14a9d34c674389281b09604ECdede228
+            );
+        }
     }
 
     function isOwner(address _adr) external view returns (bool) {
@@ -127,8 +146,8 @@ contract iii6DiaModel is ERC721 {
     }
 
     function getVrfId() internal returns (uint256[] memory) {
-        uint256 rid = vrf.requestRandomWords();
-        return vrf.randy(rid);
+        uint256 rid = vrfMumbai.requestRandomWords();
+        return vrfMumbai.randy(rid);
     }
 
     function grabIds(uint256 count) external view returns (uint256 ids) {

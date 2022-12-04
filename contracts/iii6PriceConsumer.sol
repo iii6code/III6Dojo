@@ -70,6 +70,9 @@ contract iii6PriceConsumer {
     AggregatorV3Interface internal ethUSDagg;
     AggregatorV3Interface internal mainUSDagg;
     AggregatorV3Interface internal xUSDagg;
+    AggregatorV3Interface internal yUSDagg;
+    uint256 xDig;
+    uint256 yDig;
 
     constructor() {
         if (block.chainid == 43113) {
@@ -124,18 +127,46 @@ contract iii6PriceConsumer {
     }
 
     // gives back weth price in $
-    function WethUsdPrice() external view returns (int256 price) {
-        (, price, , , ) = ethUSDagg.latestRoundData();
+    function WethUsdPrice() external view returns (int256 priceFull) {
+        (, int256 price, , , ) = ethUSDagg.latestRoundData();
+        priceFull = int256(uint256(price) * 10**10);
     }
 
     // gives back network gas currency price in $
-    function CoinUsdPrice() external view returns (int256 price) {
-        (, price, , , ) = mainUSDagg.latestRoundData();
+    function CoinUsdPrice() external view returns (int256 priceFull) {
+        (, int256 price, , , ) = mainUSDagg.latestRoundData();
+        priceFull = int256(uint256(price) * 10**10);
     }
 
-    // gives back network gas currency price in $
-    function XUsdPrice(address _oracle) external returns (int256 price) {
+    function _setX(address _oracle, uint256 _digits) internal returns (bool) {
         xUSDagg = AggregatorV3Interface(_oracle);
-        (, price, , , ) = xUSDagg.latestRoundData();
+        xDig = 18 - _digits;
+        return true;
+    }
+
+    function setX(address _oracle, uint256 _digits) external returns (bool) {
+        return _setX(_oracle, _digits);
+    }
+
+    // gives back network gas currency price in $
+    function XUsdPrice() external view returns (int256 priceFull) {
+        (, int256 price, , , ) = xUSDagg.latestRoundData();
+        priceFull = int256(uint256(price) * 10**xDig);
+    }
+
+    function _setY(address _oracle, uint256 _digits) internal returns (bool) {
+        yUSDagg = AggregatorV3Interface(_oracle);
+        yDig = 18 - _digits;
+        return true;
+    }
+
+    function setY(address _oracle, uint256 _digits) external returns (bool) {
+        return _setY(_oracle, _digits);
+    }
+
+    // gives back network gas currency price in $
+    function YUsdPrice() external view returns (int256 priceFull) {
+        (, int256 price, , , ) = yUSDagg.latestRoundData();
+        priceFull = int256(uint256(price) * 10**yDig);
     }
 }

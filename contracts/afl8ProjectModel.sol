@@ -1,28 +1,30 @@
 // SPDX-License-Identifier: GPL-3.0
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //
-//      MMWKd:..                                                                                    ..:dKWMM
-//      MKl.                                                                                            .lKW
-//      O'       ..''''''''''''.     .''''''.     .'''''.      .''''''''''''''.     .''''''''''''..       'O
-//      '     .ckKNNWNWWWWWWWWWk.   .xNWWNWNl    ,0WWWWW0,     lNWWWWWWWWWNWNk'    ;0NNNWWWWWWWWNNKkc.     '
-//           ,OWMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMWO,
-//          .kMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMMMMk.
-//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMM0'
-//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMMM0'
-//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMM0,    ;0NNWWMMMMMMMMMMMMMMMMMM0'
-//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMM0,     .'.',;lkNMMMMMMMMMMMMMMM0'
-//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMK;              ,kWMMMMMMMMMMMMM0'
-//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMX:    .:oxxdc'    .dWMMMMMMMMMMMM0'
-//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   ,OWMMMMMXl.   '0MMMMMMMMMMMM0'
-//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMX;   .kMMMMMMMMK,   .xMMMMMMMMMMMM0'
-//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMM0'   .OMMMMMMMMX;   .xMMMMMMMMMMMM0'
-//          .OMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMK,    lNMMMMMMWx.   '0MMMMMMMMMMMMO.
-//           lNMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   .:x0KKKkc.   .dWMMMMMMMMMMMNl
-//      .    .c0WMMMMMMMMMMMMMMO.   .kMMMMMWo    ,KMMMMMK,     lWMMMMNd.     ....     .xNMMMMMMMMMMW0c.    .
-//      l      .,lddxxxxxxxxxxxc.    :xxxxxd,    .lxxxxxl.     ,dxxxxxd:.            .cdxxxxxxxxddl,.      l
-//      No.                                                                                              .oN
-//      MW0l'                                                                                          'l0WM
-//      MMMWKd;.                                                                                    .;dKWMMM
+//      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNXK0OOOOO0KXNWWWWWWWWWWWWWWWWWW
+//      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWXOdl;'...........,:oOXWWWWWWWWWWWWWW
+//      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWXkc'. .';:clooooolc:,. .,oKWWWWWWWWWWWW
+//      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNKK0000KXXXNNNNNWWKo' .'cdk00KKKKKKKKKK00Od;. .dNWWWWWWWWWW
+//      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNOo;'.........'',,,:kx' .;dO0K0Oxlc:;;:cdk0K00K0x, .dNWWWWWWWWW
+//      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWO:.    .....        .,. 'd000KOo,. .'',.. .lOKK00Kd. ,KWWWWWWWWW
+//      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW0,     :OXXX0:       .. 'xKK000l. ,xKXNNXx' .dKKK0Kx' '0WWWWWWWWW
+//      WWWWWWWWWWWWWWX0kxdooooodk0NWWWXOOx;     .oOOXWWo       .  c000000:  lXNWNX0l. ,kK00K0l. cXWWWWWWWWW
+//      WWWWWWWWWWWNOc'.          .,xXO,.            :KX:      ';. :000KK0x,  .,;,'. .:x000KOl. ,OWWWWWWWWWW
+//      WWWWWWWWWWNo.     .::'      .kx'..       ...'dNk.      lO; .:x00000Odc;,,,;cok000Oxc' .:0WWWWWWWWWWW
+//      WWWWWWWWWWK;     .dNWK;     .xWXKd.     ;OKKXWNl      .kW0;  .'cx00KKKK0000KK0kl;.  .:kNWWWWWWWWWWWW
+//      WWWWWWWWWWWOl;,;ckKKkc.     ,KWWWd.    .xWWWWW0,      :Od;. .';lx000OOkkOO0000Od:,. .c0WWWWWWWWWWWWW
+//      WWWWWWWWWWNKkoc:;,..        lNWWX:     ;KWWWWWx.      .. .,lxO00xl;'......,:dO0K00xc. .xNWWWWWWWWWWW
+//      WWWWWWWWNk;.        .      .kWWWk.     oNWWWWX:        .:x000Oo,. .;clool:'  ,x0K000d. 'OWWWWWWWWWWW
+//      WWWWWWWXl.     'cdkOo.     :XWWNl     'OWWWWWO.       .o0KKKOc. ,xKNWWWWWWXo. ,kK00K0c .oWWWWWWWWWWW
+//      WWWWWWWx.     ,ONNKx'      lKXKk'     ,OXWWX0:        ;xO0KKd. ;KWWWWWWWWWWx. ,kKK00O: .dWWWWWWWWWWW
+//      WWWWWWWd.      .,'.        .....       .cKd'.          .l0KKd. 'kNWWWWWWXOl. .d00KK0d. ,0WWWWWWWWWWW
+//      WWWWWWW0;          .,.                 .o0;            'x00K0o. .';ccc:;.. .:x0KKK0d' .xWWWWWWWWWWWW
+//      WWWWWWWWXxc;,'',:lx0N0l;,,:clooddxxddooONNOdodxxxdo;  .d000KK0Oo:,'...',;cok0KKK0x:. 'kNWWWWWWWWWWWW
+//      WWWWWWWWWWWWNNNNWWWWWWWWNNWWWWWWWWWWWWWWWWWWWWWWWWWKc  ,oO0KKK0K000OO0000K0KK0ko;. .lKWWWWWWWWWWWWWW
+//      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWXx,. .:ldkO00000000OOxdl:'. .;dKWWWWWWWWWWWWWWWW
+//      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWXOl,......',,,,,'......,cd0NWWWWWWWWWWWWWWWWWW
+//      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWNKOxoc::;;;;;:cloxOKNWWWWWWWWWWWWWWWWWWWWWW
+//      WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 //
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //                                                                                                                                                                                  //
@@ -75,12 +77,6 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "./iii6CoinModel.sol";
 import "./iii6DiaModel.sol";
-
-contract iii6CoinModel is ERC20("Affily8 Coin", "AFL8") {
-    function dropUSDC() external {
-        _mint(msg.sender, 100 * 10**18);
-    }
-}
 
 contract AFL8_CampaignModel is iii6DiaModel {
     iii6CoinModel public afl8;
@@ -161,16 +157,18 @@ contract AFL8_CampaignModel is iii6DiaModel {
         Status _state
     ) internal returns (bool) {
         // Write Struct to Array & Mapping
-        campaigns[C_ID] = Campaign(
-            C_ID,
-            msg.sender,
-            _start,
-            _budget,
-            _price,
-            _actions,
-            bytes(_dias),
-            _ctype,
-            _state
+        campaigns.push(
+            Campaign(
+                C_ID,
+                msg.sender,
+                _start,
+                _budget,
+                _price,
+                _actions,
+                bytes(_dias),
+                _ctype,
+                _state
+            )
         );
         campaignShow[msg.sender][campaignCount[msg.sender]] = campaigns[C_ID];
         // Iterate

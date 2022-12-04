@@ -70,12 +70,40 @@ import "./iii6PriceConsumer.sol";
 contract iii6PriceMath is iii6Math {
     iii6PriceConsumer priceFeed;
 
+    constructor() {
+        if (block.chainid == 80001) {
+            priceFeed = iii6PriceConsumer(
+                0xe47da91495C75e1D48569f343938380D8303b1f2
+            );
+        } else if (block.chainid == 137) {
+            priceFeed = iii6PriceConsumer(
+                0xe47da91495C75e1D48569f343938380D8303b1f2 // wrong address
+            );
+        }
+    }
+
     // gets the weth price in usdc
     function _getWethUsdc() internal view returns (uint256) {
         // stores call price in price
         int256 price = priceFeed.WethUsdPrice();
         // exit with converted uint price
         return uint256(price);
+    }
+
+    function ETH_USD() external view returns (uint256) {
+        return _getWethUsdc();
+    }
+
+    function COIN_USD() external view returns (uint256) {
+        return _getCoinUsdc();
+    }
+
+    function X_USD() external view returns (uint256) {
+        return _getXUsdc();
+    }
+
+    function Y_USD() external view returns (uint256) {
+        return _getYUsdc();
     }
 
     // gets the gas coin price in usdc
@@ -87,28 +115,133 @@ contract iii6PriceMath is iii6Math {
     }
 
     // takes a chainlink oracle address (make sure to look for the right network) gets the custom token price in usdc
-    function _getXUsdc(address _oracle) internal returns (uint256) {
+    function _getXUsdc() internal view returns (uint256) {
         // stores call price in price
-        int256 price = priceFeed.XUsdPrice(_oracle);
+        int256 price = priceFeed.XUsdPrice();
         // exit with converted uint price
         return uint256(price);
     }
 
+    function _getYUsdc() internal view returns (uint256) {
+        // stores call price in price
+        int256 price = priceFeed.YUsdPrice();
+        // exit with converted uint price
+        return uint256(price);
+    }
+
+    function setX(address _oracle, uint256 _digits) external returns (bool) {
+        return priceFeed.setX(_oracle, _digits);
+    }
+
+    function setY(address _oracle, uint256 _digits) external returns (bool) {
+        return priceFeed.setY(_oracle, _digits);
+    }
+
     // gets ETH price in Native Gas Currency
-    function getEthPriceInCoin() external returns (uint256) {}
+    function getEthPriceInCoin() external view returns (uint256 ethPriceCoin) {
+        // get prices from feed
+        uint256 ethPriceUsd = _getWethUsdc();
+        uint256 coinPriceUsd = _getCoinUsdc();
+        // exit with first / last price ratio
+        ethPriceCoin = divide(ethPriceUsd * 10**18, coinPriceUsd);
+    }
+
+    // takes X Token Oracle address and gets ETH price in X Token
+    function getEthPriceInX() external view returns (uint256 ethPriceX) {
+        // get prices from feed
+        uint256 ethPriceUsd = _getWethUsdc();
+        uint256 xPriceUsd = _getXUsdc();
+        // exit with first / last price ratio
+        ethPriceX = divide(ethPriceUsd * 10**18, xPriceUsd);
+    }
+
+    // takes Y Token Oracle address and gets ETH price in Y Token
+    function getEthPriceInY() external view returns (uint256 ethPriceY) {
+        // get prices from feed
+        uint256 ethPriceUsd = _getWethUsdc();
+        uint256 yPriceUsd = _getYUsdc();
+        // exit with first / last price ratio
+        ethPriceY = divide(ethPriceUsd * 10**18, yPriceUsd);
+    }
 
     // gets native Gas Currency price in ETH
-    function getCoinPriceInEth() external returns (uint256) {}
+    function getCoinPriceInEth() external view returns (uint256 coinPriceEth) {
+        // get prices from feed
+        uint256 coinPriceUsd = _getCoinUsdc();
+        uint256 ethPriceUsd = _getWethUsdc();
+        // exit with first / last price ratio
+        coinPriceEth = divide(coinPriceUsd * 10**18, ethPriceUsd);
+    }
 
-    // gets ETH price in X Token
-    function getEthPriceInX() external returns (uint256) {}
+    // takes X Token Oracle address and gets native Gas Currency price in X Token
+    function getCoinPriceInX() external view returns (uint256 coinPriceX) {
+        // get prices from feed
+        uint256 coinPriceUsd = _getCoinUsdc();
+        uint256 xPriceUsd = _getXUsdc();
+        // exit with first / last price ratio
+        coinPriceX = divide(coinPriceUsd * 10**18, xPriceUsd);
+    }
 
-    // gets X Token price in ETH
-    function getXPriceInEth() external returns (uint256) {}
+    // takes Y Token Oracle address and gets native Gas Currency price in Y Token
+    function getCoinPriceInY() external view returns (uint256 coinPriceY) {
+        // get prices from feed
+        uint256 coinPriceUsd = _getCoinUsdc();
+        uint256 yPriceUsd = _getYUsdc();
+        // exit with first / last price ratio
+        coinPriceY = divide(coinPriceUsd * 10**18, yPriceUsd);
+    }
 
-    // gets native Gas Currency price in X Token
-    function getCoinPriceInX() external returns (uint256) {}
+    // takes X Token Oracle address and gets X Token price in ETH
+    function getXPriceInEth() external view returns (uint256 xPriceEth) {
+        // get prices from feed
+        uint256 ethPriceUsd = _getWethUsdc();
+        uint256 xPriceUsd = _getXUsdc();
+        // exit with first / last price ratio
+        xPriceEth = divide(xPriceUsd * 10**18, ethPriceUsd);
+    }
 
-    // gets X Token price in native Gas Currency
-    function getXPriceInCoin() external returns (uint256) {}
+    // takes X Token Oracle address and gets X Token price in native Gas Currency
+    function getXPriceInCoin() external view returns (uint256 xPriceCoin) {
+        // get prices from feed
+        uint256 coinPriceUsd = _getCoinUsdc();
+        uint256 xPriceUsd = _getXUsdc();
+        // exit with first / last price ratio
+        xPriceCoin = divide(xPriceUsd * 10**18, coinPriceUsd);
+    }
+
+    // takes X & Y Token Oracle address and gets X Token price in Y Token
+    function getXPriceInY() external view returns (uint256 xPriceCoin) {
+        // get prices from feed
+        uint256 yPriceUsd = _getYUsdc();
+        uint256 xPriceUsd = _getXUsdc();
+        // exit with first / last price ratio
+        xPriceCoin = divide(xPriceUsd * 10**18, yPriceUsd);
+    }
+
+    // takes Y Token Oracle address and gets Y Token price in ETH
+    function getYPriceInEth() external view returns (uint256 yPriceEth) {
+        // get prices from feed
+        uint256 ethPriceUsd = _getWethUsdc();
+        uint256 yPriceUsd = _getYUsdc();
+        // exit with first / last price ratio
+        yPriceEth = divide(yPriceUsd * 10**18, ethPriceUsd);
+    }
+
+    // takes Y Token Oracle address and gets Y Token price in native Gas Currency
+    function getYPriceInCoin() external view returns (uint256 yPriceCoin) {
+        // get prices from feed
+        uint256 coinPriceUsd = _getCoinUsdc();
+        uint256 yPriceUsd = _getYUsdc();
+        // exit with first / last price ratio
+        yPriceCoin = divide(yPriceUsd * 10**18, coinPriceUsd);
+    }
+
+    // takes Y & Y Token Oracle address and gets Y Token price in X Token
+    function getYPriceInX() external view returns (uint256 yPriceCoin) {
+        // get prices from feed
+        uint256 yPriceUsd = _getYUsdc();
+        uint256 xPriceUsd = _getXUsdc();
+        // exit with first / last price ratio
+        yPriceCoin = divide(yPriceUsd * 10**18, xPriceUsd);
+    }
 }

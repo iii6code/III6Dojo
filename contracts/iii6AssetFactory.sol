@@ -69,7 +69,60 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+import "./iii6CoinModel.sol";
+import "./iii6DiaModel.sol";
+import "./iii6PriceMath.sol";
+
+contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
+    // constructor takes _vrf and craetes DIA Project
+    address VRF;
+    address FEED;
+    uint256 licenseFee;
+
+    constructor() iii6DiaModel(msg.sender, "iii6AssetLicense", "iii6License") {}
+
+    // set the value of fee for asset creation
+    function _setLicenseFee(uint256 _fee) internal returns (uint256) {}
+
+    // function creates a ERC20 Token Contract
+    function _makeERC20Asset(
+        address _admin,
+        string memory _name,
+        string memory _sym,
+        uint256 _rate,
+        uint256 _supply
+    ) internal returns (address) {
+        // chose token model
+        iii6CoinModel token;
+        // create Token from Model
+        token = new iii6CoinModel(_name, _sym, _rate, _supply, _admin);
+        // exit with address
+        return address(token);
+    }
+
+    function buildCoinProject(
+        string memory _name,
+        string memory _sym,
+        uint256 _rate,
+        uint256 _supply
+    ) external payable returns (address) {
+        // check msg.value
+
+        // check token balance
+        // do payment
+        // mint license
+        // make asset & exit with address
+        return _makeERC20Asset(msg.sender, _name, _sym, _rate, _supply);
+    }
+
+    // function creates a ERC721 Token Contract
+    function _makeERC721Asset() internal returns (bool) {}
+
+    // function creates a ERC1155 Token Contract
+    function _makeERC1155Asset() internal returns (bool) {}
+}
