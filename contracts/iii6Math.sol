@@ -64,17 +64,11 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
-import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 
 contract iii6Math {
+    using Counters for *;
+    using Strings for *;
+
     // Math Function Extension
     // division function for solidity
     function divide(uint256 _a, uint256 _b) internal pure returns (uint256) {
@@ -89,7 +83,7 @@ contract iii6Math {
     }
 
     // gives back the smaller wallet address
-    function smaller(address _a, address _b)
+    function smallerAddress(address _a, address _b)
         internal
         pure
         returns (address s, address l)

@@ -77,7 +77,7 @@ import "./iii6VRFConsumer.sol";
 import "./iii6Math.sol";
 import "./iii6safes.sol";
 
-contract nftProject is ERC721 {
+contract iii6DiaModel is ERC721 {
     address public owner;
     uint256 public minted;
     uint256 public max;
