@@ -71,13 +71,17 @@ contract iii6PriceMath is iii6Math {
     iii6PriceConsumer priceFeed;
 
     constructor() {
-        if (block.chainid == 80001) {
+        if (block.chainid == 1) {
             priceFeed = iii6PriceConsumer(
-                0xe47da91495C75e1D48569f343938380D8303b1f2
+                0xe47da91495C75e1D48569f343938380D8303b1f2 // wrong address
             );
         } else if (block.chainid == 137) {
             priceFeed = iii6PriceConsumer(
                 0xe47da91495C75e1D48569f343938380D8303b1f2 // wrong address
+            );
+        } else if (block.chainid == 80001) {
+            priceFeed = iii6PriceConsumer(
+                0xe47da91495C75e1D48569f343938380D8303b1f2
             );
         }
     }

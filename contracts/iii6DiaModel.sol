@@ -114,7 +114,7 @@ contract iii6DiaModel is ERC721 {
         if (block.chainid == 137) {
             // POLYGON MAINNET
             // mumbai consumer @ (deploy contract iii6VRFMatic and paste address here)
-            // sub @ https://vrf.chain.link/mumbai/320 (go to link and add consumer by pasting address)
+            // sub @ https://vrf.chain.link/polygon/320 (go to link and add consumer by pasting address)
             // vrfMatic = iii6VRFMatic(_xOx_); // paste address where _xOx_ and uncomment start of line
         }
         if (block.chainid == 80001) {

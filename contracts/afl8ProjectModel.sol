@@ -112,10 +112,8 @@ contract AFL8_CampaignModel is iii6DiaModel {
     mapping(uint256 => uint256) public campaignSafe;
 
     // initialises the contract at deployment
-    constructor(address _coin, address _vrf)
-        iii6DiaModel(msg.sender, "Affiliate Campaign Asset", "AFL8", _vrf)
-    {
-        afl8 = iii6CoinModel(_coin);
+    constructor() iii6DiaModel(msg.sender, "Affiliate Campaign Asset", "AFL8") {
+        // afl8 = iii6CoinModel();
     }
 
     // function takes (campaign type , budget , price) and returns (actions)=>{Views,Clicks,Leads,Sales}
