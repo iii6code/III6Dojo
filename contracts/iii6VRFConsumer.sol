@@ -62,14 +62,6 @@
 
 pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
@@ -93,6 +85,8 @@ contract iii6VRFMumbai is VRFConsumerBaseV2 {
     address vrfCoordinator = 0xAE975071Be8F8eE67addBC1A82488F1C24858067;
     bytes32 keyHash =
         0xd729dc84e21ae57ffb6be0053bf2b0668aa2aaf300a2a7b2ddf7dc0bb6e875a8;
+
+    uint256 chainid = block.chainid;
 
     constructor(uint64 subscriptionId) VRFConsumerBaseV2(vrfCoordinator) {
         COORDINATOR = VRFCoordinatorV2Interface(vrfCoordinator);
