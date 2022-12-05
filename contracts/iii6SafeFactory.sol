@@ -43,10 +43,10 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //                                                                                                                                                                                  //
 //      @company        ::              Fractio Holding                                                                                                                                                                       //
-//      @title          ::              iii6 Global Enums                                                                                                                           //
-//      @description    ::              Global Enum Library                                                                                                                           //
+//      @title          ::              iii6 Safes                                                                                                                            //
+//      @description    ::              Asset Safes Contract                                                                                                                           //
 //      @version        ::              0.0.1                                                                                                                                       //
-//      @purpose        ::              Enum Library                                                                                                          //
+//      @purpose        ::              Multinet Address Storage                                                                                                           //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
@@ -62,65 +62,4 @@
 
 pragma solidity ^0.8.7;
 
-contract iii6GlobalEnums {
-    // role enum
-    enum Roles {
-        Unknown,
-        New,
-        Client,
-        Advertiser,
-        Creator,
-        Moderator,
-        Admin
-    }
-    // campaign enum
-    enum CampaignType {
-        View,
-        Click,
-        Lead,
-        Sale,
-        Inactive
-    }
-    // staus enum
-    enum Status {
-        Pending,
-        Active,
-        Paused,
-        Ended
-    }
-    // project enum
-    enum Project {
-        ServiceDigital,
-        ServicePhysical,
-        ProductDigital,
-        ProductPhysical,
-        CollectibleDigital,
-        CollectiblePhysical,
-        RentableDigital,
-        RentablePhysical
-    }
-    enum Relation {
-        Unknown,
-        Foreign,
-        Member,
-        SharedGroups,
-        FriendsFriend,
-        Friend,
-        Family,
-        Work,
-        Homies,
-        Partners
-    }
-    // user relation states
-    struct Relations {
-        uint256 id;
-        bool AfollowsB;
-        bool BfollowsA;
-        bool AbansB;
-        bool BbansA;
-        bool AallowsBmsg;
-        bool BallowsAmsg;
-        Relation AprivB;
-        Relation BprivA;
-    }
-}
+contract iii6SafeFactory {}

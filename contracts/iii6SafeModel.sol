@@ -43,10 +43,10 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //                                                                                                                                                                                  //
 //      @company        ::              Fractio Holding                                                                                                                                                                       //
-//      @title          ::              iii6 Global Enums                                                                                                                           //
-//      @description    ::              Global Enum Library                                                                                                                           //
+//      @title          ::              iii6 Safes                                                                                                                            //
+//      @description    ::              Asset Safes Contract                                                                                                                           //
 //      @version        ::              0.0.1                                                                                                                                       //
-//      @purpose        ::              Enum Library                                                                                                          //
+//      @purpose        ::              Multinet Address Storage                                                                                                           //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
@@ -62,65 +62,67 @@
 
 pragma solidity ^0.8.7;
 
-contract iii6GlobalEnums {
-    // role enum
-    enum Roles {
-        Unknown,
-        New,
-        Client,
-        Advertiser,
-        Creator,
-        Moderator,
-        Admin
+import "./iii6CoinModel.sol";
+import "./iii6Logs.sol";
+
+contract iii6SafeModel is iii6CoinModel, iii6Logs {
+    // gas coin balance stored on contract
+    uint256 public mTRUST;
+    // token balance stored on contract
+    // token contrat address => balance
+    mapping(address => uint256) public xTRUST;
+    // list of trustees
+    address[] TRUSTEE;
+    uint256 trc;
+    // transaction count
+    uint256 public TX;
+    // json scheme for boardmember
+    struct BoardMember {
+        uint256 b_id;
+        address adr;
+        uint256 share;
+        string info;
     }
-    // campaign enum
-    enum CampaignType {
-        View,
-        Click,
-        Lead,
-        Sale,
-        Inactive
+    BoardMember[] public members;
+    mapping(address => uint256) public memNum;
+    uint256 bms;
+    uint256 maxMembers;
+    uint256 minAlloc;
+
+    constructor(string memory _name, string memory _sym)
+        iii6CoinModel(_name, _sym, 0, 100, msg.sender)
+    {
+        TRUSTEE[0] = msg.sender;
+        trc++;
+        bms = 1;
+        mTRUST = 0;
+        TX = 1;
     }
-    // staus enum
-    enum Status {
-        Pending,
-        Active,
-        Paused,
-        Ended
+
+    function addMember(address _adr, string memory _inf)
+        external
+        returns (address)
+    {
+        require(
+            msg.sender == TRUSTEE[0] || balanceOf(msg.sender) > 50,
+            "not permitted to add a member"
+        );
+        members[bms] = BoardMember(bms, _adr, 0, _inf);
+        isMem[_adr] = true;
+        bms++;
+        return _adr;
     }
-    // project enum
-    enum Project {
-        ServiceDigital,
-        ServicePhysical,
-        ProductDigital,
-        ProductPhysical,
-        CollectibleDigital,
-        CollectiblePhysical,
-        RentableDigital,
-        RentablePhysical
-    }
-    enum Relation {
-        Unknown,
-        Foreign,
-        Member,
-        SharedGroups,
-        FriendsFriend,
-        Friend,
-        Family,
-        Work,
-        Homies,
-        Partners
-    }
-    // user relation states
-    struct Relations {
-        uint256 id;
-        bool AfollowsB;
-        bool BfollowsA;
-        bool AbansB;
-        bool BbansA;
-        bool AallowsBmsg;
-        bool BallowsAmsg;
-        Relation AprivB;
-        Relation BprivA;
+
+    function _shareToMember(address _adr, _amount) internal returns (bool) {
+        bool state = false;
+        uint256 num = memNum[_adr];
+        require(num > 0, "not a board member");
+        member = members[num];
+        member.share = _amount;
+        if (member.share != members[num].share) {
+            state = true;
+        }
+        members[num] = member;
+        return state;
     }
 }

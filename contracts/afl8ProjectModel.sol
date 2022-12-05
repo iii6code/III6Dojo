@@ -77,23 +77,11 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "./iii6CoinModel.sol";
 import "./iii6DiaModel.sol";
+import "./iii6GlobalEnums.sol";
 
-contract AFL8_CampaignModel is iii6DiaModel {
+contract AFL8_CampaignModel is iii6DiaModel, iii6GlobalEnums {
     iii6CoinModel public afl8;
     uint256 FEE;
-    enum CampaignType {
-        View,
-        Click,
-        Lead,
-        Sale,
-        Inactive
-    }
-    enum Status {
-        Pending,
-        Active,
-        Paused,
-        Ended
-    }
     struct Campaign {
         uint256 id;
         address author;
