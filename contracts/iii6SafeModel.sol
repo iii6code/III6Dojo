@@ -63,9 +63,10 @@
 pragma solidity ^0.8.7;
 
 import "./iii6CoinModel.sol";
+import "./iii6GlobalEnums.sol";
 import "./iii6Logs.sol";
 
-contract iii6SafeModel is iii6CoinModel, iii6Logs {
+contract iii6SafeModel is iii6CoinModel, iii6Logs, iii6GlobalEnums {
     // gas coin balance stored on contract
     uint256 public mTRUST;
     // token balance stored on contract
@@ -74,7 +75,7 @@ contract iii6SafeModel is iii6CoinModel, iii6Logs {
     // list of trustees
     address[] TRUSTEE;
     uint256 trc;
-    // transaction count
+    // transaction count starting at 1
     uint256 public TX;
     // json scheme for boardmember
     struct BoardMember {
@@ -83,20 +84,61 @@ contract iii6SafeModel is iii6CoinModel, iii6Logs {
         uint256 share;
         string info;
     }
+    // json scheme for Proposals
+    struct Proposal {
+        uint rid;
+        uint voteCount;
+        address[] members;
+        uint[] shares;
+        bool[] votes;
+        Voting state;
+    }
+    // array of board members
     BoardMember[] public members;
+    // array of proposals
+    Proposal[] public proposals;
+    // board member id callback from address
     mapping(address => uint256) public memNum;
+    // number of board members starting at 1
     uint256 bms;
+    // max number of board members starting at 1
     uint256 maxMembers;
-    uint256 minAlloc;
+    // minimumshare out of 100000
+    uint256 minShare;
+    // redistribution count
+    uint rid;
+    // redistribution approval mapping
+    // rid => address => bool
 
-    constructor(string memory _name, string memory _sym)
-        iii6CoinModel(_name, _sym, 0, 100, msg.sender)
+
+    constructor(
+        string memory _name,
+        string memory _sym,
+        uint256 _maxMem,
+        uint256 _minShare
+    ) iii6CoinModel(_name, _sym, 0, 100000, msg.sender) {
+        TRUSTEE[0] = msg.sender; // first trustee
+        trc++; // number of trustees
+        bms = 1; // number of board members
+        mTRUST = 0; // gas coin balance stored on contract
+        TX = 1; // number of TX
+        digits = 0;
+        maxMembers = _maxMem; // max number of members
+        minShare = _minShare; // set minimum share min 1
+        _mint(address(this), 100000);
+    }
+
+    function setSafe(uint256 _maxMem, uint256 _minShare)
+        external
+        returns (uint256, uint256)
     {
-        TRUSTEE[0] = msg.sender;
-        trc++;
-        bms = 1;
-        mTRUST = 0;
-        TX = 1;
+        require(
+            msg.sender == TRUSTEE[0] || balanceOf(msg.sender) > 50,
+            "not permitted to add a member"
+        );
+        maxMembers = _maxMem; // max number of members
+        minShare = _minShare; // set minimum share
+        return (maxMembers, minShare);
     }
 
     function addMember(address _adr, string memory _inf)
@@ -107,8 +149,10 @@ contract iii6SafeModel is iii6CoinModel, iii6Logs {
             msg.sender == TRUSTEE[0] || balanceOf(msg.sender) > 50,
             "not permitted to add a member"
         );
+        require(members.length < maxMembers, "board filled");
         members[bms] = BoardMember(bms, _adr, 0, _inf);
         isMem[_adr] = true;
+        memNum[_adr] = bms;
         bms++;
         return _adr;
     }
@@ -125,4 +169,31 @@ contract iii6SafeModel is iii6CoinModel, iii6Logs {
         members[num] = member;
         return state;
     }
+
+    function proposeRedistribution(address[] _members, uint[] _shares) external returns(bool){
+        if(rid == 0){
+            // first redistribution
+            rid=1;
+            // check member count and share count 
+            require(_members.length == bms && _shares.length == bms && bms <= maxMembers,":: problem with members and shares ::");
+            // create approvals uint[] with numMembers Elements
+            uint[] memory approvals;
+            // check if shares are total < 100000
+            uint cumu = 0;
+            for(uint i = 1; i <= _members.length; i++){
+                approvals.push = 0;
+                cumu += _shares[i];
+            }
+            require(cumu <= 100000,":: shares overflow ::");
+            // create first proposal 
+            proposals[rid] = Proposal(rid, 0,_members,_shares,approvals,Voting.Active);
+            rid++;
+        }
+        else{
+            require(proposals[rid - 1].)
+        }
+    }
+    function _checkLastProposal() internal returns(bool) {}
+    function cancelLastProposal() external returns(bool)
+
 }

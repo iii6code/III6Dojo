@@ -123,4 +123,9 @@ contract iii6GlobalEnums {
         Relation AprivB;
         Relation BprivA;
     }
+    enum Voting {
+        Active,
+        Cancelled,
+        Approved
+    }
 }
