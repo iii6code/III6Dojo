@@ -65,8 +65,16 @@ pragma solidity ^0.8.7;
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 
-// 0 Fuji // 1 Avax // 2 Fantom Test // 4 Fantom Main // 5 Polygon Mumbai // 6 Polygon Main
 contract iii6PriceConsumer {
+    /**
+     * @dev this contract is a factory contract to deploy iii6CoinModel & iii6DiaModel
+     */
+    // ██╗███╗░░██╗██╗████████╗██╗░█████╗░██╗░░░░░██╗░██████╗░█████╗░████████╗██╗░█████╗░███╗░░██╗
+    // ██║████╗░██║██║╚══██╔══╝██║██╔══██╗██║░░░░░██║██╔════╝██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
+    // ██║██╔██╗██║██║░░░██║░░░██║███████║██║░░░░░██║╚█████╗░███████║░░░██║░░░██║██║░░██║██╔██╗██║
+    // ██║██║╚████║██║░░░██║░░░██║██╔══██║██║░░░░░██║░╚═══██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║
+    // ██║██║░╚███║██║░░░██║░░░██║██║░░██║███████╗██║██████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║
+    // ╚═╝╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
     AggregatorV3Interface internal ethUSDagg;
     AggregatorV3Interface internal mainUSDagg;
     AggregatorV3Interface internal xUSDagg;
@@ -75,7 +83,43 @@ contract iii6PriceConsumer {
     uint256 yDig;
 
     constructor() {
-        if (block.chainid == 43113) {
+        // ███████╗████████╗██╗░░██╗  ███╗░░░███╗░█████╗░██╗███╗░░██╗
+        // ██╔════╝╚══██╔══╝██║░░██║  ████╗░████║██╔══██╗██║████╗░██║
+        // █████╗░░░░░██║░░░███████║  ██╔████╔██║███████║██║██╔██╗██║
+        // ██╔══╝░░░░░██║░░░██╔══██║  ██║╚██╔╝██║██╔══██║██║██║╚████║
+        // ███████╗░░░██║░░░██║░░██║  ██║░╚═╝░██║██║░░██║██║██║░╚███║
+        // ╚══════╝░░░╚═╝░░░╚═╝░░╚═╝  ╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝╚═╝░░╚══╝
+        if (block.chainid == 1) {
+            // AVAX FUJI
+            ethUSDagg = AggregatorV3Interface(
+                0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
+            );
+            mainUSDagg = AggregatorV3Interface(
+                0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
+            );
+        }
+        // ░██████╗░░█████╗░███████╗██████╗░██╗░░░░░██╗
+        // ██╔════╝░██╔══██╗██╔════╝██╔══██╗██║░░░░░██║
+        // ██║░░██╗░██║░░██║█████╗░░██████╔╝██║░░░░░██║
+        // ██║░░╚██╗██║░░██║██╔══╝░░██╔══██╗██║░░░░░██║
+        // ╚██████╔╝╚█████╔╝███████╗██║░░██║███████╗██║
+        // ░╚═════╝░░╚════╝░╚══════╝╚═╝░░╚═╝╚══════╝╚═╝
+        else if (block.chainid == 5) {
+            // GOERLI
+            ethUSDagg = AggregatorV3Interface(
+                0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
+            );
+            mainUSDagg = AggregatorV3Interface(
+                0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e
+            );
+        }
+        // ███████╗██╗░░░██╗░░░░░██╗██╗
+        // ██╔════╝██║░░░██║░░░░░██║██║
+        // █████╗░░██║░░░██║░░░░░██║██║
+        // ██╔══╝░░██║░░░██║██╗░░██║██║
+        // ██║░░░░░╚██████╔╝╚█████╔╝██║
+        // ╚═╝░░░░░░╚═════╝░░╚════╝░╚═╝
+        else if (block.chainid == 43113) {
             // AVAX FUJI
             ethUSDagg = AggregatorV3Interface(
                 0x86d67c3D38D2bCeE722E601025C25a575021c6EA
@@ -83,7 +127,14 @@ contract iii6PriceConsumer {
             mainUSDagg = AggregatorV3Interface(
                 0x5498BB86BC934c8D34FDA08E81D444153d0D06aD
             );
-        } else if (block.chainid == 43114) {
+        }
+        // ░█████╗░██╗░░░██╗░█████╗░██╗░░██╗
+        // ██╔══██╗██║░░░██║██╔══██╗╚██╗██╔╝
+        // ███████║╚██╗░██╔╝███████║░╚███╔╝░
+        // ██╔══██║░╚████╔╝░██╔══██║░██╔██╗░
+        // ██║░░██║░░╚██╔╝░░██║░░██║██╔╝╚██╗
+        // ╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚═╝
+        else if (block.chainid == 43114) {
             // AVAX MAINNET
             ethUSDagg = AggregatorV3Interface(
                 0x976B3D034E162d8bD72D6b9C989d545b839003b0
@@ -91,7 +142,14 @@ contract iii6PriceConsumer {
             mainUSDagg = AggregatorV3Interface(
                 0x0A77230d17318075983913bC2145DB16C7366156
             );
-        } else if (block.chainid == 4002) {
+        }
+        // ███████╗████████╗███╗░░░███╗  ████████╗███████╗░██████╗████████╗███╗░░██╗███████╗████████╗
+        // ██╔════╝╚══██╔══╝████╗░████║  ╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝████╗░██║██╔════╝╚══██╔══╝
+        // █████╗░░░░░██║░░░██╔████╔██║  ░░░██║░░░█████╗░░╚█████╗░░░░██║░░░██╔██╗██║█████╗░░░░░██║░░░
+        // ██╔══╝░░░░░██║░░░██║╚██╔╝██║  ░░░██║░░░██╔══╝░░░╚═══██╗░░░██║░░░██║╚████║██╔══╝░░░░░██║░░░
+        // ██║░░░░░░░░██║░░░██║░╚═╝░██║  ░░░██║░░░███████╗██████╔╝░░░██║░░░██║░╚███║███████╗░░░██║░░░
+        // ╚═╝░░░░░░░░╚═╝░░░╚═╝░░░░░╚═╝  ░░░╚═╝░░░╚══════╝╚═════╝░░░░╚═╝░░░╚═╝░░╚══╝╚══════╝░░░╚═╝░░░
+        else if (block.chainid == 4002) {
             // Fantom TESTNET
             ethUSDagg = AggregatorV3Interface(
                 0xB8C458C957a6e6ca7Cc53eD95bEA548c52AFaA24
@@ -99,7 +157,14 @@ contract iii6PriceConsumer {
             mainUSDagg = AggregatorV3Interface(
                 0xe04676B9A9A2973BCb0D1478b5E1E9098BBB7f3D
             );
-        } else if (block.chainid == 250) {
+        }
+        // ███████╗░█████╗░███╗░░██╗████████╗░█████╗░███╗░░░███╗
+        // ██╔════╝██╔══██╗████╗░██║╚══██╔══╝██╔══██╗████╗░████║
+        // █████╗░░███████║██╔██╗██║░░░██║░░░██║░░██║██╔████╔██║
+        // ██╔══╝░░██╔══██║██║╚████║░░░██║░░░██║░░██║██║╚██╔╝██║
+        // ██║░░░░░██║░░██║██║░╚███║░░░██║░░░╚█████╔╝██║░╚═╝░██║
+        // ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚══╝░░░╚═╝░░░░╚════╝░╚═╝░░░░░╚═╝
+        else if (block.chainid == 250) {
             // Fantom MAINNET
             ethUSDagg = AggregatorV3Interface(
                 0x11DdD3d147E5b83D01cee7070027092397d63658
@@ -107,7 +172,14 @@ contract iii6PriceConsumer {
             mainUSDagg = AggregatorV3Interface(
                 0xf4766552D15AE4d256Ad41B6cf2933482B0680dc
             );
-        } else if (block.chainid == 80001) {
+        }
+        //  ███╗░░░███╗██╗░░░██╗███╗░░░███╗██████╗░░█████╗░██╗
+        //  ████╗░████║██║░░░██║████╗░████║██╔══██╗██╔══██╗██║
+        //  ██╔████╔██║██║░░░██║██╔████╔██║██████╦╝███████║██║
+        //  ██║╚██╔╝██║██║░░░██║██║╚██╔╝██║██╔══██╗██╔══██║██║
+        //  ██║░╚═╝░██║╚██████╔╝██║░╚═╝░██║██████╦╝██║░░██║██║
+        //  ╚═╝░░░░░╚═╝░╚═════╝░╚═╝░░░░░╚═╝╚═════╝░╚═╝░░╚═╝╚═╝
+        else if (block.chainid == 80001) {
             // Polygon Mumbai
             ethUSDagg = AggregatorV3Interface(
                 0x0715A7794a1dc8e42615F059dD6e406A6594651A
@@ -115,7 +187,14 @@ contract iii6PriceConsumer {
             mainUSDagg = AggregatorV3Interface(
                 0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
             );
-        } else if (block.chainid == 137) {
+        }
+        // ██████╗░░█████╗░██╗░░░░░██╗░░░██╗░██████╗░░█████╗░███╗░░██╗
+        // ██╔══██╗██╔══██╗██║░░░░░╚██╗░██╔╝██╔════╝░██╔══██╗████╗░██║
+        // ██████╔╝██║░░██║██║░░░░░░╚████╔╝░██║░░██╗░██║░░██║██╔██╗██║
+        // ██╔═══╝░██║░░██║██║░░░░░░░╚██╔╝░░██║░░╚██╗██║░░██║██║╚████║
+        // ██║░░░░░╚█████╔╝███████╗░░░██║░░░╚██████╔╝╚█████╔╝██║░╚███║
+        // ╚═╝░░░░░░╚════╝░╚══════╝░░░╚═╝░░░░╚═════╝░░╚════╝░╚═╝░░╚══╝
+        else if (block.chainid == 137) {
             // Polygon Mainnet
             ethUSDagg = AggregatorV3Interface(
                 0xF9680D99D6C9589e2a93a78A04A279e509205945
@@ -124,55 +203,155 @@ contract iii6PriceConsumer {
                 0xAB594600376Ec9fD91F8e885dADF0CE036862dE0
             );
         }
+        // ██████╗░░██████╗░█████╗░
+        // ██╔══██╗██╔════╝██╔══██╗
+        // ██████╦╝╚█████╗░██║░░╚═╝
+        // ██╔══██╗░╚═══██╗██║░░██╗
+        // ██████╦╝██████╔╝╚█████╔╝
+        // ╚═════╝░╚═════╝░░╚════╝░
+        else if (block.chainid == 137) {
+            // Polygon Mainnet
+            ethUSDagg = AggregatorV3Interface(
+                0x9ef1B8c0E4F7dc8bF5719Ea496883DC6401d5b2e
+            );
+            mainUSDagg = AggregatorV3Interface(
+                0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE
+            );
+        }
+        // ░█████╗░██╗░░██╗░█████╗░██╗░░░░░███████╗███╗░░██╗
+        // ██╔══██╗██║░░██║██╔══██╗██║░░░░░██╔════╝████╗░██║
+        // ██║░░╚═╝███████║███████║██║░░░░░█████╗░░██╔██╗██║
+        // ██║░░██╗██╔══██║██╔══██║██║░░░░░██╔══╝░░██║╚████║
+        // ╚█████╔╝██║░░██║██║░░██║███████╗███████╗██║░╚███║
+        // ░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚══╝
+        else if (block.chainid == 137) {
+            // Polygon Mainnet
+            ethUSDagg = AggregatorV3Interface(
+                0x143db3CEEfbdfe5631aDD3E50f7614B6ba708BA7
+            );
+            mainUSDagg = AggregatorV3Interface(
+                0x2514895c72f50D8bd4B4F9b1110F0D6bD2c97526
+            );
+        }
     }
 
-    /*
-     * @dev Divides between two values substracting the remainder from the dividend
-     * @param _a First value
-     * @param _b Second value
-     * @return Result of division
+    // ██████╗░██████╗░██╗██╗░░░██╗░█████╗░████████╗███████╗  ███████╗███╗░░██╗██╗░░██╗
+    // ██╔══██╗██╔══██╗██║██║░░░██║██╔══██╗╚══██╔══╝██╔════╝  ██╔════╝████╗░██║╚██╗██╔╝
+    // ██████╔╝██████╔╝██║╚██╗░██╔╝███████║░░░██║░░░█████╗░░  █████╗░░██╔██╗██║░╚███╔╝░
+    // ██╔═══╝░██╔══██╗██║░╚████╔╝░██╔══██║░░░██║░░░██╔══╝░░  ██╔══╝░░██║╚████║░██╔██╗░
+    // ██║░░░░░██║░░██║██║░░╚██╔╝░░██║░░██║░░░██║░░░███████╗  ██║░░░░░██║░╚███║██╔╝╚██╗
+    // ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░░╚═╝░░░╚═╝░░╚═╝░░░╚═╝░░░╚══════╝  ╚═╝░░░░░╚═╝░░╚══╝╚═╝░░╚═╝
+
+    /**
+     * @dev sets custom token x new oracle address
+     * @param _oracle address of the oracle
+     * @param _digits number of decimals the oracle passes
+     * @return exit in bool true
      */
-    // gives back weth price in $
-    function WethUsdPrice() external view returns (int256 priceFull) {
-        (, int256 price, , , ) = ethUSDagg.latestRoundData();
-        priceFull = int256(uint256(price) * 10**10);
-    }
-
-    // gives back network gas currency price in $
-    function CoinUsdPrice() external view returns (int256 priceFull) {
-        (, int256 price, , , ) = mainUSDagg.latestRoundData();
-        priceFull = int256(uint256(price) * 10**10);
-    }
-
     function _setX(address _oracle, uint256 _digits) internal returns (bool) {
         xUSDagg = AggregatorV3Interface(_oracle);
         xDig = 18 - _digits;
         return true;
     }
 
-    function setX(address _oracle, uint256 _digits) external returns (bool) {
-        return _setX(_oracle, _digits);
-    }
-
-    // gives back network gas currency price in $
-    function XUsdPrice() external view returns (int256 priceFull) {
-        (, int256 price, , , ) = xUSDagg.latestRoundData();
-        priceFull = int256(uint256(price) * 10**xDig);
-    }
-
+    /**
+     * @dev sets custom token y new oracle address
+     * @param _oracle address of the oracle
+     * @param _digits number of decimals the oracle passes
+     * @return exit in bool true
+     */
     function _setY(address _oracle, uint256 _digits) internal returns (bool) {
         yUSDagg = AggregatorV3Interface(_oracle);
         yDig = 18 - _digits;
         return true;
     }
 
+    // ██████╗░██╗░░░██╗██████╗░██╗░░░░░██╗░█████╗░  ███████╗███╗░░██╗██╗░░██╗
+    // ██╔══██╗██║░░░██║██╔══██╗██║░░░░░██║██╔══██╗  ██╔════╝████╗░██║╚██╗██╔╝
+    // ██████╔╝██║░░░██║██████╦╝██║░░░░░██║██║░░╚═╝  █████╗░░██╔██╗██║░╚███╔╝░
+    // ██╔═══╝░██║░░░██║██╔══██╗██║░░░░░██║██║░░██╗  ██╔══╝░░██║╚████║░██╔██╗░
+    // ██║░░░░░╚██████╔╝██████╦╝███████╗██║╚█████╔╝  ██║░░░░░██║░╚███║██╔╝╚██╗
+    // ╚═╝░░░░░░╚═════╝░╚═════╝░╚══════╝╚═╝░╚════╝░  ╚═╝░░░░░╚═╝░░╚══╝╚═╝░░╚═╝
+    /**
+     * @dev Divides between two values substracting the remainder from the dividend
+     * @return priceFull eth price in usd
+     */
+    function WethUsdPrice() external view returns (int256 priceFull) {
+        (, int256 price, , , ) = ethUSDagg.latestRoundData();
+        priceFull = int256(uint256(price) * 10**10);
+    }
+
+    /**
+     * @dev Divides between two values substracting the remainder from the dividend
+     * @return priceFull gascoin price in usd
+     */
+    function CoinUsdPrice() external view returns (int256 priceFull) {
+        (, int256 price, , , ) = mainUSDagg.latestRoundData();
+        priceFull = int256(uint256(price) * 10**10);
+    }
+
+    /**
+     * @dev sets custom token x new oracle address
+     * @param _oracle address of the oracle
+     * @param _digits number of decimals the oracle passes
+     * @return exit in bool true
+     */
+    function setX(address _oracle, uint256 _digits) external returns (bool) {
+        return _setX(_oracle, _digits);
+    }
+
+    /**
+     * @dev Divides between two values substracting the remainder from the dividend
+     * @return priceFull custom token x price in usd
+     */
+    function XUsdPrice() external view returns (int256 priceFull) {
+        (, int256 price, , , ) = xUSDagg.latestRoundData();
+        priceFull = int256(uint256(price) * 10**xDig);
+    }
+
+    /**
+     * @dev sets custom token y new oracle address
+     * @param _oracle address of the oracle
+     * @param _digits number of decimals the oracle passes
+     * @return exit in bool true
+     */
     function setY(address _oracle, uint256 _digits) external returns (bool) {
         return _setY(_oracle, _digits);
     }
 
+    /**
+     * @dev Divides between two values substracting the remainder from the dividend
+     * @return priceFull custom token x price in usd
+     */
     // gives back network gas currency price in $
     function YUsdPrice() external view returns (int256 priceFull) {
         (, int256 price, , , ) = yUSDagg.latestRoundData();
         priceFull = int256(uint256(price) * 10**yDig);
     }
 }
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+//
+//      MMWKd:..                                                                                    ..:dKWMM
+//      MKl.                                                                                            .lKW
+//      O'       ..''''''''''''.     .''''''.     .'''''.      .''''''''''''''.     .''''''''''''..       'O
+//      '     .ckKNNWNWWWWWWWWWk.   .xNWWNWNl    ,0WWWWW0,     lNWWWWWWWWWNWNk'    ;0NNNWWWWWWWWNNKkc.     '
+//           ,OWMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMWO,
+//          .kMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMMMMk.
+//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMM0'
+//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMMM0'
+//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMM0,    ;0NNWWMMMMMMMMMMMMMMMMMM0'
+//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMM0,     .'.',;lkNMMMMMMMMMMMMMMM0'
+//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMK;              ,kWMMMMMMMMMMMMM0'
+//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMX:    .:oxxdc'    .dWMMMMMMMMMMMM0'
+//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   ,OWMMMMMXl.   '0MMMMMMMMMMMM0'
+//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMX;   .kMMMMMMMMK,   .xMMMMMMMMMMMM0'
+//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMM0'   .OMMMMMMMMX;   .xMMMMMMMMMMMM0'
+//          .OMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMK,    lNMMMMMMWx.   '0MMMMMMMMMMMMO.
+//           lNMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   .:x0KKKkc.   .dWMMMMMMMMMMMNl
+//      .    .c0WMMMMMMMMMMMMMMO.   .kMMMMMWo    ,KMMMMMK,     lWMMMMNd.     ....     .xNMMMMMMMMMMW0c.    .
+//      l      .,lddxxxxxxxxxxxc.    :xxxxxd,    .lxxxxxl.     ,dxxxxxd:.            .cdxxxxxxxxddl,.      l
+//      No.                                                                                              .oN
+//      MW0l'                                                                                          'l0WM
+//      MMMWKd;.                                                                                    .;dKWMMM
+//
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
