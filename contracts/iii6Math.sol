@@ -62,38 +62,63 @@
 
 pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
-
+/**
+ * @dev Math helper functions
+ */
 contract iii6Math {
-    using Counters for *;
-    using Strings for *;
-
-    // Math Function Extension
-    // division function for solidity
-    function divide(uint256 _a, uint256 _b) internal pure returns (uint256) {
+    /**
+     * @dev Divides between two values substracting the remainder from the dividend
+     * @param _a First value
+     * @param _b Second value
+     * @return Result of division
+     */
+    function _divide(uint256 _a, uint256 _b) internal pure returns (uint256) {
         uint256 rem = _a % _b;
         return ((_a - rem) / _b);
     }
 
-    // generates unique id nr
-    function uniqID(string memory _inf) internal pure returns (uint256) {
-        bytes32 BHash = keccak256(abi.encode(_inf));
-        return uint256(BHash);
+    /**
+     * @dev Gives back digit sum of given uint
+     * @param _x First value
+     * @return Result digit sum of x
+     */
+    function _dsum(uint256 _x) internal pure returns (uint256) {
+        return (_x % 9);
     }
 
-    // gives back the smaller wallet address
-    function smallerAddress(address _a, address _b)
+    /**
+     * @dev takes two numbers and gives back magnitude dif a = x^4 b = x^8 result = 4
+     * @param _a First value
+     * @param _b First value
+     * @return Result digit sum of x
+     */
+    function _magnitudeCheck(uint256 _a, uint256 _b)
+        internal
+        pure
+        returns (uint256)
+    {}
+
+    /**
+     * @dev Generates unique ID with keccak256 cryptography out of a string
+     * @param _inf String value to encrypt
+     * @return Decimal representation of encrypted string
+     */
+    function _uniqID(string memory _inf) internal pure returns (uint256) {
+        return uint256(keccak256(abi.encode(_inf)));
+    }
+
+    /**
+     * @dev Returns the smaller value between two addresses
+     * @param _a First value
+     * @param _b Second value
+     * @return s Smaller address value
+     * @return l Larger address value
+     */
+    function _smaller(address _a, address _b)
         internal
         pure
         returns (address s, address l)
     {
-        if (_a < _b) {
-            s = _a;
-            l = _b;
-        } else if (_a > _b) {
-            s = _b;
-            l = _a;
-        }
+        (_a < _b) ? (s = _a, l = _b) : (s = _b, l = _a);
     }
 }

@@ -44,7 +44,7 @@
 //                                                                                                                                                                                  //
 //      @company        ::              Fractio Holding                                                                                                                                                                       //
 //      @title          ::              iii6 Safes                                                                                                                            //
-//      @description    ::              Asset Safes Contract                                                                                                                           //
+//      @description    ::              This is a Asset Safe for all Board Members                                                                                                                            //
 //      @version        ::              0.0.1                                                                                                                                       //
 //      @purpose        ::              Multinet Address Storage                                                                                                           //
 //                                                                                                                                                                                  //
@@ -190,7 +190,7 @@ contract iii6SafeModel is iii6CoinModel, iii6Logs, iii6GlobalEnums {
             rid++;
         }
         else{
-            require(proposals[rid - 1].)
+            // require(proposals[rid - 1]);
         }
     }
     function _checkLastProposal() internal returns(bool) {}

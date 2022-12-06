@@ -126,6 +126,12 @@ contract iii6PriceConsumer {
         }
     }
 
+    /*
+     * @dev Divides between two values substracting the remainder from the dividend
+     * @param _a First value
+     * @param _b Second value
+     * @return Result of division
+     */
     // gives back weth price in $
     function WethUsdPrice() external view returns (int256 priceFull) {
         (, int256 price, , , ) = ethUSDagg.latestRoundData();

@@ -63,6 +63,12 @@
 pragma solidity ^0.8.7;
 
 contract iii6GlobalEnums {
+    /*
+     * @dev Divides between two values substracting the remainder from the dividend
+     * @param _a First value
+     * @param _b Second value
+     * @return Result of division
+     */
     // role enum
     enum Roles {
         Unknown,
@@ -73,6 +79,12 @@ contract iii6GlobalEnums {
         Moderator,
         Admin
     }
+    /**
+     * @dev Divides between two values substracting the remainder from the dividend
+     * @param _a First value
+     * @param _b Second value
+     * @return Result of division
+     */
     // campaign enum
     enum CampaignType {
         View,
@@ -81,6 +93,12 @@ contract iii6GlobalEnums {
         Sale,
         Inactive
     }
+    /**
+     * @dev Divides between two values substracting the remainder from the dividend
+     * @param _a First value
+     * @param _b Second value
+     * @return Result of division
+     */
     // staus enum
     enum Status {
         Pending,
@@ -88,6 +106,12 @@ contract iii6GlobalEnums {
         Paused,
         Ended
     }
+    /**
+     * @dev Divides between two values substracting the remainder from the dividend
+     * @param _a First value
+     * @param _b Second value
+     * @return Result of division
+     */
     // project enum
     enum Project {
         ServiceDigital,
@@ -99,6 +123,12 @@ contract iii6GlobalEnums {
         RentableDigital,
         RentablePhysical
     }
+    /**
+     * @dev Friends Contract
+     * @param _a First value
+     * @param _b Second value
+     * @return Result of division
+     */
     enum Relation {
         Unknown,
         Foreign,
@@ -123,9 +153,22 @@ contract iii6GlobalEnums {
         Relation AprivB;
         Relation BprivA;
     }
+    /**
+     * @dev Divides between two values substracting the remainder from the dividend
+     * @param _a First value
+     * @param _b Second value
+     * @return Result of division
+     */
     enum Voting {
         Active,
         Cancelled,
         Approved
+    }
+    enum Coins {
+        WETH,
+        GASCOIN,
+        XXX,
+        YYY,
+        USDC
     }
 }
