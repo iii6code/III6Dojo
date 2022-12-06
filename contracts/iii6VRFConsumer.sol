@@ -719,6 +719,8 @@ contract iii6VRFChalen is VRFConsumerBaseV2 {
  * specific vrf contract automatically
  */
 contract selectVRF is iii6Logs {
+    address contractAddress;
+
     constructor() iii6Logs() {
         // ███████╗████████╗██╗░░██╗  ███╗░░░███╗░█████╗░██╗███╗░░██╗
         // ██╔════╝╚══██╔══╝██║░░██║  ████╗░████║██╔══██╗██║████╗░██║
@@ -735,7 +737,7 @@ contract selectVRF is iii6Logs {
                 la,
                 msg.sender,
                 "deployed VRF contract @ ",
-                address(iii6VRF),
+                contractAddress = address(iii6VRF),
                 block.timestamp
             );
             ll++;
@@ -756,7 +758,7 @@ contract selectVRF is iii6Logs {
                 la,
                 msg.sender,
                 "deployed VRF contract @ ",
-                address(iii6VRF),
+                contractAddress = address(iii6VRF),
                 block.timestamp
             );
             ll++;
@@ -777,7 +779,7 @@ contract selectVRF is iii6Logs {
                 la,
                 msg.sender,
                 "deployed VRF contract @ ",
-                address(iii6VRF),
+                contractAddress = address(iii6VRF),
                 block.timestamp
             );
             ll++;
@@ -798,7 +800,7 @@ contract selectVRF is iii6Logs {
                 la,
                 msg.sender,
                 "deployed VRF contract @ ",
-                address(iii6VRF),
+                contractAddress = address(iii6VRF),
                 block.timestamp
             );
             ll++;
@@ -819,7 +821,7 @@ contract selectVRF is iii6Logs {
                 la,
                 msg.sender,
                 "deployed VRF contract @ ",
-                address(iii6VRF),
+                contractAddress = address(iii6VRF),
                 block.timestamp
             );
             ll++;
@@ -840,7 +842,7 @@ contract selectVRF is iii6Logs {
                 la,
                 msg.sender,
                 "deployed VRF contract @ ",
-                address(iii6VRF),
+                contractAddress = address(iii6VRF),
                 block.timestamp
             );
             ll++;
@@ -861,7 +863,7 @@ contract selectVRF is iii6Logs {
                 la,
                 msg.sender,
                 "deployed VRF contract @ ",
-                address(iii6VRF),
+                contractAddress = address(iii6VRF),
                 block.timestamp
             );
             ll++;
@@ -882,7 +884,7 @@ contract selectVRF is iii6Logs {
                 la,
                 msg.sender,
                 "deployed VRF contract @ ",
-                address(iii6VRF),
+                contractAddress = address(iii6VRF),
                 block.timestamp
             );
             ll++;
@@ -903,7 +905,7 @@ contract selectVRF is iii6Logs {
                 la,
                 msg.sender,
                 "deployed VRF contract @ ",
-                address(iii6VRF),
+                contractAddress = address(iii6VRF),
                 block.timestamp
             );
             ll++;
@@ -924,7 +926,7 @@ contract selectVRF is iii6Logs {
                 la,
                 msg.sender,
                 "deployed VRF contract @ ",
-                address(iii6VRF),
+                contractAddress = address(iii6VRF),
                 block.timestamp
             );
             ll++;

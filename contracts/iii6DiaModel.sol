@@ -66,18 +66,15 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
-import "./iii6VRFConsumer.sol";
 import "./iii6Math.sol";
-import "./iii6safes.sol";
+import "./iii6Safes.sol";
 
-contract nftProject is ERC721 {
+contract iii6DiaModel is ERC721 {
     address public owner;
     uint256 public minted;
     uint256 public max;
     string public nam;
     string public sym;
-
-    iii6VRFConsumer public vrf;
 
     // token id # => dias obj %
     mapping(uint256 => bytes) public dias;
@@ -91,14 +88,12 @@ contract nftProject is ERC721 {
     constructor(
         address _owner,
         string memory _name,
-        string memory _sym,
-        address _vrf
+        string memory _sym
     ) ERC721(_name, _sym) {
         owner = _owner;
         nam = _name;
         sym = _sym;
         max = 1000;
-        vrf = VRFv2Consumer(_vrf);
     }
 
     function isOwner(address _adr) external view returns (bool) {
@@ -117,11 +112,6 @@ contract nftProject is ERC721 {
         if (minted >= max || minted + _amnt >= max) revert InvalidAmount();
         _doMint(_amnt);
         return minted;
-    }
-
-    function getVrfId() internal returns (uint256[] memory) {
-        uint256 rid = vrf.requestRandomWords();
-        return vrf.randy(rid);
     }
 
     function grabIds(uint256 count) external view returns (uint256 ids) {
