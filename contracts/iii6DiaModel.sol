@@ -56,19 +56,12 @@
 //  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   //
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
@@ -77,24 +70,14 @@ import "./iii6VRFConsumer.sol";
 import "./iii6Math.sol";
 import "./iii6safes.sol";
 
-contract iii6DiaModel is ERC721 {
-    /**
-     * @dev this contract is a model contract to be deployed through the iii6AssetFactory
-     */
-    // ██╗███╗░░██╗██╗████████╗██╗░█████╗░██╗░░░░░██╗░██████╗░█████╗░████████╗██╗░█████╗░███╗░░██╗
-    // ██║████╗░██║██║╚══██╔══╝██║██╔══██╗██║░░░░░██║██╔════╝██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
-    // ██║██╔██╗██║██║░░░██║░░░██║███████║██║░░░░░██║╚█████╗░███████║░░░██║░░░██║██║░░██║██╔██╗██║
-    // ██║██║╚████║██║░░░██║░░░██║██╔══██║██║░░░░░██║░╚═══██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║
-    // ██║██║░╚███║██║░░░██║░░░██║██║░░██║███████╗██║██████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║
-    // ╚═╝╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
+contract nftProject is ERC721 {
     address public owner;
     uint256 public minted;
     uint256 public max;
     string public nam;
     string public sym;
 
-    iii6VRFMumbai public vrfMumbai;
-    iii6VRFMatic public vrfMatic;
+    iii6VRFConsumer public vrf;
 
     // token id # => dias obj %
     mapping(uint256 => bytes) public dias;
@@ -108,32 +91,14 @@ contract iii6DiaModel is ERC721 {
     constructor(
         address _owner,
         string memory _name,
-        string memory _sym
+        string memory _sym,
+        address _vrf
     ) ERC721(_name, _sym) {
         owner = _owner;
         nam = _name;
         sym = _sym;
         max = 1000;
-        if (block.chainid == 1) {
-            // ETH MAINNET
-            // mumbai consumer @ (deploy contract iii6VRFMatic and paste address here)
-            // sub @ https://vrf.chain.link/mumbai/320 (go to link and add consumer by pasting address)
-            // vrfMatic = iii6VRFMatic(_xOx_); // paste address where _xOx_ and uncomment start of line
-        }
-        if (block.chainid == 137) {
-            // POLYGON MAINNET
-            // mumbai consumer @ (deploy contract iii6VRFMatic and paste address here)
-            // sub @ https://vrf.chain.link/polygon/320 (go to link and add consumer by pasting address)
-            // vrfMatic = iii6VRFMatic(_xOx_); // paste address where _xOx_ and uncomment start of line
-        }
-        if (block.chainid == 80001) {
-            // POLYGON MUMBAI TESTNET
-            // mumbai consumer @ 0x39b6a3aA14a9d34c674389281b09604ECdede228
-            // sub @ https://vrf.chain.link/mumbai/2022
-            vrfMumbai = iii6VRFMumbai(
-                0x39b6a3aA14a9d34c674389281b09604ECdede228
-            );
-        }
+        vrf = VRFv2Consumer(_vrf);
     }
 
     function isOwner(address _adr) external view returns (bool) {
@@ -155,48 +120,20 @@ contract iii6DiaModel is ERC721 {
     }
 
     function getVrfId() internal returns (uint256[] memory) {
-        uint256 rid = vrfMumbai.requestRandomWords();
-        return vrfMumbai.randy(rid);
+        uint256 rid = vrf.requestRandomWords();
+        return vrf.randy(rid);
     }
 
     function grabIds(uint256 count) external view returns (uint256 ids) {
         return ids = ntfIdByCount[msg.sender][count];
     }
 
-    // @audit. this mints way too much. eg amount is 3
-    //@high.
     function _doMint(uint256 _amnt) internal returns (uint256) {
-        _mint(msg.sender, minted); // if "minted" is "4" at this point, it will mint 4 to caller
-        ++minted; // then update this value
-
-        // this will pass
-        if (_amnt >= 2) {
-            _mint(msg.sender, minted); // and mint again, this time 5. Up to this point 9 tokens are minted
-            minted++;
-
-            if (_amnt >= 3) {
+        unchecked {
+            if (_amnt > 7) revert();
+            for (uint256 i; i < _amnt; ++i) {
                 _mint(msg.sender, minted);
-                minted++;
-
-                if (_amnt >= 4) {
-                    _mint(msg.sender, minted);
-                    minted++;
-
-                    if (_amnt >= 5) {
-                        _mint(msg.sender, minted);
-                        minted++;
-
-                        if (_amnt >= 6) {
-                            _mint(msg.sender, minted);
-                            minted++;
-
-                            if (_amnt >= 7) {
-                                _mint(msg.sender, minted);
-                                minted++;
-                            }
-                        }
-                    }
-                }
+                ++minted;
             }
         }
         return minted;
