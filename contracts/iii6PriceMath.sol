@@ -68,6 +68,15 @@ import "./iii6Math.sol";
 import "./iii6PriceConsumer.sol";
 
 contract iii6PriceMath is iii6Math {
+    /**
+     * @dev this contract is a model contract to be deployed through the iii6AssetFactory
+     */
+    // ██╗███╗░░██╗██╗████████╗██╗░█████╗░██╗░░░░░██╗░██████╗░█████╗░████████╗██╗░█████╗░███╗░░██╗
+    // ██║████╗░██║██║╚══██╔══╝██║██╔══██╗██║░░░░░██║██╔════╝██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
+    // ██║██╔██╗██║██║░░░██║░░░██║███████║██║░░░░░██║╚█████╗░███████║░░░██║░░░██║██║░░██║██╔██╗██║
+    // ██║██║╚████║██║░░░██║░░░██║██╔══██║██║░░░░░██║░╚═══██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║
+    // ██║██║░╚███║██║░░░██║░░░██║██║░░██║███████╗██║██████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║
+    // ╚═╝╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
     iii6PriceConsumer priceFeed;
 
     /**
@@ -282,7 +291,7 @@ contract iii6PriceMath is iii6Math {
      * @dev gets value of gascoin denominated in eth derived from _get[...]Usdc()
      * @return coinPriceEth uint256 price of gascoin denominated in eth
      */
-    function getCoinPriceInEth() external view returns (uint256 coinPriceEth) {
+    function _getCoinPriceInEth() internal view returns (uint256 coinPriceEth) {
         // get prices from feed
         uint256 coinPriceUsd = _getCoinUsdc();
         uint256 ethPriceUsd = _getWethUsdc();
@@ -292,9 +301,19 @@ contract iii6PriceMath is iii6Math {
 
     /**
      * @dev gets value of gascoin denominated in eth derived from _get[...]Usdc()
+     * @return coinPriceEth uint256 price of gascoin denominated in eth
+     */
+
+    function getCoinPriceInEth() external view returns (uint256 coinPriceEth) {
+        // get prices from feed
+        coinPriceEth = _getCoinPriceInEth();
+    }
+
+    /**
+     * @dev gets value of gascoin denominated in eth derived from _get[...]Usdc()
      * @return coinPriceX uint256 price of gascoin denominated in eth
      */
-    function getCoinPriceInX() external view returns (uint256 coinPriceX) {
+    function _getCoinPriceInX() internal view returns (uint256 coinPriceX) {
         // get prices from feed
         uint256 coinPriceUsd = _getCoinUsdc();
         uint256 xPriceUsd = _getXUsdc();
@@ -304,14 +323,34 @@ contract iii6PriceMath is iii6Math {
 
     /**
      * @dev gets value of gascoin denominated in eth derived from _get[...]Usdc()
+     * @return coinPriceX uint256 price of gascoin denominated in eth
+     */
+
+    function getCoinPriceInX() external view returns (uint256 coinPriceX) {
+        // get prices from feed
+        coinPriceX = _getCoinPriceInX();
+    }
+
+    /**
+     * @dev gets value of gascoin denominated in eth derived from _get[...]Usdc()
      * @return coinPriceY uint256 price of gascoin denominated in eth
      */
-    function getCoinPriceInY() external view returns (uint256 coinPriceY) {
+    function _getCoinPriceInY() internal view returns (uint256 coinPriceY) {
         // get prices from feed
         uint256 coinPriceUsd = _getCoinUsdc();
         uint256 yPriceUsd = _getYUsdc();
         // exit with first / last price ratio
         coinPriceY = _divide(coinPriceUsd * 10**18, yPriceUsd);
+    }
+
+    /**
+     * @dev gets value of gascoin denominated in eth derived from _get[...]Usdc()
+     * @return coinPriceY uint256 price of gascoin denominated in eth
+     */
+
+    function getCoinPriceInY() external view returns (uint256 coinPriceY) {
+        // get prices from feed
+        coinPriceY = _getCoinPriceInY();
     }
 
     /**
@@ -396,6 +435,42 @@ contract iii6PriceMath is iii6Math {
         uint256 usdamount = _amt * 10**16;
         uint256 coinprice = _getCoinUsdc();
         return _divide((usdamount * 10**18), coinprice);
+    }
+
+    /**
+     * @dev Returns price for input amount in chosen currency
+     * @param _amt uint256 amount of usd
+     * @return Result of division
+     */
+    function coinPriceOfEth(uint256 _amt) external view returns (uint256) {
+        // add 18 digits
+        uint256 ethamount = _amt * 10**16;
+        uint256 coinprice = _getCoinPriceInEth();
+        return _divide((ethamount * 10**18), coinprice);
+    }
+
+    /**
+     * @dev Returns price for input amount in chosen currency
+     * @param _amt uint256 amount of usd
+     * @return Result of division
+     */
+    function coinPriceOfX(uint256 _amt) external view returns (uint256) {
+        // add 18 digits
+        uint256 xamount = _amt * 10**16;
+        uint256 coinprice = _getCoinPriceInX();
+        return _divide((xamount * 10**18), coinprice);
+    }
+
+    /**
+     * @dev Returns price for input amount in chosen currency
+     * @param _amt uint256 amount of usd
+     * @return Result of division
+     */
+    function coinPriceOfY(uint256 _amt) external view returns (uint256) {
+        // add 18 digits
+        uint256 yamount = _amt * 10**16;
+        uint256 coinprice = _getCoinPriceInY();
+        return _divide((yamount * 10**18), coinprice);
     }
 
     /**

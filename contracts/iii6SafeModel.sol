@@ -65,9 +65,9 @@ pragma solidity ^0.8.7;
 import "./iii6CoinModel.sol";
 import "./iii6GlobalEnums.sol";
 import "./iii6Logs.sol";
+import "./iii6Math.sol";
 
-contract iii6SafeModel is iii6CoinModel, iii6Logs, iii6GlobalEnums {
-    // gas coin balance stored on contract
+contract iii6SafeModel is iii6CoinModel, iii6GlobalEnums, iii6Math {
     uint256 public mTRUST;
     // token balance stored on contract
     // token contrat address => balance

@@ -77,9 +77,18 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "./iii6CoinModel.sol";
 import "./iii6DiaModel.sol";
 import "./iii6PriceMath.sol";
+import "./iii6GlobalEnums.sol";
 
-contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
-    // constructor takes _vrf and craetes DIA Project
+contract iii6AssetFactory is iii6DiaModel, iii6PriceMath, iii6GlobalEnums {
+    /**
+     * @dev this contract is a model contract to be deployed through the iii6AssetFactory
+     */
+    // ██╗███╗░░██╗██╗████████╗██╗░█████╗░██╗░░░░░██╗░██████╗░█████╗░████████╗██╗░█████╗░███╗░░██╗
+    // ██║████╗░██║██║╚══██╔══╝██║██╔══██╗██║░░░░░██║██╔════╝██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
+    // ██║██╔██╗██║██║░░░██║░░░██║███████║██║░░░░░██║╚█████╗░███████║░░░██║░░░██║██║░░██║██╔██╗██║
+    // ██║██║╚████║██║░░░██║░░░██║██╔══██║██║░░░░░██║░╚═══██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║
+    // ██║██║░╚███║██║░░░██║░░░██║██║░░██║███████╗██║██████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║
+    // ╚═╝╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
     address VRF;
     address FEED;
     uint256 licenseFee;
@@ -91,16 +100,26 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
 
     // function creates a ERC20 Token Contract
     function _makeERC20Asset(
-        address _admin,
         string memory _name,
         string memory _sym,
         uint256 _rate,
-        uint256 _supply
+        uint256 _supply,
+        bool _burn,
+        bool _pause,
+        uint256 _curr
     ) internal returns (address) {
         // chose token model
         iii6CoinModel token;
         // create Token from Model
-        token = new iii6CoinModel(_name, _sym, _rate, _supply, _admin);
+        token = new iii6CoinModel(
+            _name,
+            _sym,
+            _rate,
+            _supply,
+            _burn,
+            _pause,
+            _curr
+        );
         // exit with address
         return address(token);
     }
@@ -109,7 +128,10 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
         string memory _name,
         string memory _sym,
         uint256 _rate,
-        uint256 _supply
+        uint256 _supply,
+        bool _burn,
+        bool _pause,
+        uint256 _curr
     ) external payable returns (address) {
         // check msg.value
 
@@ -117,7 +139,8 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
         // do payment
         // mint license
         // make asset & exit with address
-        return _makeERC20Asset(msg.sender, _name, _sym, _rate, _supply);
+        return
+            _makeERC20Asset(_name, _sym, _rate, _supply, _burn, _pause, _curr);
     }
 
     // function creates a ERC721 Token Contract

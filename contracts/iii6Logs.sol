@@ -63,6 +63,6 @@
 pragma solidity ^0.8.7;
 
 contract iii6Logs {
-    event TX_Log(uint TX, address TRUSTEE, uint AMNT, uint DATE);
-    event ERR_Log()
+    event TX_Log(uint256 TX, address TRUSTEE, uint256 AMNT, uint256 DATE);
+    event ERR_Log(uint256 TX, address ACTOR, string ERROR, uint256 DATE);
 }
