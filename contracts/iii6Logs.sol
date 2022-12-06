@@ -72,6 +72,18 @@ contract iii6Logs {
     // ██║██║╚████║██║░░░██║░░░██║██╔══██║██║░░░░░██║░╚═══██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║
     // ██║██║░╚███║██║░░░██║░░░██║██║░░██║███████╗██║██████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║
     // ╚═╝╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
+    uint256 ll;
+    uint256 lt;
+    uint256 le;
+    uint256 la;
+
+    constructor() {
+        ll = 0;
+        lt = 0;
+        le = 0;
+        la = 0;
+    }
+
     /**
      * @dev this event logs all transactions
      */
@@ -80,6 +92,16 @@ contract iii6Logs {
      * @dev this event logs all errors
      */
     event ERR_Log(uint256 TX, address ACTOR, string ERROR, uint256 DATE);
+    /**
+     * @dev this event logs important events
+     */
+    event ACTION_Log(
+        uint256 TX,
+        address ACTOR,
+        string ACTION,
+        address RELATED,
+        uint256 DATE
+    );
 }
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //

@@ -56,15 +56,17 @@
 //  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   //
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 pragma solidity ^0.8.7;
 
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+import "./iii6Logs.sol";
+
+/**
+ * @dev With the select contract on line: 721 ... you can deploy automatically by deploying the selectVRF {} contract
+ * you may also deploy the contracts manually but have to chose the right one for each network in this case
+ */
 
 // ███████╗████████╗██╗░░██╗  ███╗░░░███╗░█████╗░██╗███╗░░██╗
 // ██╔════╝╚══██╔══╝██║░░██║  ████╗░████║██╔══██╗██║████╗░██║
@@ -136,7 +138,6 @@ contract iii6VRFEth is VRFConsumerBaseV2 {
 // ██║░░╚██╗██║░░██║██╔══╝░░██╔══██╗██║░░░░░██║
 // ╚██████╔╝╚█████╔╝███████╗██║░░██║███████╗██║
 // ░╚═════╝░░╚════╝░╚══════╝╚═╝░░╚═╝╚══════╝╚═╝
-
 contract iii6VRFGoerli is VRFConsumerBaseV2 {
     VRFCoordinatorV2Interface COORDINATOR;
 
@@ -704,6 +705,231 @@ contract iii6VRFChalen is VRFConsumerBaseV2 {
         // You can return the value to the requester,
         // but this example simply stores it.
         s_requestIdToRandomWords[requestId] = randomWords;
+    }
+}
+
+// ██╗░░░██╗██████╗░███████╗░██████╗███████╗██╗░░░░░███████╗░█████╗░████████╗░█████╗░██████╗░
+// ██║░░░██║██╔══██╗██╔════╝██╔════╝██╔════╝██║░░░░░██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔══██╗
+// ╚██╗░██╔╝██████╔╝█████╗░░╚█████╗░█████╗░░██║░░░░░█████╗░░██║░░╚═╝░░░██║░░░██║░░██║██████╔╝
+// ░╚████╔╝░██╔══██╗██╔══╝░░░╚═══██╗██╔══╝░░██║░░░░░██╔══╝░░██║░░██╗░░░██║░░░██║░░██║██╔══██╗
+// ░░╚██╔╝░░██║░░██║██║░░░░░██████╔╝███████╗███████╗███████╗╚█████╔╝░░░██║░░░╚█████╔╝██║░░██║
+// ░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░░░░╚═════╝░╚══════╝╚══════╝╚══════╝░╚════╝░░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝
+/**
+ * @dev this contract selects the contract to deploy and logs the contract address of the chain
+ * specific vrf contract automatically
+ */
+contract selectVRF is iii6Logs {
+    constructor() iii6Logs() {
+        // ███████╗████████╗██╗░░██╗  ███╗░░░███╗░█████╗░██╗███╗░░██╗
+        // ██╔════╝╚══██╔══╝██║░░██║  ████╗░████║██╔══██╗██║████╗░██║
+        // █████╗░░░░░██║░░░███████║  ██╔████╔██║███████║██║██╔██╗██║
+        // ██╔══╝░░░░░██║░░░██╔══██║  ██║╚██╔╝██║██╔══██║██║██║╚████║
+        // ███████╗░░░██║░░░██║░░██║  ██║░╚═╝░██║██║░░██║██║██║░╚███║
+        // ╚══════╝░░░╚═╝░░░╚═╝░░╚═╝  ╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝╚═╝░░╚══╝
+        if (block.chainid == 1) {
+            // AVAX FUJI
+            iii6VRFEth iii6VRF;
+            uint64 subID = 0;
+            iii6VRF = new iii6VRFEth(subID);
+            emit ACTION_Log(
+                la,
+                msg.sender,
+                "deployed VRF contract @ ",
+                address(iii6VRF),
+                block.timestamp
+            );
+            ll++;
+            la++;
+        }
+        // ░██████╗░░█████╗░███████╗██████╗░██╗░░░░░██╗
+        // ██╔════╝░██╔══██╗██╔════╝██╔══██╗██║░░░░░██║
+        // ██║░░██╗░██║░░██║█████╗░░██████╔╝██║░░░░░██║
+        // ██║░░╚██╗██║░░██║██╔══╝░░██╔══██╗██║░░░░░██║
+        // ╚██████╔╝╚█████╔╝███████╗██║░░██║███████╗██║
+        // ░╚═════╝░░╚════╝░╚══════╝╚═╝░░╚═╝╚══════╝╚═╝
+        else if (block.chainid == 5) {
+            // GOERLI
+            iii6VRFGoerli iii6VRF;
+            uint64 subID = 7331;
+            iii6VRF = new iii6VRFGoerli(subID);
+            emit ACTION_Log(
+                la,
+                msg.sender,
+                "deployed VRF contract @ ",
+                address(iii6VRF),
+                block.timestamp
+            );
+            ll++;
+            la++;
+        }
+        // ███████╗██╗░░░██╗░░░░░██╗██╗
+        // ██╔════╝██║░░░██║░░░░░██║██║
+        // █████╗░░██║░░░██║░░░░░██║██║
+        // ██╔══╝░░██║░░░██║██╗░░██║██║
+        // ██║░░░░░╚██████╔╝╚█████╔╝██║
+        // ╚═╝░░░░░░╚═════╝░░╚════╝░╚═╝
+        else if (block.chainid == 43113) {
+            // AVAX FUJI
+            iii6VRFFuji iii6VRF;
+            uint64 subID = 423;
+            iii6VRF = new iii6VRFFuji(subID);
+            emit ACTION_Log(
+                la,
+                msg.sender,
+                "deployed VRF contract @ ",
+                address(iii6VRF),
+                block.timestamp
+            );
+            ll++;
+            la++;
+        }
+        // ░█████╗░██╗░░░██╗░█████╗░██╗░░██╗
+        // ██╔══██╗██║░░░██║██╔══██╗╚██╗██╔╝
+        // ███████║╚██╗░██╔╝███████║░╚███╔╝░
+        // ██╔══██║░╚████╔╝░██╔══██║░██╔██╗░
+        // ██║░░██║░░╚██╔╝░░██║░░██║██╔╝╚██╗
+        // ╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░╚═╝
+        else if (block.chainid == 43114) {
+            // AVAX MAINNET
+            iii6VRFAvax iii6VRF;
+            uint64 subID = 0;
+            iii6VRF = new iii6VRFAvax(subID);
+            emit ACTION_Log(
+                la,
+                msg.sender,
+                "deployed VRF contract @ ",
+                address(iii6VRF),
+                block.timestamp
+            );
+            ll++;
+            la++;
+        }
+        // ███████╗████████╗███╗░░░███╗  ████████╗███████╗░██████╗████████╗███╗░░██╗███████╗████████╗
+        // ██╔════╝╚══██╔══╝████╗░████║  ╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝████╗░██║██╔════╝╚══██╔══╝
+        // █████╗░░░░░██║░░░██╔████╔██║  ░░░██║░░░█████╗░░╚█████╗░░░░██║░░░██╔██╗██║█████╗░░░░░██║░░░
+        // ██╔══╝░░░░░██║░░░██║╚██╔╝██║  ░░░██║░░░██╔══╝░░░╚═══██╗░░░██║░░░██║╚████║██╔══╝░░░░░██║░░░
+        // ██║░░░░░░░░██║░░░██║░╚═╝░██║  ░░░██║░░░███████╗██████╔╝░░░██║░░░██║░╚███║███████╗░░░██║░░░
+        // ╚═╝░░░░░░░░╚═╝░░░╚═╝░░░░░╚═╝  ░░░╚═╝░░░╚══════╝╚═════╝░░░░╚═╝░░░╚═╝░░╚══╝╚══════╝░░░╚═╝░░░
+        else if (block.chainid == 4002) {
+            // Fantom TESTNET
+            iii6VRFFantomTest iii6VRF;
+            uint64 subID = 137;
+            iii6VRF = new iii6VRFFantomTest(subID);
+            emit ACTION_Log(
+                la,
+                msg.sender,
+                "deployed VRF contract @ ",
+                address(iii6VRF),
+                block.timestamp
+            );
+            ll++;
+            la++;
+        }
+        // ███████╗░█████╗░███╗░░██╗████████╗░█████╗░███╗░░░███╗
+        // ██╔════╝██╔══██╗████╗░██║╚══██╔══╝██╔══██╗████╗░████║
+        // █████╗░░███████║██╔██╗██║░░░██║░░░██║░░██║██╔████╔██║
+        // ██╔══╝░░██╔══██║██║╚████║░░░██║░░░██║░░██║██║╚██╔╝██║
+        // ██║░░░░░██║░░██║██║░╚███║░░░██║░░░╚█████╔╝██║░╚═╝░██║
+        // ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚══╝░░░╚═╝░░░░╚════╝░╚═╝░░░░░╚═╝
+        else if (block.chainid == 250) {
+            // Fantom MAINNET
+            iii6VRFFantom iii6VRF;
+            uint64 subID = 0;
+            iii6VRF = new iii6VRFFantom(subID);
+            emit ACTION_Log(
+                la,
+                msg.sender,
+                "deployed VRF contract @ ",
+                address(iii6VRF),
+                block.timestamp
+            );
+            ll++;
+            la++;
+        }
+        //  ███╗░░░███╗██╗░░░██╗███╗░░░███╗██████╗░░█████╗░██╗
+        //  ████╗░████║██║░░░██║████╗░████║██╔══██╗██╔══██╗██║
+        //  ██╔████╔██║██║░░░██║██╔████╔██║██████╦╝███████║██║
+        //  ██║╚██╔╝██║██║░░░██║██║╚██╔╝██║██╔══██╗██╔══██║██║
+        //  ██║░╚═╝░██║╚██████╔╝██║░╚═╝░██║██████╦╝██║░░██║██║
+        //  ╚═╝░░░░░╚═╝░╚═════╝░╚═╝░░░░░╚═╝╚═════╝░╚═╝░░╚═╝╚═╝
+        else if (block.chainid == 80001) {
+            // Polygon Mumbai
+            iii6VRFMumbai iii6VRF;
+            uint64 subID = 2022;
+            iii6VRF = new iii6VRFMumbai(subID);
+            emit ACTION_Log(
+                la,
+                msg.sender,
+                "deployed VRF contract @ ",
+                address(iii6VRF),
+                block.timestamp
+            );
+            ll++;
+            la++;
+        }
+        // ██████╗░░█████╗░██╗░░░░░██╗░░░██╗░██████╗░░█████╗░███╗░░██╗
+        // ██╔══██╗██╔══██╗██║░░░░░╚██╗░██╔╝██╔════╝░██╔══██╗████╗░██║
+        // ██████╔╝██║░░██║██║░░░░░░╚████╔╝░██║░░██╗░██║░░██║██╔██╗██║
+        // ██╔═══╝░██║░░██║██║░░░░░░░╚██╔╝░░██║░░╚██╗██║░░██║██║╚████║
+        // ██║░░░░░╚█████╔╝███████╗░░░██║░░░╚██████╔╝╚█████╔╝██║░╚███║
+        // ╚═╝░░░░░░╚════╝░╚══════╝░░░╚═╝░░░░╚═════╝░░╚════╝░╚═╝░░╚══╝
+        else if (block.chainid == 137) {
+            // Polygon Mainnet
+            iii6VRFMatic iii6VRF;
+            uint64 subID = 320;
+            iii6VRF = new iii6VRFMatic(subID);
+            emit ACTION_Log(
+                la,
+                msg.sender,
+                "deployed VRF contract @ ",
+                address(iii6VRF),
+                block.timestamp
+            );
+            ll++;
+            la++;
+        }
+        // ██████╗░░██████╗░█████╗░
+        // ██╔══██╗██╔════╝██╔══██╗
+        // ██████╦╝╚█████╗░██║░░╚═╝
+        // ██╔══██╗░╚═══██╗██║░░██╗
+        // ██████╦╝██████╔╝╚█████╔╝
+        // ╚═════╝░╚═════╝░░╚════╝░
+        else if (block.chainid == 56) {
+            // Polygon Mainnet
+            iii6VRFBsc iii6VRF;
+            uint64 subID = 0;
+            iii6VRF = new iii6VRFBsc(subID);
+            emit ACTION_Log(
+                la,
+                msg.sender,
+                "deployed VRF contract @ ",
+                address(iii6VRF),
+                block.timestamp
+            );
+            ll++;
+            la++;
+        }
+        // ░█████╗░██╗░░██╗░█████╗░██╗░░░░░███████╗███╗░░██╗
+        // ██╔══██╗██║░░██║██╔══██╗██║░░░░░██╔════╝████╗░██║
+        // ██║░░╚═╝███████║███████║██║░░░░░█████╗░░██╔██╗██║
+        // ██║░░██╗██╔══██║██╔══██║██║░░░░░██╔══╝░░██║╚████║
+        // ╚█████╔╝██║░░██║██║░░██║███████╗███████╗██║░╚███║
+        // ░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚══╝
+        else if (block.chainid == 97) {
+            // Polygon Mainnet
+            iii6VRFChalen iii6VRF;
+            uint64 subID = 0;
+            iii6VRF = new iii6VRFChalen(subID);
+            emit ACTION_Log(
+                la,
+                msg.sender,
+                "deployed VRF contract @ ",
+                address(iii6VRF),
+                block.timestamp
+            );
+            ll++;
+            la++;
+        }
     }
 }
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
