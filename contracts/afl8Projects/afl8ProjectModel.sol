@@ -60,9 +60,9 @@
 
 pragma solidity ^0.8.7;
 
-import "./iii6GlobalEnums.sol";
-import "./iii6CoinModel.sol";
-import "./iii6DiaModel.sol";
+import "../iii6utils/Misc/iii6GlobalEnums.sol";
+import "../iii6utils/Assets/iii6CoinModel.sol";
+import "../iii6utils/Assets/iii6DiaModel.sol";
 
 contract AFL8_CampaignModel is iii6DiaModel, iii6GlobalEnums {
     iii6CoinModel public afl8;

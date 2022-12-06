@@ -64,8 +64,8 @@ pragma solidity ^0.8.7;
 
 import "./iii6CoinModel.sol";
 import "./iii6DiaModel.sol";
-import "./iii6PriceMath.sol";
-import "./iii6GlobalEnums.sol";
+import "../Math/iii6PriceMath.sol";
+import "../Misc/iii6GlobalEnums.sol";
 
 contract iii6AssetFactory is iii6DiaModel, iii6PriceMath, iii6GlobalEnums {
     /**

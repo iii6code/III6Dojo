@@ -65,7 +65,7 @@ pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "./iii6Math.sol";
-import "./iii6PriceConsumer.sol";
+import "../Oracles/iii6PriceConsumer.sol";
 
 contract iii6PriceMath is iii6Math {
     /**

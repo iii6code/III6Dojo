@@ -71,10 +71,10 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //                                                                                                                                                                                  //
 //      @company        ::              Fractio Holding                                                                                                                                                                       //
-//      @title          ::              s0xiety Groups                                                                                                                            //
-//      @description    ::              Group Interface Contract                                                                                                                           //
+//      @title          ::              s0xiety Factory                                                                                                                            //
+//      @description    ::              Factory Constructor Contract                                                                                                                           //
 //      @version        ::              0.0.1                                                                                                                                       //
-//      @purpose        ::              Multinet Group Interface                                                                                                           //
+//      @purpose        ::              Factory Constructor                                                                                                           //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
@@ -101,97 +101,95 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
-import "./iii6Math.sol";
+import "../iii6utils/iii6Math.sol";
 import "./s0xUsers.sol";
 import "./s0xFriends.sol";
+import "./s0xGroups.sol";
 
-contract s0xGroups is iii6Math {
-    s0xUsers private user; // user contract reference
-    s0xFriends private friend; // friend contract reference
-    address public owner; // owner address
-    string public name; // group name
-    uint256 private m; // member count
-    uint256 private state; // 0-private (no invite), 1-bothchecked, 2-ulike, 3-likeu, 4-bothcheckedofulike, 5-public, 9-secret, 99-admin
+contract s0xFactory is s0xUsers, iii6Math {
+    s0xFriends public friends;
+    s0xGroups public groups;
+    address private fAdr;
+    mapping(address => uint256) public groupCount;
+    mapping(address => mapping(uint256 => address)) public groupByCount;
 
-    mapping(uint256 => address) public members; // address by id
-    mapping(address => uint256) public mNum; // id by address
-    uint256 private c; // content count
-    mapping(address => uint256) public myContent; // content count by address
-    mapping(address => mapping(uint256 => bytes)) public content; // content by address => myContent counter
-    mapping(uint256 => bytes) public cntnt; // contentt by cid
-    mapping(uint256 => uint256) public r; // replys by cntnt id c
-    mapping(uint256 => mapping(uint256 => bytes)) public replys; // replys by cid => rply id => reply content
-    mapping(address => uint256) public myRplyCount; // reply count  by useraddress
-    mapping(address => mapping(uint256 => bytes)) public myReplys; // reply content by address and myrplycount
-    mapping(address => bool) public invite;
-
-    constructor(
-        address _user,
-        address _friend,
-        bytes memory _name,
-        uint256 _state,
-        address _o
-    ) {
-        state = _state;
-        user = s0xUsers(_user);
-        friend = s0xFriends(_friend);
-        owner = _o;
-        name = string(_name);
+    constructor() s0xUsers() iii6Math() {
+        friends = new s0xFriends(address(this));
+        fAdr = address(friends);
     }
 
-    function addUser(address _adr) external returns (address) {
-        if (state == 0) {
-            if (m >= 2) revert();
-            // require(m < 2); // private state one allows 2 users only
-            // require(user.isU(msg.sender) == true);
-            // require(user.isU(_adr) == true);
-        } else if (state == 1) {
-            if (!friend.isFrenz(owner, _adr)) revert();
-            if (!friend.isFrenz(_adr, owner)) revert();
-        } // only degenz&frenz allowed
-        /*
-        else if(state == 2) {
-          require(friend.isFrenz(owner, _adr));  
-        } // only frenz people you like
-        else if(state == 3) {
-          require(friend.isFrenz(_adr, owner));  
-        } // only degenz people who like you
-        else if(state == 4) {
-            require(friend.isFrenz(msg.sender, _adr));
-            require(friend.isFrenz(_adr, msg.sender));
-        } // only degenz&frenz allowed
-
-        else if(state == 9) require(invite[_adr] == true);
-        else if(state == 99) require(friend.getRole(msg.sender) == 99);
-        */
-        members[m] = _adr;
-        mNum[_adr] = m;
-        ++m;
-        return _adr;
-    }
-
-    function removeUser(address _adr) external returns (address) {
-        if (state == 0) revert();
-        members[mNum[_adr]] = address(0);
-        mNum[_adr] = 0;
-        return _adr;
-    }
-
-    function addContent(string memory _cnt) external returns (string memory) {
-        content[msg.sender][myContent[msg.sender]] = bytes(_cnt);
-        ++myContent[msg.sender];
-        cntnt[c] = bytes(_cnt);
-        ++c;
-        return _cnt;
-    }
-
-    function addReplyToContent(string memory _rply, uint256 _c)
+    function createGroup(string memory _name, uint256 _state)
         external
-        returns (uint256)
+        returns (address)
     {
-        replys[_c][r[_c]] = bytes(_rply);
-        myReplys[msg.sender][myRplyCount[msg.sender]] = bytes(_rply);
-        ++myRplyCount[msg.sender];
-        return ++r[_c];
+        groups = new s0xGroups(
+            address(this),
+            fAdr,
+            bytes(_name),
+            _state,
+            msg.sender
+        );
+        groupByCount[msg.sender][groupCount[msg.sender]] = address(groups);
+        groupCount[msg.sender]++;
+        return address(groups);
+    }
+
+    function createConvo(
+        address _to,
+        address _from,
+        string memory _msg
+    ) external returns (address) {
+        (address s, address l) = smaller(_to, _from);
+        return makeConvo(s, l, _msg, _from);
+    }
+
+    function makeConvo(
+        address _s,
+        address _l,
+        string memory _name,
+        address _from
+    ) internal returns (address) {
+        groups = new s0xGroups(address(this), fAdr, bytes(_name), 0, _from);
+        groupByCount[_s][groupCount[_s]] = address(groups);
+        groupByCount[_l][groupCount[_l]] = address(groups);
+        groupCount[_s]++;
+        groupCount[_l]++;
+        groups.addUser(_s);
+        groups.addUser(_l);
+        return address(groups);
+    }
+
+    function followAdr(address _adr) external returns (uint256) {
+        return friends.follow(_adr, msg.sender);
+    }
+
+    function showFrenz(address _adr, uint256 _c)
+        external
+        view
+        returns (address)
+    {
+        return friends.doShowFrenz(_adr, _c);
+    }
+
+    function countFrenz(address _adr) external view returns (uint256) {
+        return friends.doFrenzCount(_adr);
+    }
+
+    function countDegenz(address _adr) external view returns (uint256) {
+        return friends.doDegenzCount(_adr);
+    }
+
+    function showStatus(address _adr)
+        external
+        view
+        returns (
+            uint256,
+            bool,
+            bool,
+            address,
+            address
+        )
+    {
+        return friends.doShowStatus(_adr, msg.sender);
     }
 }

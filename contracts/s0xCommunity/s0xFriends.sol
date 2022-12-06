@@ -101,7 +101,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
-import "./iii6Math.sol";
+import "../iii6Utils/Math/iii6Math.sol";
 import "./s0xUsers.sol";
 
 contract s0xFriends is iii6Math {
@@ -160,7 +160,7 @@ contract s0xFriends is iii6Math {
         frenz[_sender][_adr] = true;
         frenzByCount[_sender][frenzCount[_sender]] = _adr;
         ++frenzCount[_sender];
-        (address s, address l) = smaller(_adr, _sender);
+        (address s, address l) = _smaller(_adr, _sender);
         if (connection[s][l] == 0) {
             connection[s][l] = c;
             ++c;
@@ -180,7 +180,7 @@ contract s0xFriends is iii6Math {
             address
         )
     {
-        (address s, address l) = smaller(_adr, _sender);
+        (address s, address l) = _smaller(_adr, _sender);
         return (
             connection[s][l],
             frenz[_sender][_adr],

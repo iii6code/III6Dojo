@@ -63,9 +63,9 @@
 pragma solidity ^0.8.7;
 
 import "./iii6CoinModel.sol";
-import "./iii6GlobalEnums.sol";
-import "./iii6Logs.sol";
-import "./iii6Math.sol";
+import "../Misc/iii6GlobalEnums.sol";
+import "../Misc/iii6Logs.sol";
+import "../Math/iii6Math.sol";
 
 contract iii6SafeModel is iii6CoinModel, iii6GlobalEnums, iii6Math {
     uint256 public mTRUST;

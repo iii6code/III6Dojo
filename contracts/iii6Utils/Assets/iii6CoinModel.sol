@@ -66,10 +66,10 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
-import "./iii6PriceConsumer.sol";
-import "./iii6PriceMath.sol";
+import "../Oracles/iii6PriceConsumer.sol";
+import "../Math/iii6PriceMath.sol";
 import "./iii6safes.sol";
-import "./iii6GlobalEnums.sol";
+import "../Misc/iii6GlobalEnums.sol";
 
 contract iii6CoinModel is
     ERC20,
