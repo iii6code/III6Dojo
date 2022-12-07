@@ -258,6 +258,10 @@ contract FrootyCoolTingz is ERC721 {
         return cMS();
     }
 
+    function cMS() internal returns (bool) {
+        return start = !start;
+    }
+
     // ONLY TESTNET
     /* */
     function changeMS() external returns (bool) {
@@ -265,9 +269,6 @@ contract FrootyCoolTingz is ERC721 {
     }
 
     // */
-    function cMS() internal returns (bool) {
-        return start = !start;
-    }
 
     function mintOne(
         address _adr,

@@ -61,6 +61,8 @@ pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "../Misc/iii6Logs.sol";
 import "../Math/iii6DiaIdGen.sol";
+import "./iii6CoinModel.sol";
+import "./iii6DiaGreenListModel.sol";
 
 contract iii6DiaModel is ERC721, iii6Logs {
     address public owner;
@@ -68,7 +70,8 @@ contract iii6DiaModel is ERC721, iii6Logs {
     uint256 public max;
     string public nam;
     string public sym;
-
+    bool public start; // ALLOWS MINT TO START
+    uint256 public price;
     // token id # => dias obj %
     mapping(uint256 => bytes) public dias;
     // user address @ => nft count #
@@ -78,15 +81,51 @@ contract iii6DiaModel is ERC721, iii6Logs {
 
     error InvalidAmount();
 
+    iii6CoinModel iii6Coin;
+    iii6DiaGreenListModel iii6GL;
+
+    modifier onlyO() {
+        require(owner == msg.sender);
+        _;
+    }
+
     constructor(
         address _owner,
         string memory _name,
-        string memory _sym
+        string memory _sym,
+        uint256 _max,
+        uint256 _price,
+        string memory _cName,
+        string memory _cSym,
+        bool _c,
+        uint256 _cs, // ERC20 coin supply 0 = infinite coins
+        uint256 _rate,
+        uint256 _g // 0 = no greenlist
     ) ERC721(_name, _sym) iii6Logs() {
         owner = _owner;
         nam = _name;
         sym = _sym;
-        max = 1000;
+        max = _max;
+        price = _price;
+        if (_c)
+            iii6Coin = new iii6CoinModel(
+                _cName,
+                _cSym,
+                _rate,
+                _cs,
+                true,
+                false,
+                1
+            );
+        if (_g > 0) iii6GL = new iii6DiaGreenListModel();
+    }
+
+    function changeMintState() external returns (bool) {
+        return _cMS();
+    }
+
+    function _cMS() internal returns (bool) {
+        return start = !start;
     }
 
     function isOwner(address _adr) external view returns (bool) {

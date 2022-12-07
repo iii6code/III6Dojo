@@ -43,10 +43,10 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //                                                                                                                                                                                  //
 //      @company        ::              Fractio Holding                                                                                                                                                                       //
-//      @title          ::              iii6 Dia Market Factory                                                                                                                            //
+//      @title          ::              iii6 Dia Project GreenList                                                                                                                           //
 //      @description    ::              DIA Project Market Factory                                                                                                                             //
 //      @version        ::              0.0.1                                                                                                                                       //
-//      @purpose        ::              DIA Project Market Factory                                                                                                          //
+//      @purpose        ::              DIA Project Green List                                                                                                        //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
@@ -61,3 +61,90 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 pragma solidity ^0.8.7;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "./iii6DiaModel.sol";
+
+contract iii6DiaGreenListModel {
+    address public admin;
+
+    uint256 public l;
+    uint256 public max;
+    string public message;
+    uint256 public stamp;
+    iii6DiaModel public iii6Dia;
+    mapping(address => bool) public isListed;
+    address[1234] public users;
+    modifier notListed(address _adr) {
+        require(isListed[_adr] == false, "already listed");
+        _;
+    }
+
+    constructor() {
+        admin = msg.sender;
+        // isListed[msg.sender] = true; // OFF ON TESTNET
+        // users[0] = msg.sender;
+        message = "BE FRESH MY FRUITY FRENZ !";
+        // l = 1; // Mainnet
+        // max = 1234; // Mainnet
+        l = 0; // Testnet
+        max = 1; // Testnet
+    }
+
+    function setiii6Dia(address _dia) external returns (bool) {
+        iii6Dia = iii6DiaModel(_dia);
+        return true;
+    }
+
+    function autoStart() internal returns (bool) {
+        require(l == max);
+        return iii6Dia.changeMintState();
+    }
+
+    function getListed() external notListed(msg.sender) returns (bool) {
+        require(l < max, "no more greenlist tickets left");
+        isListed[msg.sender] = true;
+        users[l] = (msg.sender);
+        l++;
+        if (l == max) autoStart();
+        return isListed[msg.sender];
+    }
+
+    function makeListing(address _adr) external notListed(_adr) returns (bool) {
+        require(admin == msg.sender, "you are not admin");
+        isListed[_adr] = true;
+        users[l] = (_adr);
+        l++;
+        if (l == max) autoStart();
+        return isListed[_adr];
+    }
+
+    function showUsers() external view returns (address[1234] memory) {
+        return users;
+    }
+
+    function setMsg(string memory _msg) external payable returns (bool) {
+        require(msg.value <= 1 * 10**18, "insufficient balance sent");
+        require(block.timestamp >= stamp + 60 * 60, "you need to wait");
+        message = _msg;
+        stamp = block.timestamp;
+        return true;
+    }
+
+    function setMsgAdmin(string memory _msg) external returns (bool) {
+        require(admin == msg.sender, "you are not admin");
+        message = _msg;
+        stamp = block.timestamp;
+        return true;
+    }
+
+    function showMsg() external view returns (string memory) {
+        return message;
+    }
+
+    function withdraw() external returns (uint256) {
+        require(admin == msg.sender, "you are not admin");
+        payable(admin).transfer(address(this).balance);
+        return address(this).balance;
+    }
+}

@@ -234,8 +234,35 @@ contract iii6CoinModel is
      * denomination currency can be set in setCurr()
      * @return Coins.[???] // ocoin name as enum Coins
      */
-    function setCurr(uint256 _curr) external returns (Coins) {
+    function setCurr(uint256 _curr) external onlyOwner returns (Coins) {
         return _setCurr(_curr);
+    }
+
+    /**
+     * @dev sets the rate of currency in denomination currency
+     * @dev check the ocoin for its state to determine what value to type in
+     * @param // EXTERNAL
+     * @param _rate  ocoin (denomination currency) // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
+     * denomination currency can be set in setCurr()
+     * @return _setRate // ocoin name as enum Coins
+     */
+    function setRate(uint256 _rate) external onlyOwner returns (uint256) {
+        return _setRate(_rate);
+    }
+
+    /**
+     * @dev sets the max supply
+     * @param // EXTERNAL only owner
+     * @param _newSupply  ocoin (denomination currency) // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
+     * denomination currency can be set in setCurr()
+     * @return Max Supply
+     */
+    function setMaxSupply(uint256 _newSupply)
+        external
+        onlyOwner
+        returns (uint256)
+    {
+        return MAX_SUPPLY = _newSupply;
     }
 
     /**
@@ -248,12 +275,30 @@ contract iii6CoinModel is
     }
 
     /**
-     * @dev if contract pauses the state get checked and toggled via condition to opposite state
+     * @dev toggle the pausable functionality on the contract
+     * @return pausable state of contract
      */
-    function toggleState() public {
+    function togglePause() public onlyOwner returns (bool) {
+        return pauses = !pauses;
+    }
+
+    /**
+     * @dev toggle the burnable functionality on the contract
+     * @return burnable state of contract
+     */
+    function toggleBurn() public onlyOwner returns (bool) {
+        return burns = !burns;
+    }
+
+    /**
+     * @dev if contract pauses the state get checked and toggled via condition to opposite state
+     * @return active state of contract (true = paused / false = active)
+     */
+    function toggleState() public onlyOwner returns (bool) {
         require(pauses == true, "not pausable");
         if (paused()) _unpause();
         else _pause();
+        return paused();
     }
 
     /**

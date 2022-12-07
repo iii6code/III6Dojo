@@ -177,6 +177,14 @@ contract iii6GlobalEnums {
         YYY,
         USDC
     }
+    enum LayerTypes {
+        TEXT,
+        SHAPE,
+        IMAGE,
+        VIDEO,
+        AUDIO,
+        HIDDEN
+    }
 }
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //
