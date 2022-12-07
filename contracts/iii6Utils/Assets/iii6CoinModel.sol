@@ -68,7 +68,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
 import "../Oracles/iii6PriceConsumer.sol";
 import "../Math/iii6PriceMath.sol";
-import "./iii6safes.sol";
+import "./iii6Safes.sol";
 import "../Misc/iii6GlobalEnums.sol";
 
 contract iii6CoinModel is
@@ -239,20 +239,21 @@ contract iii6CoinModel is
     }
 
     /**
-     * @dev adjusts rate in denomination currency
-     * @param // EXTERNAL
-     * denomination currency can be set in setCurr()
-     * @return uint256 the new set rate in gascoin
-     */
-    function adjustRate() external returns (uint256) {}
-
-    /**
      * @dev burn function for token holders only for burnable contracts
      * @param _amount of tokens to burn // EXTERNAL
      */
     function burn(uint256 _amount) public override {
         require(burns == true, "not burnable");
         _burn(msg.sender, _amount);
+    }
+
+    /**
+     * @dev if contract pauses the state get checked and toggled via condition to opposite state
+     */
+    function toggleState() public {
+        require(pauses == true, "not pausable");
+        if (paused()) _unpause();
+        else _pause();
     }
 
     /**
@@ -272,16 +273,45 @@ contract iii6CoinModel is
 
     /**
      * @dev burn function for token holders only for burnable contracts
-     * @return _amount of tokens transfered to sender // EXTERNAL
      */
-    function recieve() external payable returns (uint256) {
-        require(msg.value > rate);
+
+    receive() external payable {
+        // condition
+        _rcMint();
+    }
+
+    fallback() external payable {
+        // condition
+        _rcMint();
+        // condition
+        _fbMint();
+    }
+
+    function _rcMint() internal {
         uint256 amount = msg.value / rate;
+        _mint(msg.sender, amount);
+    }
+
+    function _fbMint() internal {
+        // else if() { // ROADMAP
+        // handle erc20 tokens
+        // get token address
+        // check for oracle
+        // go to oracle list for network
+        // check if address is listed or exit empty
+        // connect X Custom Token to oracle address
+        // check for price
+        uint256 input = 0; // amount input from token x to amount of gascoins
+        // determine tAmount
+        uint256 tAmount = input / rate;
+        // check if input sufficient
+        require(tAmount > rate);
+        // check if tokens available
         require(
-            (MAX_SUPPLY - PUB_SUPPLY) - (amount) > 0,
+            (MAX_SUPPLY - PUB_SUPPLY) - (tAmount) > 0,
             ":: insufficient tokens ::"
         );
-        return amount;
+        _mint(msg.sender, tAmount);
     }
 }
 

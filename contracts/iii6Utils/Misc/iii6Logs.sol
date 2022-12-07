@@ -99,7 +99,7 @@ contract iii6Logs {
         uint256 TX,
         address ACTOR,
         string ACTION,
-        address RELATED,
+        address REL,
         uint256 DATE
     );
 }

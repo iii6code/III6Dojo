@@ -59,8 +59,10 @@
 pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "../Misc/iii6Logs.sol";
+import "../Math/iii6DiaIdGen.sol";
 
-contract iii6DiaModel is ERC721 {
+contract iii6DiaModel is ERC721, iii6Logs {
     address public owner;
     uint256 public minted;
     uint256 public max;
@@ -80,7 +82,7 @@ contract iii6DiaModel is ERC721 {
         address _owner,
         string memory _name,
         string memory _sym
-    ) ERC721(_name, _sym) {
+    ) ERC721(_name, _sym) iii6Logs() {
         owner = _owner;
         nam = _name;
         sym = _sym;
