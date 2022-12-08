@@ -167,7 +167,7 @@ contract iii6GlobalEnums {
      */
     enum Voting {
         Active,
-        Cancelled,
+        Canceled,
         Approved
     }
     enum Coins {

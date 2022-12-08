@@ -106,7 +106,7 @@ contract iii6DiaModel is ERC721, iii6Logs {
         nam = _name;
         sym = _sym;
         max = _max;
-        price = _price;
+        price = _price * 10**15; // 1 ETH value == 1000 Input
         if (_c)
             iii6Coin = new iii6CoinModel(
                 _cName,
@@ -140,7 +140,8 @@ contract iii6DiaModel is ERC721, iii6Logs {
         return sym;
     }
 
-    function mint(uint256 _amnt) external returns (uint256) {
+    function mint(uint256 _amnt) external payable returns (uint256) {
+        require(msg.value >= price * _amnt);
         if (minted >= max || minted + _amnt >= max) revert InvalidAmount();
         _doMint(_amnt);
         return minted;
