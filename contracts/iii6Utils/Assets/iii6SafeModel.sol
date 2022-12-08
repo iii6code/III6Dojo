@@ -73,18 +73,21 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums, iii6CoinModel {
     // token contrat address => balance
     mapping(address => uint256) public xTRUST;
     // list of trustees
-    address[] TRUSTEE;
-    uint256 trc;
+    address TRUSTEE;
     // transaction count starting at 1
     uint256 public TX;
-    // json scheme for boardmember
+    /**
+     * @dev json scheme for boardmembers
+     */
     struct BoardMember {
         uint256 b_id;
         address adr;
         uint256 share;
         string info;
     }
-    // json scheme for Proposals
+    /**
+     * @dev json scheme for Proposals
+     */
     struct Proposal {
         uint256 rid;
         uint256 voteCount;
@@ -108,22 +111,29 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums, iii6CoinModel {
     uint256 minShare;
     // redistribution count
     uint256 rid;
-    // redistribution approval mapping
-    // rid => address => bool
+    /**
+     * @dev allows only board members to use functions
+     */
     modifier isMember() {
         require(memNum[msg.sender] >= 0);
         require(members[memNum[msg.sender]].adr == msg.sender);
         _;
     }
 
+    /**
+     * @dev initializes safe contract that stores and distributes funds amongst boardmembers
+     * @param _name of the safe share token that represents a percentage share 1 token = 0.001%  or 100000 = 100%
+     * @param _sym symbol of the share token
+     * @param _maxMem the maximum amount of board members can only be edited by the TRUSTEE (contract admin / doesnt have to be board member)
+     * @param _minShare the minimum amount of tokens out of 100000 you can transfer must be at least 1 token
+     */
     constructor(
         string memory _name,
         string memory _sym,
         uint256 _maxMem,
         uint256 _minShare
     ) iii6CoinModel(_name, _sym, 0, 100000, false, false, 1) {
-        TRUSTEE[0] = msg.sender; // first trustee
-        trc++; // number of trustees
+        TRUSTEE = msg.sender; // first trustee
         bms = 1; // number of board members
         mTRUST = 0; // gas coin balance stored on contract
         TX = 1; // number of TX
@@ -132,12 +142,17 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums, iii6CoinModel {
         _mint(address(this), 100000);
     }
 
+    /**
+     * @dev allows trustee to edit safe settings in behalf of board members
+     * @param _maxMem number of board members
+     * @param _minShare minimum share
+     */
     function setSafe(uint256 _maxMem, uint256 _minShare)
         external
         returns (uint256, uint256)
     {
         require(
-            msg.sender == TRUSTEE[0] || balanceOf(msg.sender) > 50,
+            msg.sender == TRUSTEE || balanceOf(msg.sender) > 50,
             "not permitted to add a member"
         );
         maxMembers = _maxMem; // max number of members
@@ -145,12 +160,17 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums, iii6CoinModel {
         return (maxMembers, minShare);
     }
 
+    /**
+     * @dev allows trustee to add board members to safe contract
+     * @param _adr number of board members
+     * @param _inf minimum share
+     */
     function addMember(address _adr, string memory _inf)
         external
         returns (address)
     {
         require(
-            msg.sender == TRUSTEE[0] || balanceOf(msg.sender) > 50,
+            msg.sender == TRUSTEE || balanceOf(msg.sender) > 50,
             "not permitted to add a member"
         );
         require(members.length < maxMembers, "board filled");
@@ -160,21 +180,12 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums, iii6CoinModel {
         return _adr;
     }
 
-    function _shareToMember(address _adr, uint256 _amount)
-        internal
-        returns (bool)
-    {
-        bool state = false;
-        uint256 num = memNum[_adr];
-        require(num > 0, "not a board member");
-        BoardMember memory member = members[num];
-        member.share = _amount;
-        if (member.share != members[num].share) {
-            state = true;
-        }
-        members[num] = member;
-        return state;
-    }
+    /**
+     * @dev allows members to make redistribution proposals
+     * @param _members array of board members addresses
+     * @param _shares array of share amounts of board members
+     * @return exit in bool  makeProposal()
+     */
 
     function proposeRedistribution(
         address[] memory _members,
@@ -207,6 +218,12 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums, iii6CoinModel {
         }
     }
 
+    /**
+     * @dev fullfills proposal creation
+     * @param _members array of board members addresses
+     * @param _shares array of share amounts of board members
+     * @return exit in bool true
+     */
     function _makeProposal(address[] memory _members, uint256[] memory _shares)
         internal
         returns (bool)
@@ -239,6 +256,10 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums, iii6CoinModel {
         return true;
     }
 
+    /**
+     * @dev cancels proposal creation and destroys proposal
+     * @return exit in bool true
+     */
     function cancelProposal() external isMember returns (bool) {
         // Get Last Proposal data
         Proposal memory props = proposals[rid - 1];
@@ -249,6 +270,12 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums, iii6CoinModel {
         return props.state == Voting.Canceled;
     }
 
+    /**
+     * @dev allows members to approve proposal creation and
+     * in case they have to give away shares transfers those to the contract
+     * and afterwards send the sahres to members who are supposed to receive shares
+     * @return exit in bool true
+     */
     function approveProposal() external isMember returns (bool) {
         // Get Last Proposal data
         Proposal memory props = proposals[rid - 1];
@@ -298,6 +325,10 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums, iii6CoinModel {
         return true;
     }
 
+    /**
+     * @dev checks if all users approved the proposal
+     * @return exit in bool _allTrue
+     */
     function _allTrue() internal view returns (bool) {
         // Get Last Proposal data
         Proposal memory props = proposals[rid - 1];

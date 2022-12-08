@@ -317,7 +317,7 @@ contract iii6CoinModel is
     }
 
     /**
-     * @dev burn function for token holders only for burnable contracts
+     * @dev recieve function returns tokens on gascoin transfer to contract
      */
 
     receive() external payable {
@@ -325,6 +325,9 @@ contract iii6CoinModel is
         _rcMint();
     }
 
+    /**
+     * @dev recieve function returns tokens on gascoin and/or tokens transfer to contract
+     */
     fallback() external payable {
         // condition
         _rcMint();
@@ -332,11 +335,17 @@ contract iii6CoinModel is
         _fbMint();
     }
 
+    /**
+     * @dev does mint  in exchange for gascoin action on recieve() and fallback()
+     */
     function _rcMint() internal {
         uint256 amount = msg.value / rate;
         _mint(msg.sender, amount);
     }
 
+    /**
+     * @dev does mint in exchange for erc20 tokens action on recieve() and fallback()
+     */
     function _fbMint() internal {
         // else if() { // ROADMAP
         // handle erc20 tokens
