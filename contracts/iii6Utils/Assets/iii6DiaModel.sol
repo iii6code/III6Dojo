@@ -90,6 +90,19 @@ contract iii6DiaModel is ERC721, iii6Logs {
         _;
     }
 
+    /**
+     * @dev this constructor creates a Dia NFT Token Contract
+     * @param _owner contract admin
+     * @param _name dia token name
+     * @param _max amount of tokens 0 = infinte
+     * @param _price amount of gascoin for token
+     * @param _cName name of related ERC20 token
+     * @param _cSym symbol of related ERC20 token
+     * @param _c bool if related coin exists
+     * @param _cs max supply of related ERC20 token 0 = infinite
+     * @param _rate price of related ERC20 token in gascoin
+     * @param _g number of greenlist slots for Dia NFT project 0 = no greenlist
+     */
     constructor(
         address _owner,
         string memory _name,
@@ -118,7 +131,7 @@ contract iii6DiaModel is ERC721, iii6Logs {
                 false,
                 1
             );
-        if (_g > 0) iii6GL = new iii6DiaGreenListModel(_g);
+        if (_g > 0) iii6GL = new iii6DiaGreenListModel(_g, address(this));
     }
 
     function changeMintState() external returns (bool) {

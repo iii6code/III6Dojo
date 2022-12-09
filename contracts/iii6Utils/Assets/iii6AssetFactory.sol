@@ -65,7 +65,6 @@ pragma solidity ^0.8.7;
 import "./iii6CoinModel.sol";
 import "./iii6DiaModel.sol";
 import "../Math/iii6PriceMath.sol";
-import "../Misc/iii6GlobalEnums.sol";
 
 contract iii6AssetFactory is iii6DiaModel, iii6PriceMath, iii6GlobalEnums {
     /**
@@ -81,7 +80,25 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath, iii6GlobalEnums {
     address FEED;
     uint256 licenseFee;
 
-    constructor() iii6DiaModel(msg.sender, "iii6AssetLicense", "iii6License") {}
+    /*
+     * @dev this constructor creates a Dia NFT Token Contract
+     * @param _owner contract admin
+     * @param _name dia token name
+     * @param _max amount of tokens 0 = infinte
+     * @param _price amount of gascoin for token
+     * @param _cName name of related ERC20 token
+     * @param _cSym symbol of related ERC20 token
+     * @param _c bool if related coin exists
+     * @param _cs max supply of related ERC20 token 0 = infinite
+     * @param _rate price of related ERC20 token in gascoin
+     * @param _g number of greenlist slots for Dia NFT project 0 = no greenlist
+     */
+    constructor(
+        string memory _name,
+        string memory _sym,
+        string memory _name20,
+        string memory _sym20
+    ) iii6DiaModel(msg.sender, _name, _sym, 0, 0, "", "", false, 0, 0, 0) {}
 
     // set the value of fee for asset creation
     function _setLicenseFee(uint256 _fee) internal returns (uint256) {}
@@ -98,7 +115,17 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath, iii6GlobalEnums {
     ) internal returns (address) {
         // chose token model
         iii6CoinModel token;
-        // create Token from Model
+        /**
+         * @dev creates an instance of iii6CoinModel
+         * @param _name token name
+         * @param _sym token symbol
+         * @param _rate token rate
+         * @param _supply max token supply // if 0-infinte
+         * @param _burn bool burnable
+         * @param _pause bool pauseble
+         * @param _curr denomintaor currency // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
+         * @return contract address
+         */
         token = new iii6CoinModel(
             _name,
             _sym,
@@ -112,6 +139,17 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath, iii6GlobalEnums {
         return address(token);
     }
 
+    /**
+     * @dev creates an instance of iii6CoinModel
+     * @param _name token name
+     * @param _sym token symbol
+     * @param _rate token rate
+     * @param _supply max token supply // if 0-infinte
+     * @param _burn bool burnable
+     * @param _pause bool pauseble
+     * @param _curr denomintaor currency // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
+     * @return contract address
+     */
     function buildCoinProject(
         string memory _name,
         string memory _sym,

@@ -62,7 +62,7 @@
 
 pragma solidity ^0.8.7;
 
-contract iii6GlobalEnums {
+contract iii6Relations {
     // ██╗███╗░░██╗██╗████████╗██╗░█████╗░██╗░░░░░██╗░██████╗░█████╗░████████╗██╗░█████╗░███╗░░██╗
     // ██║████╗░██║██║╚══██╔══╝██║██╔══██╗██║░░░░░██║██╔════╝██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
     // ██║██╔██╗██║██║░░░██║░░░██║███████║██║░░░░░██║╚█████╗░███████║░░░██║░░░██║██║░░██║██╔██╗██║
@@ -85,56 +85,8 @@ contract iii6GlobalEnums {
         Moderator,
         Admin
     }
-    /**
-     * @dev Divides between two values substracting the remainder from the dividend
-     * @param _a First value
-     * @param _b Second value
-     * @return Result of division
-     */
     // campaign enum
-    enum CampaignType {
-        View,
-        Click,
-        Lead,
-        Sale,
-        Inactive
-    }
-    /**
-     * @dev Divides between two values substracting the remainder from the dividend
-     * @param _a First value
-     * @param _b Second value
-     * @return Result of division
-     */
-    // staus enum
-    enum Status {
-        Pending,
-        Active,
-        Paused,
-        Ended
-    }
-    /**
-     * @dev Divides between two values substracting the remainder from the dividend
-     * @param _a First value
-     * @param _b Second value
-     * @return Result of division
-     */
-    // project enum
-    enum Project {
-        ServiceDigital,
-        ServicePhysical,
-        ProductDigital,
-        ProductPhysical,
-        CollectibleDigital,
-        CollectiblePhysical,
-        RentableDigital,
-        RentablePhysical
-    }
-    /**
-     * @dev Friends Contract
-     * @param _a First value
-     * @param _b Second value
-     * @return Result of division
-     */
+
     enum Relation {
         Unknown,
         Foreign,
@@ -147,7 +99,6 @@ contract iii6GlobalEnums {
         Homies,
         Partners
     }
-    // user relation states
     struct Relations {
         uint256 id;
         bool AfollowsB;
@@ -159,42 +110,6 @@ contract iii6GlobalEnums {
         Relation AprivB;
         Relation BprivA;
     }
-    /**
-     * @dev Divides between two values substracting the remainder from the dividend
-     * @param _a First value
-     * @param _b Second value
-     * @return Result of division
-     */
-    enum Voting {
-        Active,
-        Canceled,
-        Approved
-    }
-    enum Coins {
-        WETH,
-        GASCOIN,
-        XXX,
-        YYY,
-        USDC
-    }
-    enum LayerTypes {
-        TEXT,
-        SHAPE,
-        IMAGE,
-        VIDEO,
-        AUDIO,
-        HIDDEN
-    }
-    struct Proposal {
-        uint256 rid;
-        uint256 voteCount;
-        address[] members;
-        uint256[] shares;
-        int256[] difs;
-        bool[] votes;
-        Voting state;
-    }
-
     struct BoardMember {
         uint256 b_id;
         address adr;

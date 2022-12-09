@@ -69,7 +69,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
 import "../Oracles/iii6PriceConsumer.sol";
 import "../Math/iii6PriceMath.sol";
 import "./iii6Safes.sol";
-import "../Misc/iii6GlobalEnums.sol";
+import "../Misc/iii6Misc.sol";
 
 contract iii6CoinModel is
     ERC20,
@@ -77,7 +77,7 @@ contract iii6CoinModel is
     ERC20Burnable,
     Ownable,
     iii6PriceMath,
-    iii6GlobalEnums
+    iii6Misc
 {
     /**
      * @dev this contract is a factory contract to deploy iii6CoinModel & iii6DiaModel

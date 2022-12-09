@@ -64,19 +64,17 @@ pragma solidity ^0.8.7;
 
 import "./iii6CoinModel.sol";
 import "./iii6SafeVoting.sol";
-import "../Misc/iii6GlobalEnums.sol";
+import "../Misc/iii6Proposals.sol";
+import "../Misc/iii6Logs.sol";
 import "../Misc/iii6Logs.sol";
 import "../Math/iii6Math.sol";
+import "../Assets/iii6AssetFactory.sol";
 
-contract iii6SafeModel is iii6Math, iii6GlobalEnums {
-    uint256 public mTRUST;
-    // token balance stored on contract
-    // token contrat address => balance
-    mapping(address => uint256) public xTRUST;
+contract iii6SafeModel is iii6GlobalProposals {
     // list of trustees
     address TRUSTEE;
-    // transaction count starting at 1
-    uint256 public TX;
+    iii6CoinModel BoardShares;
+    iii6AssetFactory iii6Assets;
     // array of board members
     BoardMember[] public members;
     // board member id callback from address
@@ -84,11 +82,6 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums {
     // number of board members starting at 1
     uint256 bms;
     // max number of board members starting at 1
-    uint256 maxMembers;
-    // minimumshare out of 100000
-    uint256 minShare;
-    iii6CoinModel BoardShares;
-    // redistribution count
     /**
      * @dev allows only board members to use functions
      */
@@ -100,24 +93,15 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums {
 
     /**
      * @dev initializes safe contract that stores and distributes funds amongst boardmembers
-     * @param _name of the safe share token that represents a percentage share 1 token = 0.001%  or 100000 = 100%
-     * @param _sym symbol of the share token
-     * @param _maxMem the maximum amount of board members can only be edited by the TRUSTEE (contract admin / doesnt have to be board member)
-     * @param _minShare the minimum amount of tokens out of 100000 you can transfer must be at least 1 token
      */
-    constructor(
-        string memory _name,
-        string memory _sym,
-        uint256 _maxMem,
-        uint256 _minShare
-    ) iii6GlobalEnums() {
-        TRUSTEE = msg.sender; // first trustee
+    constructor() {
+        TRUSTEE = msg.sender; // first trust admin
         bms = 1; // number of board members
-        mTRUST = 0; // gas coin balance stored on contract
-        TX = 1; // number of TX
-        maxMembers = _maxMem; // max number of members
-        minShare = _minShare; // set minimum share min 1
-        BoardShares = new iii6CoinModel(
+    }
+
+    function makeShares(string memory _name, string memory _sym) external {
+        require(msg.sender == TRUSTEE);
+        address _newShares = iii6Assets.buildCoinProject(
             _name,
             _sym,
             0,
@@ -126,25 +110,8 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums {
             false,
             1
         );
+        BoardShares = iii6CoinModel(payable(_newShares));
         BoardShares.buyTokens(100000);
-    }
-
-    /**
-     * @dev allows trustee to edit safe settings in behalf of board members
-     * @param _maxMem number of board members
-     * @param _minShare minimum share
-     */
-    function setSafe(uint256 _maxMem, uint256 _minShare)
-        external
-        returns (uint256, uint256)
-    {
-        require(
-            msg.sender == TRUSTEE || BoardShares.balanceOf(msg.sender) > 50,
-            "not permitted to add a member"
-        );
-        maxMembers = _maxMem; // max number of members
-        minShare = _minShare; // set minimum share
-        return (maxMembers, minShare);
     }
 
     /**
@@ -157,10 +124,8 @@ contract iii6SafeModel is iii6Math, iii6GlobalEnums {
         returns (address)
     {
         require(
-            msg.sender == TRUSTEE || BoardShares.balanceOf(msg.sender) > 50,
-            "not permitted to add a member"
+            msg.sender == TRUSTEE || BoardShares.balanceOf(msg.sender) > 50
         );
-        require(members.length < maxMembers, "board filled");
         members[bms] = BoardMember(bms, _adr, 0, _inf);
         memNum[_adr] = bms;
         bms++;

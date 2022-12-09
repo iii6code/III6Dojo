@@ -90,20 +90,8 @@
 
 pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
-import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
-import "../iii6utils/iii6Math.sol";
 import "./s0xUsers.sol";
-import "./s0xFriends.sol";
+import {iii6Math, s0xFriends} from "./s0xFriends.sol";
 import "./s0xGroups.sol";
 
 contract s0xFactory is s0xUsers, iii6Math {
@@ -139,7 +127,7 @@ contract s0xFactory is s0xUsers, iii6Math {
         address _from,
         string memory _msg
     ) external returns (address) {
-        (address s, address l) = smaller(_to, _from);
+        (address s, address l) = _smaller(_to, _from);
         return makeConvo(s, l, _msg, _from);
     }
 

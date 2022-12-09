@@ -101,7 +101,9 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
-import "../iii6Utils/Math/iii6Math.sol";
+
+// import "../iii6Utils/Math/iii6Math.sol";
+
 import "./s0xUsers.sol";
 import "./s0xFriends.sol";
 
@@ -140,6 +142,8 @@ contract s0xGroups is iii6Math {
     }
 
     function addUser(address _adr) external returns (address) {
+        /*
+        
         if (state == 0) {
             if (m >= 2) revert();
             // require(m < 2); // private state one allows 2 users only
@@ -149,7 +153,6 @@ contract s0xGroups is iii6Math {
             if (!friend.isFrenz(owner, _adr)) revert();
             if (!friend.isFrenz(_adr, owner)) revert();
         } // only degenz&frenz allowed
-        /*
         else if(state == 2) {
           require(friend.isFrenz(owner, _adr));  
         } // only frenz people you like
@@ -163,11 +166,15 @@ contract s0xGroups is iii6Math {
 
         else if(state == 9) require(invite[_adr] == true);
         else if(state == 99) require(friend.getRole(msg.sender) == 99);
-        */
+    
         members[m] = _adr;
         mNum[_adr] = m;
         ++m;
+
+
         return _adr;
+
+        */
     }
 
     function removeUser(address _adr) external returns (address) {
