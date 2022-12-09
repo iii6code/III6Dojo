@@ -91,70 +91,134 @@
 pragma solidity ^0.8.7;
 
 import "../iii6Utils/Math/iii6Math.sol";
+import "../iii6Utils/Misc/iii6Relations.sol";
 import "./s0xUsers.sol";
 
-contract s0xFriends is iii6Math {
+/**
+ * @dev soxFriends is the s0xiety contract that takes care or friendships relations and privacy
+ * it inherits iii6Math and iii6Relations
+ *
+ */
+contract s0xFriends is iii6Math, iii6Relations {
+    // importing s0x user contract struct
     s0xUsers private user;
+    // followers // address ref user# => address follower # => bool is follower ?
+    mapping(address => mapping(address => bool)) public followers; // people following you
 
-    // frenz // you# => frenz# => isfriend?
-    mapping(address => mapping(address => bool)) public frenz; // people following you
-
-    // degenz // you# => degenz# => isfriend?
-    mapping(address => mapping(address => bool)) public degenz; // people you follow
-
-    // connection bool // smaller# => bigger# => friends$ // friends : $0=unrelated, $1=hype, $2=nest
+    // following // address ref user # =>  address followed user # => bool is followed ?
+    mapping(address => mapping(address => bool)) public following; // people you follow
+    // following // address ref user # =>  address privacy user # => Relation Mode Struct ?
+    mapping(address => mapping(address => Relations)) private relationToUser;
+    // count connections var
     uint256 c;
-    mapping(address => mapping(address => uint256)) public connection;
-    mapping(address => uint256) public frenzCount;
-    mapping(address => uint256) public degenzCount;
-    mapping(address => mapping(uint256 => address)) public frenzByCount;
-
-    // user degenerated you
-    modifier degenerated(address _adr) {
-        require(degenz[msg.sender][_adr] == true || msg.sender == _adr); // do you follow or is it yourself
-        _;
-    }
-
-    // user frenzonned you
-    modifier frenzoned(address _adr) {
-        if (!frenz[_adr][msg.sender] || msg.sender != _adr) revert();
-        require(frenz[_adr][msg.sender] || msg.sender == _adr); // is he following or is it yourself
-        _;
-    }
+    uint256 r;
+    // connections // address smaller # => address bigger # => uint c connection count
+    mapping(address => mapping(address => uint256)) public connection; // connection array
+    // follower count // address ref user # => uint follower counter
+    mapping(address => uint256) public followerCount;
+    // follower count // address ref user # => uint followed counter
+    mapping(address => uint256) public myFollowingCount;
+    // followers by count //address ref user # => uint follower counter
+    mapping(address => mapping(uint256 => address)) public followersByCount;
 
     constructor(address _usrAdr) {
         user = s0xUsers(_usrAdr);
-        c = 1;
     }
 
-    ///
     function showMe() external view returns (string memory) {
         return user.showUser(msg.sender);
     }
 
-    ///
     function showYou(address _adr) external view returns (string memory) {
         return user.showUser(_adr);
     }
 
-    ///
     function getRole(address _adr) external view returns (uint256) {
         return user.getRole(_adr);
     }
 
-    ///
-    function follow(address _adr, address _sender) external returns (uint256) {
-        degenz[_adr][_sender] = true;
-        ++degenzCount[_adr];
-        frenz[_sender][_adr] = true;
-        frenzByCount[_sender][frenzCount[_sender]] = _adr;
-        ++frenzCount[_sender];
+    function follow(
+        address _adr,
+        address _sender,
+        uint256 _rel
+    ) external returns (uint256) {
+        Relation rel;
+        if (_rel == 0) rel = Relation.Friend;
+        if (_rel == 1) rel = Relation.Family;
+        if (_rel == 2) rel = Relation.Work;
+        if (_rel == 3) rel = Relation.Homies;
+        if (_rel == 4) rel = Relation.Partners;
+        if (_rel == 5) rel = Relation.Blocked;
+        if (_rel == 6) rel = Relation.Banned;
+        following[_adr][_sender] = true;
+        ++myFollowingCount[_adr];
+        followers[_sender][_adr] = true;
+        followersByCount[_sender][followerCount[_sender]] = _adr;
+        ++followerCount[_sender];
         (address s, address l) = _smaller(_adr, _sender);
+        // if no connection for this user pair exists
         if (connection[s][l] == 0) {
-            connection[s][l] = c;
             ++c;
+            connection[s][l] = c;
+            relationToUser[_sender][_adr] = Relations(
+                r,
+                true,
+                false,
+                false,
+                false,
+                true,
+                false,
+                rel,
+                Relation.Foreign
+            );
+            ++r;
+            relationToUser[_adr][_sender] = Relations(
+                r,
+                false,
+                true,
+                false,
+                false,
+                false,
+                true,
+                Relation.Foreign,
+                rel
+            );
+            ++r;
             return (connection[s][l]);
-        } else return (connection[s][l]);
+        }
+        // if one sided  connection for this user pair exists
+        else if (connection[s][l] == 1) {
+            ++c;
+            if (relationToUser[_sender][_adr].AprivB == Relation.Foreign)
+                connection[s][l] = c;
+            Relation oldRel;
+            oldRel = relationToUser[_sender][_adr].BprivA;
+            relationToUser[_sender][_adr] = Relations(
+                r,
+                true,
+                false,
+                false,
+                false,
+                true,
+                false,
+                rel,
+                oldRel
+            );
+            relationToUser[_adr][_sender] = Relations(
+                r,
+                false,
+                true,
+                false,
+                false,
+                false,
+                true,
+                oldRel,
+                rel
+            );
+            return (connection[s][l]);
+        }
+        // if users are two way connected
+        else return (connection[s][l]);
     }
 
     ///
@@ -172,34 +236,34 @@ contract s0xFriends is iii6Math {
         (address s, address l) = _smaller(_adr, _sender);
         return (
             connection[s][l],
-            frenz[_sender][_adr],
-            degenz[_sender][_adr],
+            followers[_sender][_adr],
+            following[_sender][_adr],
             s,
             l
         );
     }
 
     ///
-    function doFrenzCount(address _adr) external view returns (uint256) {
-        return frenzCount[_adr];
+    function doFollowerCount(address _adr) external view returns (uint256) {
+        return followerCount[_adr];
     }
 
     ///
-    function doDegenzCount(address _adr) external view returns (uint256) {
-        return degenzCount[_adr];
+    function doFollowingCount(address _adr) external view returns (uint256) {
+        return myFollowingCount[_adr];
     }
 
     ///
-    function doShowFrenz(address _adr, uint256 _c)
+    function doShowFollower(address _adr, uint256 _c)
         external
         view
         returns (address)
     {
-        return frenzByCount[_adr][_c];
+        return followersByCount[_adr][_c];
     }
 
     ///
-    function isFrenz(address _a, address _b) external view returns (bool) {
-        return frenz[_a][_b];
+    function isFollower(address _a, address _b) external view returns (bool) {
+        return followers[_a][_b];
     }
 }

@@ -97,7 +97,9 @@ contract iii6Relations {
         Family,
         Work,
         Homies,
-        Partners
+        Partners,
+        Blocked,
+        Banned
     }
     struct Relations {
         uint256 id;
