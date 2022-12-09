@@ -102,13 +102,9 @@ import "./s0xUsers.sol";
 contract s0xFriends is iii6Math, iii6Relations {
     // importing s0x user contract struct
     s0xUsers private user;
-    // followers // address ref user# => address follower # => bool is follower ?
-    mapping(address => mapping(address => bool)) public followers; // people following you
-
-    // following // address ref user # =>  address followed user # => bool is followed ?
-    mapping(address => mapping(address => bool)) public following; // people you follow
     // following // address ref user # =>  address privacy user # => Relation Mode Struct ?
     mapping(address => mapping(address => Relations)) private relationToUser;
+    mapping(address => bool) public banned;
     // count connections var
     uint256 c;
     uint256 r;
@@ -137,22 +133,26 @@ contract s0xFriends is iii6Math, iii6Relations {
         return user.getRole(_adr);
     }
 
-    function follow(
-        address _adr,
-        address _sender,
-        uint256 _rel
-    ) external returns (uint256) {
-        Relation rel;
+    function _detectRelation(uint256 _rel)
+        internal
+        pure
+        returns (Relation rel)
+    {
         if (_rel == 0) rel = Relation.Friend;
         if (_rel == 1) rel = Relation.Family;
         if (_rel == 2) rel = Relation.Work;
         if (_rel == 3) rel = Relation.Homies;
         if (_rel == 4) rel = Relation.Partners;
         if (_rel == 5) rel = Relation.Blocked;
-        if (_rel == 6) rel = Relation.Banned;
-        following[_adr][_sender] = true;
+    }
+
+    function relate(
+        address _adr,
+        address _sender,
+        uint256 _rel
+    ) external returns (uint256) {
+        Relation rel = _detectRelation(_rel);
         ++myFollowingCount[_adr];
-        followers[_sender][_adr] = true;
         followersByCount[_sender][followerCount[_sender]] = _adr;
         ++followerCount[_sender];
         (address s, address l) = _smaller(_adr, _sender);
@@ -189,58 +189,39 @@ contract s0xFriends is iii6Math, iii6Relations {
         // if one sided  connection for this user pair exists
         else if (connection[s][l] == 1) {
             ++c;
-            if (relationToUser[_sender][_adr].AprivB == Relation.Foreign)
+            if (relationToUser[_sender][_adr].AprivB == Relation.Foreign) {
                 connection[s][l] = c;
-            Relation oldRel;
-            oldRel = relationToUser[_sender][_adr].BprivA;
-            relationToUser[_sender][_adr] = Relations(
-                r,
-                true,
-                false,
-                false,
-                false,
-                true,
-                false,
-                rel,
-                oldRel
-            );
-            relationToUser[_adr][_sender] = Relations(
-                r,
-                false,
-                true,
-                false,
-                false,
-                false,
-                true,
-                oldRel,
-                rel
-            );
+                Relation oldRel;
+                oldRel = relationToUser[_sender][_adr].BprivA;
+                relationToUser[_sender][_adr] = Relations(
+                    r,
+                    true,
+                    false,
+                    false,
+                    false,
+                    true,
+                    false,
+                    rel,
+                    oldRel
+                );
+                ++r;
+                relationToUser[_adr][_sender] = Relations(
+                    r,
+                    false,
+                    true,
+                    false,
+                    false,
+                    false,
+                    true,
+                    oldRel,
+                    rel
+                );
+                ++r;
+            }
             return (connection[s][l]);
         }
         // if users are two way connected
         else return (connection[s][l]);
-    }
-
-    ///
-    function doShowStatus(address _adr, address _sender)
-        external
-        view
-        returns (
-            uint256,
-            bool,
-            bool,
-            address,
-            address
-        )
-    {
-        (address s, address l) = _smaller(_adr, _sender);
-        return (
-            connection[s][l],
-            followers[_sender][_adr],
-            following[_sender][_adr],
-            s,
-            l
-        );
     }
 
     ///
@@ -260,10 +241,5 @@ contract s0xFriends is iii6Math, iii6Relations {
         returns (address)
     {
         return followersByCount[_adr][_c];
-    }
-
-    ///
-    function isFollower(address _a, address _b) external view returns (bool) {
-        return followers[_a][_b];
     }
 }
