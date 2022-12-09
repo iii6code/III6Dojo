@@ -184,6 +184,10 @@ contract s0xUsers {
         return (impx[_adr].action, impx[_adr].connection, impx[_adr].liquidity);
     }
 
+    function addedConnection(address _adr) external returns (uint256) {
+        return ++impx[_adr].connection;
+    }
+
     // shows role by address input
     function getRole(address _adr) external view returns (uint256) {
         return roles[_adr];

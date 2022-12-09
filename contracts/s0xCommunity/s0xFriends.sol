@@ -117,20 +117,28 @@ contract s0xFriends is iii6Math, iii6Relations {
     // followers by count //address ref user # => uint follower counter
     mapping(address => mapping(uint256 => address)) public followersByCount;
 
+    /**
+     * @dev soxFriends is the s0xiety contract that takes care or friendships relations and privacy
+     * @param _usrAdr is the User Contract Adress
+     *
+     */
     constructor(address _usrAdr) {
         user = s0xUsers(_usrAdr);
     }
 
+    /**
+     * @dev shows user account of msg sender
+     */
     function showMe() external view returns (string memory) {
         return user.showUser(msg.sender);
     }
 
+    /**
+     * @dev shows user account of given address
+     * @param _adr address of user account to show
+     */
     function showYou(address _adr) external view returns (string memory) {
         return user.showUser(_adr);
-    }
-
-    function getRole(address _adr) external view returns (uint256) {
-        return user.getRole(_adr);
     }
 
     function _detectRelation(uint256 _rel)
@@ -172,6 +180,7 @@ contract s0xFriends is iii6Math, iii6Relations {
                 Relation.Foreign
             );
             ++r;
+            user.addedConnection(_sender);
             relationToUser[_adr][_sender] = Relations(
                 r,
                 false,
@@ -205,6 +214,7 @@ contract s0xFriends is iii6Math, iii6Relations {
                     oldRel
                 );
                 ++r;
+                user.addedConnection(_sender);
                 relationToUser[_adr][_sender] = Relations(
                     r,
                     false,
