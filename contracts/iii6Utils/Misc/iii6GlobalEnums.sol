@@ -185,6 +185,22 @@ contract iii6GlobalEnums {
         AUDIO,
         HIDDEN
     }
+    struct Proposal {
+        uint256 rid;
+        uint256 voteCount;
+        address[] members;
+        uint256[] shares;
+        int256[] difs;
+        bool[] votes;
+        Voting state;
+    }
+
+    struct BoardMember {
+        uint256 b_id;
+        address adr;
+        uint256 share;
+        string info;
+    }
 }
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //

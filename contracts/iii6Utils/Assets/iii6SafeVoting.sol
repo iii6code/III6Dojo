@@ -43,10 +43,10 @@
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //                                                                                                                                                                                  //
 //      @company        ::              Fractio Holding                                                                                                                                                                       //
-//      @title          ::              iii6 Dia Project GreenList                                                                                                                           //
-//      @description    ::              DIA Project Market Factory                                                                                                                             //
+//      @title          ::              iii6 Safes                                                                                                                            //
+//      @description    ::              This is a Asset Safe for all Board Members                                                                                                                            //
 //      @version        ::              0.0.1                                                                                                                                       //
-//      @purpose        ::              DIA Project Green List                                                                                                        //
+//      @purpose        ::              Multinet Address Storage                                                                                                           //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
 //                                                                                                                                                                                  //
@@ -61,95 +61,188 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 pragma solidity ^0.8.7;
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "./iii6DiaModel.sol";
 
-contract iii6DiaGreenListModel {
-    address public admin;
+import "./iii6CoinModel.sol";
+import "../Misc/iii6GlobalEnums.sol";
+import "../Misc/iii6Logs.sol";
+import "../Math/iii6Math.sol";
 
-    uint256 public l;
-    uint256 public max;
-    string public message;
-    uint256 public stamp;
-    iii6DiaModel public iii6Dia;
-    mapping(address => bool) public isListed;
-    address[1234] public users;
-    modifier notListed(address _adr) {
-        require(isListed[_adr] == false, "already listed");
-        _;
+contract iii6SafeVoting is iii6GlobalEnums {
+    // board member id callback from address
+    mapping(address => uint256) public memNum;
+    // number of board members starting at 1
+    uint256 bms;
+    // max number of board members starting at 1
+    uint256 maxMembers;
+    // minimumshare out of 100000
+    uint256 minShare;
+    // redistribution count
+    uint256 rid;
+    Proposal[] public proposals;
+    iii6CoinModel BoardShares;
+
+    constructor(address payable _shareToken) {
+        BoardShares = iii6CoinModel(_shareToken);
     }
 
-    constructor(uint256 _max, address _dia) {
-        admin = msg.sender;
-        // isListed[msg.sender] = true; // OFF ON TESTNET
-        // users[0] = msg.sender;
-        message = "BE FRESH MY FRUITY FRENZ !";
-        // l = 1; // Mainnet
-        // max = 1234; // Mainnet
-        l = 0; // Testnet
-        max = _max; // Testnet
-        _setiii6Dia(_dia);
+    /**
+     * @dev allows members to make redistribution proposals
+     * @param _members array of board members addresses
+     * @param _shares array of share amounts of board members
+     * @return exit in bool  makeProposal()
+     */
+
+    function proposeRedistribution(
+        address[] memory _members,
+        uint256[] memory _shares
+    ) external returns (bool) {
+        if (rid == 0) {
+            // first redistribution
+            rid = 1;
+            // check member count and share count
+            require(
+                _members.length == bms &&
+                    _shares.length == bms &&
+                    bms <= maxMembers,
+                ":: problem with members and shares ::"
+            );
+
+            return _makeProposal(_members, _shares);
+        } else {
+            require(
+                proposals[rid - 1].state == Voting.Canceled ||
+                    proposals[rid - 1].state == Voting.Approved
+            );
+            require(
+                _members.length == bms &&
+                    _shares.length == bms &&
+                    bms <= maxMembers,
+                ":: problem with members and shares ::"
+            );
+            return _makeProposal(_members, _shares);
+        }
     }
 
-    function _setiii6Dia(address _dia) internal returns (bool) {
-        iii6Dia = iii6DiaModel(_dia);
+    /**
+     * @dev fullfills proposal creation
+     * @param _members array of board members addresses
+     * @param _shares array of share amounts of board members
+     * @return exit in bool true
+     */
+    function _makeProposal(address[] memory _members, uint256[] memory _shares)
+        internal
+        returns (bool)
+    {
+        // create approvals uint[] with numMembers Elements
+        bool[] memory approvals;
+        int256[] memory difs;
+        // check if shares are total < 100000
+        uint256 cumu = 0;
+        int256 cumud = 0;
+        for (uint256 i = 0; i <= _members.length; i++) {
+            approvals[i] = false;
+            difs[i] =
+                int256(BoardShares.balanceOf(_members[i])) -
+                int256(_shares[i]);
+            cumu += _shares[i];
+            cumud += difs[i];
+        }
+        require(cumu == 100000, ":: shares error ::");
+        require(cumud == 0, ":: dif error ::");
+        // create first proposal
+        proposals[rid] = Proposal(
+            rid,
+            0,
+            _members,
+            _shares,
+            difs,
+            approvals,
+            Voting.Active
+        );
+        rid++;
         return true;
     }
 
-    function setiii6Dia(address _dia) external returns (bool) {
-        return _setiii6Dia(_dia);
+    /**
+     * @dev cancels proposal creation and destroys proposal
+     * @return exit in bool true
+     */
+    function cancelProposal() external returns (bool) {
+        // Get Last Proposal data
+        Proposal memory props = proposals[rid - 1];
+        // Set Proposal state canceled
+        props.state = Voting.Canceled;
+        // exit with check if canceled bool
+        proposals[rid - 1] = props;
+        return props.state == Voting.Canceled;
     }
 
-    function _autoStart() internal returns (bool) {
-        require(l == max);
-        return iii6Dia.changeMintState();
-    }
-
-    function getListed() external notListed(msg.sender) returns (bool) {
-        require(l < max, "no more greenlist tickets left");
-        isListed[msg.sender] = true;
-        users[l] = (msg.sender);
-        l++;
-        if (l == max) _autoStart();
-        return isListed[msg.sender];
-    }
-
-    function makeListing(address _adr) external notListed(_adr) returns (bool) {
-        require(admin == msg.sender, "you are not admin");
-        isListed[_adr] = true;
-        users[l] = (_adr);
-        l++;
-        if (l == max) _autoStart();
-        return isListed[_adr];
-    }
-
-    function showUsers() external view returns (address[1234] memory) {
-        return users;
-    }
-
-    function setMsg(string memory _msg) external payable returns (bool) {
-        require(msg.value <= 1 * 10**18, "insufficient balance sent");
-        require(block.timestamp >= stamp + 60 * 60, "you need to wait");
-        message = _msg;
-        stamp = block.timestamp;
+    /**
+     * @dev allows members to approve proposal creation and
+     * in case they have to give away shares transfers those to the contract
+     * and afterwards send the sahres to members who are supposed to receive shares
+     * @return exit in bool true
+     */
+    function approveProposal() external returns (bool) {
+        // Get Last Proposal data
+        Proposal memory props = proposals[rid - 1];
+        // Get old balance
+        uint256 oldBal = BoardShares.balanceOf(msg.sender);
+        // check position to get share amount
+        uint256 pos;
+        for (uint256 i = 0; i <= props.members.length; i++) {
+            if (msg.sender == props.members[i]) pos = i;
+        }
+        // get share amount
+        uint256 newBal = props.shares[pos];
+        // get difference old - new to check if approval is needed
+        int256 difBal = int256(oldBal) - int256(newBal);
+        // check if member recieves (negative diference) or has to move funds (positive diference)
+        if (difBal >= 0 && difBal == props.difs[pos]) {
+            BoardShares.approve(address(this), uint256(difBal));
+        }
+        props.votes[pos] = true;
+        props.voteCount++;
+        bool aT = _allTrue();
+        uint256 a = props.members.length;
+        if (a == props.voteCount && aT) {
+            props.state = Voting.Approved;
+            // send tokens to contract
+            for (uint256 i = 0; i <= props.members.length; i++) {
+                if (props.difs[i] < 0) {
+                    BoardShares.transferFrom(
+                        props.members[i],
+                        address(this),
+                        uint256(props.difs[i])
+                    );
+                }
+            }
+            // sends tokens to users
+            for (uint256 i = 0; i <= props.members.length; i++) {
+                if (props.difs[i] >= 0) {
+                    BoardShares.transferFrom(
+                        address(this),
+                        props.members[i],
+                        uint256(props.difs[i])
+                    );
+                }
+            }
+            proposals[rid - 1] = props;
+        }
         return true;
     }
 
-    function setMsgAdmin(string memory _msg) external returns (bool) {
-        require(admin == msg.sender, "you are not admin");
-        message = _msg;
-        stamp = block.timestamp;
-        return true;
-    }
-
-    function showMsg() external view returns (string memory) {
-        return message;
-    }
-
-    function withdraw() external returns (uint256) {
-        require(admin == msg.sender, "you are not admin");
-        payable(admin).transfer(address(this).balance);
-        return address(this).balance;
+    /**
+     * @dev checks if all users approved the proposal
+     * @return exit in bool _allTrue
+     */
+    function _allTrue() internal view returns (bool) {
+        // Get Last Proposal data
+        Proposal memory props = proposals[rid - 1];
+        bool check = true;
+        for (uint256 i = 0; i <= props.members.length; i++) {
+            if (props.votes[i] == true) check = false;
+        }
+        return check;
     }
 }

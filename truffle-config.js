@@ -88,6 +88,13 @@ module.exports = {
       timeoutBlocks: 200,
       skipDryRun: true,
     },
+    moonrbeam: {
+      provider: () => new HDWalletProvider(mnemonic, process.env.MOONRIVER_URL),
+      network_id: 1284,
+      confirmations: 10,
+      timeoutBlocks: 200,
+      skipDryRun: true,
+    },
     fuji: {
       provider: () => new HDWalletProvider(process.env.AVAX_MNEM, process.env.FUJI_URL),
       network_id: 43113,

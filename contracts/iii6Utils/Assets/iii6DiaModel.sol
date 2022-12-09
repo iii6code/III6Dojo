@@ -80,6 +80,7 @@ contract iii6DiaModel is ERC721, iii6Logs {
     mapping(address => mapping(uint256 => uint256)) public ntfIdByCount;
 
     error InvalidAmount();
+    error InsufficientBalance();
 
     iii6CoinModel iii6Coin;
     iii6DiaGreenListModel iii6GL;
@@ -117,7 +118,7 @@ contract iii6DiaModel is ERC721, iii6Logs {
                 false,
                 1
             );
-        if (_g > 0) iii6GL = new iii6DiaGreenListModel();
+        if (_g > 0) iii6GL = new iii6DiaGreenListModel(_g);
     }
 
     function changeMintState() external returns (bool) {
@@ -132,17 +133,9 @@ contract iii6DiaModel is ERC721, iii6Logs {
         return _adr == owner ? true : false;
     }
 
-    function getName() external view returns (string memory) {
-        return nam;
-    }
-
-    function getSym() external view returns (string memory) {
-        return sym;
-    }
-
     function mint(uint256 _amnt) external payable returns (uint256) {
-        require(msg.value >= price * _amnt);
         if (minted >= max || minted + _amnt >= max) revert InvalidAmount();
+        if (msg.value >= price * _amnt) revert InsufficientBalance();
         _doMint(_amnt);
         return minted;
     }

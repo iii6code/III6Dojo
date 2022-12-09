@@ -27,8 +27,8 @@ module.exports = function (deployer) {
   if (netID == 80001) deployer.deploy(vrfMumbai, 2022);
   if (netID == 43114) deployer.deploy(vrfAvax, 0);
   if (netID == 43113) deployer.deploy(vrfFuji, 423);
-  if (netID == 250) deployer.deploy(vrfFantom, 0);
+  if (netID == 250) deployer.deploy(vrfFantom, 49);
   if (netID == 4002) deployer.deploy(vrfFtmTest, 137);
-  if (netID == 56) deployer.deploy(vrfBsc, 0);
+  if (netID == 56) deployer.deploy(vrfBsc, 0); // just blanks
   if (netID == 97) deployer.deploy(vrfChalen, 2267);
 };
