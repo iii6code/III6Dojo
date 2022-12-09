@@ -154,6 +154,14 @@ contract s0xFriends is iii6Math, iii6Relations {
         if (_rel == 5) rel = Relation.Blocked;
     }
 
+    function getMsgAllow(address _sender, address _adr)
+        external
+        view
+        returns (bool)
+    {
+        return relationToUser[_sender][_adr].BallowsAmsg;
+    }
+
     function relate(
         address _adr,
         address _sender,
@@ -177,7 +185,7 @@ contract s0xFriends is iii6Math, iii6Relations {
                 true,
                 false,
                 rel,
-                Relation.Foreign
+                Relation.Member
             );
             ++r;
             user.addedConnection(_sender);
@@ -189,7 +197,7 @@ contract s0xFriends is iii6Math, iii6Relations {
                 false,
                 false,
                 true,
-                Relation.Foreign,
+                Relation.Member,
                 rel
             );
             ++r;
@@ -198,7 +206,7 @@ contract s0xFriends is iii6Math, iii6Relations {
         // if one sided  connection for this user pair exists
         else if (connection[s][l] == 1) {
             ++c;
-            if (relationToUser[_sender][_adr].AprivB == Relation.Foreign) {
+            if (relationToUser[_sender][_adr].AprivB == Relation.Member) {
                 connection[s][l] = c;
                 Relation oldRel;
                 oldRel = relationToUser[_sender][_adr].BprivA;

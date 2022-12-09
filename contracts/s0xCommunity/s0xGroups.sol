@@ -90,30 +90,18 @@
 
 pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol";
-import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
-import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
-
 // import "../iii6Utils/Math/iii6Math.sol";
 
 import "./s0xUsers.sol";
-import "./s0xFriends.sol";
+import {s0xFriends, iii6Relations, iii6Math} from "./s0xFriends.sol";
 
-contract s0xGroups is iii6Math {
+contract s0xGroups is iii6Math, iii6Relations {
     s0xUsers private user; // user contract reference
     s0xFriends private friend; // friend contract reference
     address public owner; // owner address
     string public name; // group name
     uint256 private m; // member count
-    uint256 private state; // 0-private (no invite), 1-bothchecked, 2-ulike, 3-likeu, 4-bothcheckedofulike, 5-public, 9-secret, 99-admin
+    GroupType public mode; // 0-private (no invite), 1-bothchecked, 2-ulike, 3-likeu, 4-bothcheckedofulike, 5-public, 9-secret, 99-admin
 
     mapping(uint256 => address) public members; // address by id
     mapping(address => uint256) public mNum; // id by address
@@ -131,10 +119,10 @@ contract s0xGroups is iii6Math {
         address _user,
         address _friend,
         bytes memory _name,
-        uint256 _state,
+        GroupType _mode,
         address _o
     ) {
-        state = _state;
+        mode = _mode;
         user = s0xUsers(_user);
         friend = s0xFriends(_friend);
         owner = _o;
@@ -142,43 +130,49 @@ contract s0xGroups is iii6Math {
     }
 
     function addUser(address _adr) external returns (address) {
-        /*
-        
-        if (state == 0) {
+        /**
+         * @dev FACE TO FACE PRIVATE CHAT
+         */
+        if (mode == GroupType.FaceToFace) {
             if (m >= 2) revert();
-            // require(m < 2); // private state one allows 2 users only
-            // require(user.isU(msg.sender) == true);
-            // require(user.isU(_adr) == true);
-        } else if (state == 1) {
-            if (!friend.isFrenz(owner, _adr)) revert();
-            if (!friend.isFrenz(_adr, owner)) revert();
-        } // only degenz&frenz allowed
-        else if(state == 2) {
-          require(friend.isFrenz(owner, _adr));  
-        } // only frenz people you like
-        else if(state == 3) {
-          require(friend.isFrenz(_adr, owner));  
-        } // only degenz people who like you
-        else if(state == 4) {
-            require(friend.isFrenz(msg.sender, _adr));
-            require(friend.isFrenz(_adr, msg.sender));
-        } // only degenz&frenz allowed
+            if (friend.getMsgAllow(msg.sender, _adr) == false) revert();
+            if (friend.getMsgAllow(_adr, msg.sender) == false) revert();
+            // private group initiation
+        }
+        /**
+         * @dev FACE TO FACE PRIVATE CHAT
+         */
+        else if (mode == GroupType.Private) {}
+        /**
+         * @dev PRIVATE GROUP
+         */
+        else if (mode == GroupType.Closed) {}
+        /**
+         * @dev Password Protected PRIVATE Group
+         */
+        else if (mode == GroupType.Shared) {}
+        /**
+         * @dev Friends Invite Friends Public Group
+         */
+        else if (mode == GroupType.Public) {}
+        /**
+         * @dev public group
+         */
+        else if (mode == GroupType.Open) {}
+        /**
+         * @dev open group
+         */
+        else {}
 
-        else if(state == 9) require(invite[_adr] == true);
-        else if(state == 99) require(friend.getRole(msg.sender) == 99);
-    
         members[m] = _adr;
         mNum[_adr] = m;
         ++m;
 
-
         return _adr;
-
-        */
     }
 
     function removeUser(address _adr) external returns (address) {
-        if (state == 0) revert();
+        if (mode == GroupType.FaceToFace) revert();
         members[mNum[_adr]] = address(0);
         mNum[_adr] = 0;
         return _adr;

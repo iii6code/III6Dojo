@@ -94,6 +94,10 @@ import "./s0xUsers.sol";
 import {iii6Math, s0xFriends} from "./s0xFriends.sol";
 import "./s0xGroups.sol";
 
+/**
+ * @dev the s0xFactory creates the s0xial user friend and group interface and
+ * functions as central administration hub for all s0xial interactions
+ */
 contract s0xFactory is s0xUsers, iii6Math {
     s0xFriends public friends;
     s0xGroups public groups;
@@ -101,11 +105,21 @@ contract s0xFactory is s0xUsers, iii6Math {
     mapping(address => uint256) public groupCount;
     mapping(address => mapping(uint256 => address)) public groupByCount;
 
+    /**
+     * @dev the s0xFactory creates the s0xial user friend and group interface and
+     * functions as central administration hub for all s0xial interactions
+     * the constructor creates a friends instance and stores the address of the contract
+     */
     constructor() s0xUsers() iii6Math() {
         friends = new s0xFriends(address(this));
         fAdr = address(friends);
     }
 
+    /**
+     * @dev the s0xFactory creates the s0xial user friend and group interface and
+     * functions as central administration hub for all s0xial interactions
+     * the constructor creates a friends instance and stores the address of the contract
+     */
     function createGroup(string memory _name, uint256 _state)
         external
         returns (address)
@@ -145,39 +159,5 @@ contract s0xFactory is s0xUsers, iii6Math {
         groups.addUser(_s);
         groups.addUser(_l);
         return address(groups);
-    }
-
-    function followAdr(address _adr) external returns (uint256) {
-        return friends.follow(_adr, msg.sender);
-    }
-
-    function showFrenz(address _adr, uint256 _c)
-        external
-        view
-        returns (address)
-    {
-        return friends.doShowFrenz(_adr, _c);
-    }
-
-    function countFrenz(address _adr) external view returns (uint256) {
-        return friends.doFrenzCount(_adr);
-    }
-
-    function countDegenz(address _adr) external view returns (uint256) {
-        return friends.doDegenzCount(_adr);
-    }
-
-    function showStatus(address _adr)
-        external
-        view
-        returns (
-            uint256,
-            bool,
-            bool,
-            address,
-            address
-        )
-    {
-        return friends.doShowStatus(_adr, msg.sender);
     }
 }

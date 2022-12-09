@@ -78,20 +78,44 @@ contract iii6Relations {
     // role enum
     enum Roles {
         Unknown,
-        New,
-        Client,
+        Foreign,
+        Known,
+        Member,
         Advertiser,
         Creator,
         Moderator,
         Admin
     }
-    // campaign enum
-
+    /**
+     * @dev explanation of group types
+     * @param Face To Face is for 2 users only private invisible and encrypted
+     * @param Private is a invisible private group for multiple users
+     * @param Closed is a invisible group with password access
+     * @param Shared is a Private Group Friends can Invite other Friends into
+     * @param Public is a publicly visible group every user can apply for
+     * @param Open groups are visible and accessible by everyone
+     */
+    enum GroupType {
+        FaceToFace,
+        Private,
+        Closed,
+        Shared,
+        Public,
+        Open
+    }
+    /**
+     * @dev explanation of group types
+     * @param Member known wallet address with profile data with no relation to ref user
+     * @param FriendsFriend member with a relation to at least one of ref users friends
+     * @param Friend member privacy status that allows basic access it is the default friendship state
+     * @param Family member biologically or emotionally related
+     * @param Work member related through work or profession
+     * @param Homies member that is a close private friend
+     * @param Partners member that user trusts 100% and can recover user account
+     * @param Blocked member that is removed from user feed for ref user and vice versa
+     */
     enum Relation {
-        Unknown,
-        Foreign,
         Member,
-        SharedGroups,
         FriendsFriend,
         Friend,
         Family,
