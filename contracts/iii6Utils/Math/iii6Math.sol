@@ -149,6 +149,15 @@ contract iii6Math {
     {
         (_a < _b) ? (s = _a, l = _b) : (s = _b, l = _a);
     }
+
+    function _stringEqual(string memory _a, string memory _b)
+        internal
+        pure
+        returns (bool)
+    {
+        return
+            keccak256(abi.encodePacked(_a)) == keccak256(abi.encodePacked(_b));
+    }
 }
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //

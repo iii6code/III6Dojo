@@ -96,6 +96,7 @@ import "./s0xUsers.sol";
 import {s0xFriends, iii6Relations, iii6Math} from "./s0xFriends.sol";
 
 contract s0xGroups is iii6Math, iii6Relations {
+    error Unauthorized();
     s0xUsers private user; // user contract reference
     s0xFriends private friend; // friend contract reference
     address public owner; // owner address
@@ -114,61 +115,95 @@ contract s0xGroups is iii6Math, iii6Relations {
     mapping(address => uint256) public myRplyCount; // reply count  by useraddress
     mapping(address => mapping(uint256 => bytes)) public myReplys; // reply content by address and myrplycount
     mapping(address => bool) public invite;
+    string p;
 
     constructor(
         address _user,
         address _friend,
         bytes memory _name,
         GroupType _mode,
-        address _o
+        address _o,
+        string memory _p
     ) {
         mode = _mode;
         user = s0xUsers(_user);
         friend = s0xFriends(_friend);
         owner = _o;
+        p = _p;
         name = string(_name);
     }
 
-    function addUser(address _adr) external returns (address) {
+    function _addUser(address _adr) internal returns (address) {
+        members[m] = _adr;
+        mNum[_adr] = m;
+        m++;
+        return _adr;
+    }
+
+    function addUser(address _adr, string memory _pin)
+        external
+        returns (address ad)
+    {
         /**
          * @dev FACE TO FACE PRIVATE CHAT
+         * if sender and receiver know another
+         * and ref user is alone new user gets
+         * added to face to face chat
          */
         if (mode == GroupType.FaceToFace) {
-            if (m >= 2) revert();
-            if (friend.getMsgAllow(msg.sender, _adr) == false) revert();
-            if (friend.getMsgAllow(_adr, msg.sender) == false) revert();
-            // private group initiation
+            if (m >= 2) revert Unauthorized();
+            if (friend.getMsgAllow(msg.sender, _adr) == false)
+                revert Unauthorized();
+            if (friend.getMsgAllow(_adr, msg.sender) == false)
+                revert Unauthorized();
+            ad = _addUser(_adr);
         }
         /**
-         * @dev FACE TO FACE PRIVATE CHAT
-         */
-        else if (mode == GroupType.Private) {}
-        /**
          * @dev PRIVATE GROUP
+         * if owner and receiver know another
+         * new user gets added
          */
-        else if (mode == GroupType.Closed) {}
+        else if (mode == GroupType.Private) {
+            if (
+                msg.sender != owner ||
+                !friend.getMsgAllow(owner, _adr) ||
+                !friend.getMsgAllow(_adr, owner)
+            ) revert Unauthorized();
+            // add user to group
+            ad = _addUser(_adr);
+        }
         /**
          * @dev Password Protected PRIVATE Group
          */
-        else if (mode == GroupType.Shared) {}
+        else if (mode == GroupType.Closed) {
+            if (
+                !friend.getMsgAllow(msg.sender, _adr) ||
+                !friend.getMsgAllow(_adr, msg.sender)
+            ) revert Unauthorized();
+            if (_stringEqual(_pin, p)) {
+                ad = _addUser(_adr);
+            } else revert Unauthorized();
+        }
         /**
          * @dev Friends Invite Friends Public Group
          */
-        else if (mode == GroupType.Public) {}
+        else if (mode == GroupType.Shared || mode == GroupType.Public) {
+            if (
+                friend.getMsgAllow(msg.sender, _adr) == false ||
+                friend.getMsgAllow(_adr, msg.sender) == false
+            ) revert Unauthorized();
+            ad = _addUser(_adr);
+        }
         /**
          * @dev public group
          */
-        else if (mode == GroupType.Open) {}
+        else if (mode == GroupType.Open) {
+            ad = _addUser(_adr);
+        }
         /**
          * @dev open group
          */
-        else {}
-
-        members[m] = _adr;
-        mNum[_adr] = m;
-        ++m;
-
-        return _adr;
+        else revert Unauthorized();
     }
 
     function removeUser(address _adr) external returns (address) {

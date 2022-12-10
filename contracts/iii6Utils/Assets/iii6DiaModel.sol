@@ -60,11 +60,12 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "../Misc/iii6Logs.sol";
+import "../Misc/Errors/iii6Errors.sol";
 import "../Math/iii6DiaIdGen.sol";
 import "./iii6CoinModel.sol";
 import "./iii6DiaGreenListModel.sol";
 
-contract iii6DiaModel is ERC721, iii6Logs {
+contract iii6DiaModel is ERC721, iii6Logs, iii6Errors {
     address public owner;
     uint256 public minted;
     uint256 public max;
@@ -79,8 +80,8 @@ contract iii6DiaModel is ERC721, iii6Logs {
     // user address @ => nft count # => nft id #
     mapping(address => mapping(uint256 => uint256)) public ntfIdByCount;
 
-    error InvalidAmount();
-    error InsufficientBalance();
+    // error InvalidAmount();
+    // error InsufficientBalance();
 
     iii6CoinModel iii6Coin;
     iii6DiaGreenListModel iii6GL;
@@ -147,8 +148,8 @@ contract iii6DiaModel is ERC721, iii6Logs {
     }
 
     function mint(uint256 _amnt) external payable returns (uint256) {
-        if (minted >= max || minted + _amnt >= max) revert InvalidAmount();
-        if (msg.value >= price * _amnt) revert InsufficientBalance();
+        if (minted >= max || minted + _amnt >= max) revert Invalid_Amount();
+        if (msg.value >= price * _amnt) revert Insufficient_Balance();
         _doMint(_amnt);
         return minted;
     }

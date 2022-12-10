@@ -208,30 +208,30 @@ contract s0xFriends is iii6Math, iii6Relations {
             ++c;
             if (relationToUser[_sender][_adr].AprivB == Relation.Member) {
                 connection[s][l] = c;
-                Relation oldRel;
-                oldRel = relationToUser[_sender][_adr].BprivA;
+                Relations memory oldRel;
+                oldRel = relationToUser[_sender][_adr];
                 relationToUser[_sender][_adr] = Relations(
                     r,
                     true,
+                    oldRel.BfollowsA,
                     false,
-                    false,
-                    false,
+                    oldRel.BbansA,
                     true,
-                    false,
+                    oldRel.BallowsAmsg,
                     rel,
-                    oldRel
+                    oldRel.BprivA
                 );
                 ++r;
                 user.addedConnection(_sender);
                 relationToUser[_adr][_sender] = Relations(
                     r,
-                    false,
+                    oldRel.BfollowsA,
                     true,
+                    oldRel.BbansA,
                     false,
-                    false,
-                    false,
+                    oldRel.BallowsAmsg,
                     true,
-                    oldRel,
+                    oldRel.BprivA,
                     rel
                 );
                 ++r;

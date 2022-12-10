@@ -110,10 +110,10 @@ contract s0xUsers {
     mapping(address => Impact) public impx;
     mapping(address => string) public name;
 
-    error Unathorized();
+    error Unauthorized();
 
     modifier isAdmin() {
-        if (msg.sender != s0x) revert Unathorized();
+        if (msg.sender != s0x) revert Unauthorized();
         _;
     }
 

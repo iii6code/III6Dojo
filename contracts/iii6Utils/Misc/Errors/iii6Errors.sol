@@ -63,24 +63,23 @@
 pragma solidity ^0.8.7;
 
 abstract contract iii6Errors {
-    error AlreadyListed();
-    error AllSlotsMinted();
-    error InsufficientBalance();
-    error InsufficientMLQ();
-    error InsufficientFunds();
-    error InsufficientAmount();
-    error InvalidAmount();
-    error Minimum10Ice();
-    error MintIsNotYetLive();
-    error MintInProgress();
-    error MaximumMintIs7();
-    error MaxTokensReached();
-    error NoGreenlistTicketsLeft();
-    error NotEnoughSupply();
-    error NotGreenlisted();
-    error SoldOut();
-    error Unathorized();
-    error YouNeedToWait();
-    error YouAreNotTheHolder();
-    error ArraysLengthMismatch();
+    error Already_Listed();
+    error All_Slots_Minted();
+    error Insufficient_Balance();
+    error Insufficient_MLQ();
+    error Insufficient_Funds();
+    error Insufficient_Amount();
+    error Invalid_Amount();
+    error Min_Requirements_Not_Met();
+    error Mint_Is_Not_Yet_Live();
+    error Mint_In_Progress();
+    error Max_Tokens_Minted();
+    error Greenlist_Expired();
+    error Insufficient_Supply();
+    error Not_Greenlisted();
+    error Sold_Out();
+    error Unauthorized();
+    error You_Need_To_Wait();
+    error You_Are_Not_The_Holder();
+    error Array_Length_Mismatch();
 }
