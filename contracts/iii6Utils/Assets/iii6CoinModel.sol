@@ -70,6 +70,7 @@ import "../Oracles/iii6PriceConsumer.sol";
 import "../Math/iii6PriceMath.sol";
 import "./iii6Safes.sol";
 import "../Misc/iii6Misc.sol";
+import "../Misc/Errors/iii6Errors.sol";
 
 contract iii6CoinModel is
     ERC20,
@@ -77,7 +78,8 @@ contract iii6CoinModel is
     ERC20Burnable,
     Ownable,
     iii6PriceMath,
-    iii6Misc
+    iii6Misc,
+    iii6Errors
 {
     /**
      * @dev this contract is a factory contract to deploy iii6CoinModel & iii6DiaModel
@@ -155,25 +157,25 @@ contract iii6CoinModel is
         iii6PriceMath pm;
         if (ocoin == Coins.WETH) {
             uint256 eP = pm.coinPriceOfEth(_newRate); /** @dev see iii6PriceMath.sol coinPriceOfEth() :: line138 */
-            require(eP > 0);
+            if (eP < 0) revert Invalid_Response();
             rates[r] = Rates(r, eP, ocoin);
             r++;
             return rate = eP;
         } else if (ocoin == Coins.GASCOIN) {
             uint256 gP = _newRate;
-            require(gP > 0);
+            if (gP < 0) revert Invalid_Response();
             rates[r] = Rates(r, gP, ocoin);
             r++;
             return rate = gP;
         } else if (ocoin == Coins.XXX) {
             uint256 xP = pm.coinPriceOfX(_newRate); /** @dev see iii6PriceMath.sol coinPriceOfX() :: line138 */
-            require(xP > 0);
+            if (xP < 0) revert Invalid_Response();
             rates[r] = Rates(r, xP, ocoin);
             r++;
             return rate = xP;
         } else if (ocoin == Coins.YYY) {
             uint256 yP = pm.coinPriceOfY(_newRate); /** @dev see iii6PriceMath.sol coinPriceOfY() :: line138 */
-            require(yP > 0);
+            if (yP < 0) revert Invalid_Response();
             rates[r] = Rates(r, yP, ocoin);
             r++;
             return rate = yP;
@@ -270,7 +272,7 @@ contract iii6CoinModel is
      * @param _amount of tokens to burn // EXTERNAL
      */
     function burn(uint256 _amount) public override {
-        require(burns == true, "not burnable");
+        if (burns == false) revert Not_Burnable();
         _burn(msg.sender, _amount);
     }
 
@@ -295,7 +297,7 @@ contract iii6CoinModel is
      * @return active state of contract (true = paused / false = active)
      */
     function toggleState() public onlyOwner returns (bool) {
-        require(pauses == true, "not pausable");
+        if (pauses == false) revert Not_Pausable();
         if (paused()) _unpause();
         else _pause();
         return paused();
@@ -307,11 +309,9 @@ contract iii6CoinModel is
      * @return uint total price
      */
     function buyTokens(uint256 _amount) external payable returns (uint256) {
-        require(msg.value >= _amount * rate, ":: insufficient balance ::");
-        require(
-            (MAX_SUPPLY - PUB_SUPPLY) - (_amount * 10**18) > 0,
-            ":: insufficient tokens ::"
-        );
+        if (msg.value <= _amount * rate) revert Insufficient_Amount();
+        if ((MAX_SUPPLY - PUB_SUPPLY) - (_amount * 10**18) < 0)
+            revert Insufficient_Supply();
         _mint(msg.sender, _amount * 10**18);
         return _amount * rate;
     }
@@ -359,12 +359,10 @@ contract iii6CoinModel is
         // determine tAmount
         uint256 tAmount = input / rate;
         // check if input sufficient
-        require(tAmount > rate);
+        if (tAmount < rate) revert Insufficient_Amount();
         // check if tokens available
-        require(
-            (MAX_SUPPLY - PUB_SUPPLY) - (tAmount) > 0,
-            ":: insufficient tokens ::"
-        );
+        if ((MAX_SUPPLY - PUB_SUPPLY) - (tAmount) < 0)
+            revert Insufficient_Supply();
         _mint(msg.sender, tAmount);
     }
 }

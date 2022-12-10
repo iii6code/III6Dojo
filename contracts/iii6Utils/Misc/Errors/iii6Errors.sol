@@ -83,4 +83,7 @@ abstract contract iii6Errors {
     error You_Need_To_Wait();
     error You_Are_Not_The_Holder();
     error Array_Length_Mismatch();
+    error Invalid_Response();
+    error Not_Burnable();
+    error Not_Pausable();
 }

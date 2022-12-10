@@ -87,7 +87,7 @@ contract iii6DiaModel is ERC721, iii6Logs, iii6Errors {
     iii6DiaGreenListModel iii6GL;
 
     modifier onlyO() {
-        require(owner == msg.sender);
+        if (owner != msg.sender) revert Unauthorized();
         _;
     }
 

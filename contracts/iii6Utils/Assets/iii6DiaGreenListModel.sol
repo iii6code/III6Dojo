@@ -63,9 +63,9 @@
 pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "./iii6DiaModel.sol";
+import {iii6Errors, iii6DiaModel} from "./iii6DiaModel.sol";
 
-contract iii6DiaGreenListModel {
+contract iii6DiaGreenListModel is iii6Errors {
     address public admin;
 
     uint256 public l;
@@ -76,7 +76,7 @@ contract iii6DiaGreenListModel {
     mapping(address => bool) public isListed;
     address[1234] public users;
     modifier notListed(address _adr) {
-        require(isListed[_adr] == false, "already listed");
+        if (isListed[_adr] == true) revert Already_Listed();
         _;
     }
 
@@ -102,12 +102,12 @@ contract iii6DiaGreenListModel {
     }
 
     function _autoStart() internal returns (bool) {
-        require(l == max);
+        if (l != max) revert();
         return iii6Dia.changeMintState();
     }
 
     function getListed() external notListed(msg.sender) returns (bool) {
-        require(l < max, "no more greenlist tickets left");
+        if (l >= max) revert All_Slots_Taken();
         isListed[msg.sender] = true;
         users[l] = (msg.sender);
         l++;
@@ -116,7 +116,7 @@ contract iii6DiaGreenListModel {
     }
 
     function makeListing(address _adr) external notListed(_adr) returns (bool) {
-        require(admin == msg.sender, "you are not admin");
+        if (admin != msg.sender) revert Unauthorized();
         isListed[_adr] = true;
         users[l] = (_adr);
         l++;
@@ -129,15 +129,15 @@ contract iii6DiaGreenListModel {
     }
 
     function setMsg(string memory _msg) external payable returns (bool) {
-        require(msg.value <= 1 * 10**18, "insufficient balance sent");
-        require(block.timestamp >= stamp + 60 * 60, "you need to wait");
+        if (msg.value <= 1 * 10**18) revert Insufficient_Amount();
+        if (block.timestamp <= stamp + 60 * 60) revert You_Need_To_Wait();
         message = _msg;
         stamp = block.timestamp;
         return true;
     }
 
     function setMsgAdmin(string memory _msg) external returns (bool) {
-        require(admin == msg.sender, "you are not admin");
+        if (admin != msg.sender) revert Unauthorized();
         message = _msg;
         stamp = block.timestamp;
         return true;
@@ -148,7 +148,7 @@ contract iii6DiaGreenListModel {
     }
 
     function withdraw() external returns (uint256) {
-        require(admin == msg.sender, "you are not admin");
+        if (admin != msg.sender) revert Unauthorized();
         payable(admin).transfer(address(this).balance);
         return address(this).balance;
     }

@@ -86,8 +86,9 @@ contract iii6SafeModel is iii6GlobalProposals {
      * @dev allows only board members to use functions
      */
     modifier isMember() {
-        require(memNum[msg.sender] >= 0);
-        require(members[memNum[msg.sender]].adr == msg.sender);
+        if (memNum[msg.sender] == 0) revert Unauthorized();
+        if (members[memNum[msg.sender]].adr != msg.sender)
+            revert Unauthorized();
         _;
     }
 
@@ -100,7 +101,7 @@ contract iii6SafeModel is iii6GlobalProposals {
     }
 
     function makeShares(string memory _name, string memory _sym) external {
-        require(msg.sender == TRUSTEE);
+        if (msg.sender != TRUSTEE) Unauthorized();
         address _newShares = iii6Assets.buildCoinProject(
             _name,
             _sym,
@@ -123,9 +124,8 @@ contract iii6SafeModel is iii6GlobalProposals {
         external
         returns (address)
     {
-        require(
-            msg.sender == TRUSTEE || BoardShares.balanceOf(msg.sender) > 50
-        );
+        if (msg.sender != TRUSTEE && BoardShares.balanceOf(msg.sender) <= 50)
+            revert Unauthorized();
         members[bms] = BoardMember(bms, _adr, 0, _inf);
         memNum[_adr] = bms;
         bms++;
