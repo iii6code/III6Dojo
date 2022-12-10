@@ -260,4 +260,86 @@ contract s0xFriends is iii6Math, iii6Relations {
     {
         return followersByCount[_adr][_c];
     }
+
+    function showRelation(address _adr)
+        external
+        view
+        returns (Relations memory rel)
+    {
+        rel = relationToUser[msg.sender][_adr];
+    }
+
+    function editRelation(
+        address _adr,
+        bool _fol,
+        bool _msg,
+        bool _ban,
+        uint256 _rel
+    ) external returns (Relations memory) {
+        return _editRelation(_adr, _fol, _msg, _ban, _rel);
+    }
+
+    /**
+     * @dev Relations Struct Scheme
+     * @param _adr address of reciever
+     * @param _fol bool a follows b
+     * @param _msg bool a allows msgs b
+     * @param _ban bool a bans b
+     * @param _rel Relation in /iii6Utils/Misc/iii6Relations.sol Relation enum
+     * @return rel
+     */
+    function _editRelation(
+        address _adr,
+        bool _fol,
+        bool _msg,
+        bool _ban,
+        uint256 _rel
+    ) internal returns (Relations memory rel) {
+        Relation newRel = _detectRelation(_rel);
+        Relations memory hold1 = relationToUser[msg.sender][_adr];
+        Relations memory hold2 = relationToUser[_adr][msg.sender];
+
+        /**
+         * Relations Struct Scheme
+         *
+         * @param uint256 id;
+         * @param bool AfollowsB;
+         * @param bool BfollowsA;
+         * @param bool AbansB;
+         * @param bool BbansA;
+         * @param bool AallowsBmsg;
+         * @param bool BallowsAmsg;
+         * @param Relation AprivB;
+         * @param Relation BprivA;
+         */
+        Relations memory relOut = Relations(
+            hold1.id,
+            _fol,
+            hold1.BfollowsA,
+            _ban,
+            hold1.BbansA,
+            _msg,
+            hold1.BallowsAmsg,
+            newRel,
+            hold1.BprivA
+        );
+        Relations memory relIn = Relations(
+            hold2.id,
+            hold2.AfollowsB,
+            _fol,
+            hold2.AbansB,
+            _ban,
+            hold2.AallowsBmsg,
+            _msg,
+            hold2.AprivB,
+            newRel
+        );
+        relationToUser[msg.sender][_adr] = relOut;
+        relationToUser[_adr][msg.sender] = relIn;
+        rel = relOut;
+    }
+
+    function blockAddress(address _adr) external returns (Relations memory) {
+        return _editRelation(_adr, false, false, true, 5);
+    }
 }
