@@ -141,6 +141,9 @@ contract s0xFriends is iii6Math, iii6Relations {
         return user.showUser(_adr);
     }
 
+    /**
+     * @dev shows user relation to msg.sender INTERNAL
+     */
     function _detectRelation(uint256 _rel)
         internal
         pure
@@ -154,6 +157,9 @@ contract s0xFriends is iii6Math, iii6Relations {
         if (_rel == 5) rel = Relation.Blocked;
     }
 
+    /**
+     * @dev shows user msg allowance to msg.sender
+     */
     function getMsgAllow(address _sender, address _adr)
         external
         view
@@ -162,6 +168,9 @@ contract s0xFriends is iii6Math, iii6Relations {
         return relationToUser[_sender][_adr].BallowsAmsg;
     }
 
+    /**
+     * @dev create user relation from sender to adr INTERNAL
+     */
     function relate(
         address _adr,
         address _sender,
@@ -242,17 +251,26 @@ contract s0xFriends is iii6Math, iii6Relations {
         else return (connection[s][l]);
     }
 
-    ///
+    /**
+     * @dev count followers of address
+     */
     function doFollowerCount(address _adr) external view returns (uint256) {
         return followerCount[_adr];
     }
 
-    ///
+    /**
+     * @dev count how many users address follows
+     * @param _adr address of user
+     */
     function doFollowingCount(address _adr) external view returns (uint256) {
         return myFollowingCount[_adr];
     }
 
-    ///
+    /**
+     * @dev shows one specific Followers address
+     * @param _adr address of user
+     * @param _c follower count pointer of user _adr
+     */
     function doShowFollower(address _adr, uint256 _c)
         external
         view
@@ -261,6 +279,11 @@ contract s0xFriends is iii6Math, iii6Relations {
         return followersByCount[_adr][_c];
     }
 
+    /**
+     * @dev shows relation fom msg.sender to _adr
+     * @param _adr address of user
+     * @return rel Relations struct
+     */
     function showRelation(address _adr)
         external
         view
@@ -269,6 +292,14 @@ contract s0xFriends is iii6Math, iii6Relations {
         rel = relationToUser[msg.sender][_adr];
     }
 
+    /**
+     * @dev edits one specific Followers address relation status a = msg.sender b = _adr
+     * @param _adr address of user
+     * @param _fol bool follower
+     * @param _msg bool can a msg b
+     * @param _ban bool did a ban b
+     * @param _rel uint relation gets converted to Relaion enum by _detectRelation()
+     */
     function editRelation(
         address _adr,
         bool _fol,
@@ -280,7 +311,8 @@ contract s0xFriends is iii6Math, iii6Relations {
     }
 
     /**
-     * @dev Relations Struct Scheme
+     * @dev edits one specific Followers address relation status
+     * a = msg.sender b = _adr INTERNAL
      * @param _adr address of reciever
      * @param _fol bool a follows b
      * @param _msg bool a allows msgs b
