@@ -64,7 +64,7 @@ pragma solidity ^0.8.7;
 
 abstract contract iii6Errors {
     error Already_Listed();
-    error All_Slots_Minted();
+    error All_Slots_Taken();
     error Insufficient_Balance();
     error Insufficient_MLQ();
     error Insufficient_Funds();
@@ -78,6 +78,7 @@ abstract contract iii6Errors {
     error Insufficient_Supply();
     error Not_Greenlisted();
     error Sold_Out();
+    error Event_Has_Ended();
     error Unauthorized();
     error You_Need_To_Wait();
     error You_Are_Not_The_Holder();

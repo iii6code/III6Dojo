@@ -96,17 +96,17 @@ import "./s0xUsers.sol";
 import {s0xFriends, iii6Relations, iii6Math} from "./s0xFriends.sol";
 
 contract s0xGroups is iii6Math, iii6Relations {
-    error Unauthorized();
     s0xUsers private user; // user contract reference
     s0xFriends private friend; // friend contract reference
     address public owner; // owner address
     string public name; // group name
-    uint256 private m; // member count
+    string p;
+    uint256 public m; // member count
+    uint256 private c; // content count
     GroupType public mode; // 0-private (no invite), 1-bothchecked, 2-ulike, 3-likeu, 4-bothcheckedofulike, 5-public, 9-secret, 99-admin
 
     mapping(uint256 => address) public members; // address by id
     mapping(address => uint256) public mNum; // id by address
-    uint256 private c; // content count
     mapping(address => uint256) public myContent; // content count by address
     mapping(address => mapping(uint256 => bytes)) public content; // content by address => myContent counter
     mapping(uint256 => bytes) public cntnt; // contentt by cid
@@ -115,7 +115,13 @@ contract s0xGroups is iii6Math, iii6Relations {
     mapping(address => uint256) public myRplyCount; // reply count  by useraddress
     mapping(address => mapping(uint256 => bytes)) public myReplys; // reply content by address and myrplycount
     mapping(address => bool) public invite;
-    string p;
+    error Unauthorized();
+
+    modifier isMem() {
+        if (members[mNum[msg.sender]] == msg.sender && mNum[msg.sender] != 0)
+            revert Unauthorized();
+        _;
+    }
 
     constructor(
         address _user,
@@ -131,6 +137,8 @@ contract s0xGroups is iii6Math, iii6Relations {
         owner = _o;
         p = _p;
         name = string(_name);
+        m = 1;
+        _addUser(owner);
     }
 
     function _addUser(address _adr) internal returns (address) {

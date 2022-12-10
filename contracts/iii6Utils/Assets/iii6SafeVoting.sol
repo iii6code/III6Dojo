@@ -65,9 +65,10 @@ pragma solidity ^0.8.7;
 import "./iii6CoinModel.sol";
 import "../Misc/iii6Proposals.sol";
 import "../Misc/iii6Logs.sol";
+import "../Misc/Errors/iii6Errors.sol";
 import "../Math/iii6Math.sol";
 
-contract iii6SafeVoting is iii6GlobalEnums {
+contract iii6SafeVoting is iii6Errors, iii6Proposals {
     // board member id callback from address
     mapping(address => uint256) public memNum;
     // number of board members starting at 1
@@ -100,25 +101,23 @@ contract iii6SafeVoting is iii6GlobalEnums {
             // first redistribution
             rid = 1;
             // check member count and share count
-            require(
-                _members.length == bms &&
-                    _shares.length == bms &&
-                    bms <= maxMembers,
-                ":: problem with members and shares ::"
-            );
+            if (
+                _members.length != bms ||
+                _shares.length != bms ||
+                bms >= maxMembers
+            ) revert All_Slots_Taken();
 
             return _makeProposal(_members, _shares);
         } else {
-            require(
-                proposals[rid - 1].state == Voting.Canceled ||
-                    proposals[rid - 1].state == Voting.Approved
-            );
-            require(
-                _members.length == bms &&
-                    _shares.length == bms &&
-                    bms <= maxMembers,
-                ":: problem with members and shares ::"
-            );
+            if (
+                proposals[rid - 1].state != Voting.Canceled &&
+                proposals[rid - 1].state != Voting.Approved
+            ) revert Event_Has_Ended();
+            if (
+                _members.length != bms ||
+                _shares.length != bms ||
+                bms >= maxMembers
+            ) revert All_Slots_Taken();
             return _makeProposal(_members, _shares);
         }
     }
@@ -147,8 +146,7 @@ contract iii6SafeVoting is iii6GlobalEnums {
             cumu += _shares[i];
             cumud += difs[i];
         }
-        require(cumu == 100000, ":: shares error ::");
-        require(cumud == 0, ":: dif error ::");
+        if (cumu >= 100000 || cumud != 0) revert Invalid_Amount();
         // create first proposal
         proposals[rid] = Proposal(
             rid,

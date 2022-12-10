@@ -66,7 +66,7 @@ import "./iii6CoinModel.sol";
 import "./iii6DiaModel.sol";
 import "../Math/iii6PriceMath.sol";
 
-contract iii6AssetFactory is iii6DiaModel, iii6PriceMath, iii6GlobalEnums {
+contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
     /**
      * @dev this contract is a model contract to be deployed through the iii6AssetFactory
      */
