@@ -90,12 +90,11 @@
 
 pragma solidity ^0.8.7;
 
-// import "../iii6Utils/Math/iii6Math.sol";
-
 import "./s0xUsers.sol";
 import {s0xFriends, iii6Relations, iii6Math} from "./s0xFriends.sol";
+import "../iii6Utils/Misc/Errors/iii6Errors.sol";
 
-contract s0xGroups is iii6Math, iii6Relations {
+contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
     s0xUsers private user; // user contract reference
     s0xFriends private friend; // friend contract reference
     address public owner; // owner address
@@ -115,7 +114,6 @@ contract s0xGroups is iii6Math, iii6Relations {
     mapping(address => uint256) public myRplyCount; // reply count  by useraddress
     mapping(address => mapping(uint256 => bytes)) public myReplys; // reply content by address and myrplycount
     mapping(address => bool) public invite;
-    error Unauthorized();
 
     modifier isMem() {
         if (members[mNum[msg.sender]] == msg.sender && mNum[msg.sender] != 0)
@@ -138,7 +136,7 @@ contract s0xGroups is iii6Math, iii6Relations {
         p = _p;
         name = string(_name);
         m = 1;
-        _addUser(owner);
+        // _addUser(owner);
     }
 
     function _addUser(address _adr) internal returns (address) {
@@ -160,10 +158,11 @@ contract s0xGroups is iii6Math, iii6Relations {
          */
         if (mode == GroupType.FaceToFace) {
             if (m >= 2) revert Unauthorized();
-            if (friend.getMsgAllow(msg.sender, _adr) == false)
-                revert Unauthorized();
-            if (friend.getMsgAllow(_adr, msg.sender) == false)
-                revert Unauthorized();
+            if (
+                msg.sender != owner ||
+                !friend.getMsgAllow(owner, _adr) ||
+                !friend.getMsgAllow(_adr, owner)
+            ) revert Not_Friends();
             ad = _addUser(_adr);
         }
         /**

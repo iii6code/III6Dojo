@@ -86,4 +86,6 @@ abstract contract iii6Errors {
     error Invalid_Response();
     error Not_Burnable();
     error Not_Pausable();
+    error Not_Friends();
+    error Not_Friends_Rev();
 }
