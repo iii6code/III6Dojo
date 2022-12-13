@@ -243,4 +243,16 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
         ++myRplyCount[_sender];
         return ++r[_c];
     }
+
+    function _showContent(uint256 _contentId)
+        internal
+        view
+        returns (string memory, string[] memory)
+    {
+        string[] memory repliers;
+        for (uint256 i = 0; i < r[_contentId]; i++) {
+            repliers[i] = string(replys[_contentId][r[_contentId]]);
+        }
+        return (string(cntnt[_contentId]), repliers);
+    }
 }
