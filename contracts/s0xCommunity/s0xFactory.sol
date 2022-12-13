@@ -115,16 +115,25 @@ contract s0xFactory is s0xUsers, iii6Math, iii6Relations {
         fAdr = address(friends);
     }
 
+    function _getState(uint256 _state) internal pure returns (GroupType state) {
+        if (_state == 0) state = GroupType.FaceToFace;
+        else if (_state == 1) state = GroupType.Private;
+        else if (_state == 2) state = GroupType.Closed;
+        else if (_state == 3) state = GroupType.Shared;
+        else if (_state == 4) state = GroupType.Public;
+        else if (_state == 5) state = GroupType.Open;
+    }
+
     /**
      * @dev the s0xFactory creates the s0xial user friend and group interface and
      * functions as central administration hub for all s0xial interactions
      * the constructor creates a friends instance and stores the address of the contract
      */
-    function createGroup(
-        string memory _name,
+    function _makeGroup(
+        string calldata _name,
         uint256 _state,
-        string memory _p
-    ) external returns (address) {
+        string calldata _p
+    ) internal returns (address) {
         GroupType state;
         state = _getState(_state);
 
@@ -141,46 +150,23 @@ contract s0xFactory is s0xUsers, iii6Math, iii6Relations {
         return address(groups);
     }
 
-    function _getState(uint256 _state) internal pure returns (GroupType state) {
-        if (_state == 0) state = GroupType.FaceToFace;
-        else if (_state == 1) state = GroupType.Private;
-        else if (_state == 2) state = GroupType.Closed;
-        else if (_state == 3) state = GroupType.Shared;
-        else if (_state == 4) state = GroupType.Public;
-        else if (_state == 5) state = GroupType.Open;
-    }
+    function _addUserToGroup(address _adr) internal returns (address) {}
 
-    function createConvo(
-        address _to,
-        address _from,
-        string memory _msg
+    /**
+     * @dev the s0xFactory creates the s0xial user friend and group interface and
+     * functions as central administration hub for all s0xial interactions
+     * the constructor creates a friends instance and stores the address of the contract
+     */
+    function createGroup(
+        string calldata _name,
+        uint256 _state,
+        string calldata _p,
+        address[] calldata _usrs
     ) external returns (address) {
-        (address s, address l) = _smaller(_to, _from);
-        return _makeConvo(s, l, _msg, _from);
-    }
-
-    function _makeConvo(
-        address _s,
-        address _l,
-        string memory _name,
-        address _from
-    ) internal returns (address) {
-        GroupType state;
-        state = _getState(0);
-        groups = new s0xGroups(
-            address(this),
-            fAdr,
-            bytes(_name),
-            state,
-            _from,
-            ""
-        );
-        groupByCount[_s][groupCount[_s]] = address(groups);
-        groupByCount[_l][groupCount[_l]] = address(groups);
-        groupCount[_s]++;
-        groupCount[_l]++;
-        groups.addUser(_s, "");
-        groups.addUser(_l, "");
-        return address(groups);
+        address adr = _makeGroup(_name, _state, _p);
+        for (uint256 i = 0; i < _usrs.length; i++) {
+            _addUserToGroup(_usrs[i]);
+        }
+        return adr;
     }
 }
