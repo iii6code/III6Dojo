@@ -130,9 +130,9 @@ contract s0xFactory is s0xUsers, iii6Math, iii6Relations {
      * the constructor creates a friends instance and stores the address of the contract
      */
     function _makeGroup(
-        string calldata _name,
+        string memory _name,
         uint256 _state,
-        string calldata _p
+        string memory _p
     ) internal returns (address) {
         GroupType state;
         state = _getState(_state);
@@ -150,7 +150,70 @@ contract s0xFactory is s0xUsers, iii6Math, iii6Relations {
         return address(groups);
     }
 
-    function _addUserToGroup(address _adr) internal returns (address) {}
+    /**
+     * @dev the s0xFactory creates the s0xial user friend and group interface and
+     * functions as central administration hub for all s0xial interactions
+     * the constructor creates a friends instance and stores the address of the contract
+     */
+    function _addUserToGroup(
+        address _adr,
+        address _group,
+        string memory _p
+    ) internal returns (address) {
+        groups = s0xGroups(_group);
+        groups.addUser(_adr, _p);
+        groupByCount[_adr][groupCount[_adr]] = address(groups);
+        groupCount[_adr]++;
+        return _adr;
+    }
+
+    /**
+     * @dev the s0xFactory creates the s0xial user friend and group interface and
+     * functions as central administration hub for all s0xial interactions
+     * the constructor creates a friends instance and stores the address of the contract
+     */
+    function _delUserFromGroup(
+        address _adr,
+        address _group,
+        string memory _p
+    ) internal returns (address) {
+        groups = s0xGroups(_group);
+        groups.addUser(_adr, _p);
+        for (uint256 i = 0; i < groupCount[_adr]; i++) {
+            if (groupByCount[_adr][i] == _group) {
+                groupByCount[_adr][i] = address(0);
+                groups.removeUser(_adr);
+            }
+        }
+        groupCount[_adr]--;
+        return _adr;
+    }
+
+    /**
+     * @dev the s0xFactory creates the s0xial user friend and group interface and
+     * functions as central administration hub for all s0xial interactions
+     * the constructor creates a friends instance and stores the address of the contract
+     */
+    function addUserToGroup(
+        address _adr,
+        address _group,
+        string memory _p
+    ) external returns (address) {
+        return _addUserToGroup(_adr, _group, _p);
+    }
+
+    /**
+     * @dev the s0xFactory creates the s0xial user friend and group interface and
+     * functions as central administration hub for all s0xial interactions
+     * the constructor creates a friends instance and stores the address of the contract
+     */
+    function delUserFromGroup(
+        address _adr,
+        address _group,
+        string memory _p
+    ) external returns (address) {
+        return _delUserFromGroup(_adr, _group, _p);
+    }
 
     /**
      * @dev the s0xFactory creates the s0xial user friend and group interface and
@@ -165,8 +228,22 @@ contract s0xFactory is s0xUsers, iii6Math, iii6Relations {
     ) external returns (address) {
         address adr = _makeGroup(_name, _state, _p);
         for (uint256 i = 0; i < _usrs.length; i++) {
-            _addUserToGroup(_usrs[i]);
+            _addUserToGroup(_usrs[i], adr, _p);
         }
         return adr;
+    }
+
+    /**
+     * @dev the s0xFactory creates the s0xial user friend and group interface and
+     * functions as central administration hub for all s0xial interactions
+     * the constructor creates a friends instance and stores the address of the contract
+     */
+    function createConvo(string calldata _name, address _usr)
+        external
+        returns (address)
+    {
+        address adr = _makeGroup(_name, 0, "");
+        address usr = _addUserToGroup(_usr, adr, "");
+        return usr;
     }
 }

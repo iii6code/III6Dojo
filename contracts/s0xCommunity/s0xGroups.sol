@@ -136,7 +136,7 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
         p = _p;
         name = string(_name);
         m = 1;
-        // _addUser(owner);
+        _addUser(owner);
     }
 
     function _addUser(address _adr) internal returns (address) {
@@ -157,7 +157,7 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
          * added to face to face chat
          */
         if (mode == GroupType.FaceToFace) {
-            if (m >= 2) revert Unauthorized();
+            if (m > 2) revert All_Slots_Taken();
             if (
                 msg.sender != owner ||
                 !friend.getMsgAllow(owner, _adr) ||
@@ -214,7 +214,8 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
     }
 
     function removeUser(address _adr) external returns (address) {
-        if (mode == GroupType.FaceToFace) revert();
+        if (mode == GroupType.FaceToFace) revert Min_Requirements_Not_Met();
+        if (msg.sender != owner) revert Unauthorized();
         members[mNum[_adr]] = address(0);
         mNum[_adr] = 0;
         return _adr;
