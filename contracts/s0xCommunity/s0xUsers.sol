@@ -101,10 +101,10 @@ contract s0xUsers {
     }
     // user profile array // user# => dias%
     mapping(address => bytes) public users;
-    mapping(address => bool) private isUser;
+    mapping(address => bool) public isUser;
 
     // role // user# => role$
-    mapping(address => uint256) private roles;
+    mapping(address => uint256) public roles;
 
     // only admin allowed function modifier
     mapping(address => Impact) public impx;
@@ -186,18 +186,5 @@ contract s0xUsers {
 
     function addedConnection(address _adr) external returns (uint256) {
         return ++impx[_adr].connection;
-    }
-
-    // shows role by address input
-    function getRole(address _adr) external view returns (uint256) {
-        return roles[_adr];
-    }
-
-    function getName(address _adr) external view returns (string memory) {
-        return name[_adr];
-    }
-
-    function isU(address _adr) external view returns (bool) {
-        return isUser[_adr];
     }
 }
