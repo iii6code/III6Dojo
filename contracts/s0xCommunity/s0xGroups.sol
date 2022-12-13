@@ -115,8 +115,8 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
     mapping(address => mapping(uint256 => bytes)) public myReplys; // reply content by address and myrplycount
     mapping(address => bool) public invite;
 
-    modifier isMem() {
-        if (members[mNum[msg.sender]] == msg.sender && mNum[msg.sender] != 0)
+    modifier isMem(address _sender) {
+        if (members[mNum[_sender]] == _sender && mNum[_sender] != 0)
             revert Unauthorized();
         _;
     }
@@ -146,10 +146,11 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
         return _adr;
     }
 
-    function addUser(address _adr, string memory _pin)
-        external
-        returns (address ad)
-    {
+    function addUser(
+        address _sender,
+        address _adr,
+        string memory _pin
+    ) external returns (address ad) {
         /**
          * @dev FACE TO FACE PRIVATE CHAT
          * if sender and receiver know another
@@ -158,11 +159,8 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
          */
         if (mode == GroupType.FaceToFace) {
             if (m > 2) revert All_Slots_Taken();
-            if (
-                msg.sender != owner ||
-                !friend.getMsgAllow(owner, _adr) ||
-                !friend.getMsgAllow(_adr, owner)
-            ) revert Not_Friends();
+            if (_sender != owner) revert Unauthorized();
+            if (!friend.getMsgAllow(owner, _adr)) revert Not_Friends();
             ad = _addUser(_adr);
         }
         /**
@@ -172,7 +170,7 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
          */
         else if (mode == GroupType.Private) {
             if (
-                msg.sender != owner ||
+                _sender != owner ||
                 !friend.getMsgAllow(owner, _adr) ||
                 !friend.getMsgAllow(_adr, owner)
             ) revert Unauthorized();
@@ -184,8 +182,8 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
          */
         else if (mode == GroupType.Closed) {
             if (
-                !friend.getMsgAllow(msg.sender, _adr) ||
-                !friend.getMsgAllow(_adr, msg.sender)
+                !friend.getMsgAllow(_sender, _adr) ||
+                !friend.getMsgAllow(_adr, _sender)
             ) revert Unauthorized();
             if (_stringEqual(_pin, p)) {
                 ad = _addUser(_adr);
@@ -196,8 +194,8 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
          */
         else if (mode == GroupType.Shared || mode == GroupType.Public) {
             if (
-                friend.getMsgAllow(msg.sender, _adr) == false ||
-                friend.getMsgAllow(_adr, msg.sender) == false
+                friend.getMsgAllow(_sender, _adr) == false ||
+                friend.getMsgAllow(_adr, _sender) == false
             ) revert Unauthorized();
             ad = _addUser(_adr);
         }
@@ -213,29 +211,36 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
         else revert Unauthorized();
     }
 
-    function removeUser(address _adr) external returns (address) {
+    function removeUser(address _sender, address _adr)
+        external
+        returns (address)
+    {
         if (mode == GroupType.FaceToFace) revert Min_Requirements_Not_Met();
-        if (msg.sender != owner) revert Unauthorized();
+        if (_sender != owner) revert Unauthorized();
         members[mNum[_adr]] = address(0);
         mNum[_adr] = 0;
         return _adr;
     }
 
-    function addContent(string memory _cnt) external returns (string memory) {
-        content[msg.sender][myContent[msg.sender]] = bytes(_cnt);
-        ++myContent[msg.sender];
+    function addContent(address _sender, string memory _cnt)
+        external
+        returns (string memory)
+    {
+        content[_sender][myContent[_sender]] = bytes(_cnt);
+        ++myContent[_sender];
         cntnt[c] = bytes(_cnt);
         ++c;
         return _cnt;
     }
 
-    function addReplyToContent(string memory _rply, uint256 _c)
-        external
-        returns (uint256)
-    {
+    function addReplyToContent(
+        address _sender,
+        string memory _rply,
+        uint256 _c
+    ) external returns (uint256) {
         replys[_c][r[_c]] = bytes(_rply);
-        myReplys[msg.sender][myRplyCount[msg.sender]] = bytes(_rply);
-        ++myRplyCount[msg.sender];
+        myReplys[_sender][myRplyCount[_sender]] = bytes(_rply);
+        ++myRplyCount[_sender];
         return ++r[_c];
     }
 }

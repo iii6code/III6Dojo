@@ -161,7 +161,7 @@ contract s0xFactory is s0xUsers, iii6Math, iii6Relations {
         string memory _p
     ) internal returns (address) {
         groups = s0xGroups(_group);
-        groups.addUser(_adr, _p);
+        groups.addUser(msg.sender, _adr, _p);
         groupByCount[_adr][groupCount[_adr]] = address(groups);
         groupCount[_adr]++;
         return _adr;
@@ -172,17 +172,15 @@ contract s0xFactory is s0xUsers, iii6Math, iii6Relations {
      * functions as central administration hub for all s0xial interactions
      * the constructor creates a friends instance and stores the address of the contract
      */
-    function _delUserFromGroup(
-        address _adr,
-        address _group,
-        string memory _p
-    ) internal returns (address) {
+    function _delUserFromGroup(address _adr, address _group)
+        internal
+        returns (address)
+    {
         groups = s0xGroups(_group);
-        groups.addUser(_adr, _p);
         for (uint256 i = 0; i < groupCount[_adr]; i++) {
             if (groupByCount[_adr][i] == _group) {
                 groupByCount[_adr][i] = address(0);
-                groups.removeUser(_adr);
+                groups.removeUser(msg.sender, _adr);
             }
         }
         groupCount[_adr]--;
@@ -207,12 +205,11 @@ contract s0xFactory is s0xUsers, iii6Math, iii6Relations {
      * functions as central administration hub for all s0xial interactions
      * the constructor creates a friends instance and stores the address of the contract
      */
-    function delUserFromGroup(
-        address _adr,
-        address _group,
-        string memory _p
-    ) external returns (address) {
-        return _delUserFromGroup(_adr, _group, _p);
+    function delUserFromGroup(address _adr, address _group)
+        external
+        returns (address)
+    {
+        return _delUserFromGroup(_adr, _group);
     }
 
     /**
