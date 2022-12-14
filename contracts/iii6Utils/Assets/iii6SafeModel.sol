@@ -65,12 +65,11 @@ pragma solidity ^0.8.7;
 import "./iii6CoinModel.sol";
 import "./iii6SafeVoting.sol";
 import "../Misc/iii6Proposals.sol";
-import "../Misc/iii6Logs.sol";
-import "../Misc/iii6Logs.sol";
-import "../Math/iii6Math.sol";
+import "../Misc/iii6Relations.sol";
 import "../Assets/iii6AssetFactory.sol";
+import "../Misc/Errors/iii6Errors.sol";
 
-contract iii6SafeModel is iii6GlobalProposals {
+contract iii6SafeModel is iii6Proposals, iii6Relations, iii6Errors {
     // list of trustees
     address TRUSTEE;
     iii6CoinModel BoardShares;
@@ -101,8 +100,8 @@ contract iii6SafeModel is iii6GlobalProposals {
     }
 
     function makeShares(string memory _name, string memory _sym) external {
-        if (msg.sender != TRUSTEE) Unauthorized();
-        address _newShares = iii6Assets.buildCoinProject(
+        if (msg.sender != TRUSTEE) revert Unauthorized();
+        address _newShares = iii6Assets.buildERC20Token(
             _name,
             _sym,
             0,

@@ -95,6 +95,7 @@ contract iii6DiaModel is ERC721, iii6Logs, iii6Errors {
      * @dev this constructor creates a Dia NFT Token Contract
      * @param _owner contract admin
      * @param _name dia token name
+     * @param _sym dia symbol
      * @param _max amount of tokens 0 = infinte
      * @param _price amount of gascoin for token
      * @param _cName name of related ERC20 token

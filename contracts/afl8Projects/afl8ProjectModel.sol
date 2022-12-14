@@ -60,11 +60,11 @@
 
 pragma solidity ^0.8.7;
 
-import "../iii6utils/Misc/iii6GlobalEnums.sol";
 import "../iii6utils/Assets/iii6CoinModel.sol";
 import "../iii6utils/Assets/iii6DiaModel.sol";
+import "../iii6utils/Misc/iii6Misc.sol";
 
-contract AFL8_CampaignModel is iii6DiaModel, iii6GlobalEnums {
+contract AFL8_CampaignModel is iii6DiaModel, iii6Misc {
     iii6CoinModel public afl8;
     uint256 FEE;
     struct Campaign {
@@ -85,7 +85,21 @@ contract AFL8_CampaignModel is iii6DiaModel, iii6GlobalEnums {
     mapping(uint256 => uint256) public campaignSafe;
 
     // initialises the contract at deployment
-    constructor() iii6DiaModel(msg.sender, "Affiliate Campaign Asset", "AFL8") {
+    constructor()
+        iii6DiaModel(
+            msg.sender,
+            "Affiliate Campaign Asset",
+            "AFL8",
+            0,
+            0,
+            "",
+            "",
+            false,
+            0,
+            0,
+            0
+        )
+    {
         // afl8 = iii6CoinModel();
     }
 

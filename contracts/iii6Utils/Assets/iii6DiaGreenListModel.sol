@@ -63,7 +63,8 @@
 pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import {iii6Errors, iii6DiaModel} from "./iii6DiaModel.sol";
+import "./iii6DiaModel.sol";
+import "../Misc/Errors/iii6Errors.sol";
 
 contract iii6DiaGreenListModel is iii6Errors {
     address public admin;

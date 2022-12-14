@@ -79,7 +79,7 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
     address VRF;
     address FEED;
     uint256 public licenseFee;
-    uint gasSafe;
+    uint256 gasSafe;
     mapping(address => uint256) public licenseRange;
     uint256 public p;
     mapping(uint256 => address) public projects;
@@ -99,10 +99,9 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
      * @param _rate price of related ERC20 token in gascoin
      * @param _g number of greenlist slots for Dia NFT project 0 = no greenlist
      */
-    constructor(
-        string memory _name,
-        string memory _sym,
-    ) iii6DiaModel(msg.sender, _name, _sym, 0, 0, "", "", false, 0, 0, 0) {
+    constructor(string memory _name, string memory _sym)
+        iii6DiaModel(msg.sender, _name, _sym, 0, 0, "", "", false, 0, 0, 0)
+    {
         gasSafe = 5 * 10**13;
     }
 
@@ -154,24 +153,25 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
             _curr
         );
         // exit with address
-        _mint(msg.sender,uint(address(token)));
+        // _mint(msg.sender, uint256(address(token)));
         return address(token);
-
     }
 
     // function creates a ERC721 Token Contract
     function _makeERC721Asset(
         string memory _name,
+        string memory _sym,
         uint256 _max,
         uint256 _price,
         uint256 _g
     ) internal returns (address) {
         // chose token model
-        iii6DiaModel diaProject;
+        iii6DiaModel diaToken;
         /**
          * @dev this constructor creates a Dia NFT Token Contract
          * @param _owner contract admin
          * @param _name dia token name
+         * @param _sym dia token name
          * @param _max amount of tokens 0 = infinte
          * @param _price amount of gascoin for Dia token
          * @param _cName name of related ERC20 token
@@ -184,6 +184,7 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
         diaToken = new iii6DiaModel(
             msg.sender,
             _name,
+            _sym,
             _max,
             _price,
             "",
@@ -193,11 +194,11 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
             0,
             _g
         );
-        _mint(msg.sender,uint(address(diaToken)));
+        // _mint(msg.sender, uint256(address(diaToken)));
         return address(diaToken);
     }
 
-    function buyLicense(uint256 _years) external returns (uint256) {
+    function buyLicense(uint256 _years) external payable returns (uint256) {
         if (msg.value < _years * licenseFee) revert Insufficient_Funds();
         return _setLicense(msg.sender, _years);
     }
@@ -223,12 +224,14 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
         uint256 _curr
     ) external payable returns (address) {
         // check msg.value
-        if (msg.value < licenseFee / 10 || licenseRange > block.timestamp)
-            revert Insufficient_Funds();
+        if (
+            msg.value < licenseFee / 10 ||
+            licenseRange[msg.sender] > block.timestamp
+        ) revert Insufficient_Funds();
         // mint license
         // make asset & exit with address
-        if(msg.value > 10**14){
-            address(this)transfer(safe,msg.value - gasSafe)));
+        if (msg.value > 10**14) {
+            // address(this).transfer(safe, msg.value - gasSafe);
         }
         return
             _makeERC20Asset(_name, _sym, _rate, _supply, _burn, _pause, _curr);
@@ -236,28 +239,25 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
 
     /**
      * @dev function
-     * @param _owner contract admin
      * @param _name dia token name
      * @param _max amount of tokens 0 = infinte
      * @param _price amount of gascoin for Dia token
-     * @param _cName name of related ERC20 token
-     * @param _cSym symbol of related ERC20 token
-     * @param _c bool if related coin exists
-     * @param _cs max supply of related ERC20 token 0 = infinite
-     * @param _rate price of related ERC20 token in gascoin
      * @param _g number of greenlist slots for Dia NFT project 0 = no greenlist
      */
     function buildERC721Token(
         string calldata _name,
+        string calldata _sym,
         uint256 _max,
         uint256 _price,
         uint256 _g
     ) external payable returns (address) {
-        if (msg.value < licenseFee / 5 || licenseRange > block.timestamp)
-            revert Insufficient_Funds();
-        if(msg.value > 10**14){
-            address(this)transfer(safe,msg.value - gasSafe)));
+        if (
+            msg.value < licenseFee / 5 ||
+            licenseRange[msg.sender] > block.timestamp
+        ) revert Insufficient_Funds();
+        if (msg.value > 10**14) {
+            // address(this).transfer(safe, msg.value - gasSafe);
         }
-        return _makeERC721Asset(_name, _max, _price, _g);
+        return _makeERC721Asset(_name, _sym, _max, _price, _g);
     }
 }
