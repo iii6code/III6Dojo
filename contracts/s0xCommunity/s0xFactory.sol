@@ -104,6 +104,8 @@ contract s0xFactory is s0xUsers, iii6Math, iii6Relations {
     address private fAdr;
     mapping(address => uint256) public groupCount;
     mapping(address => mapping(uint256 => address)) public groupByCount;
+    mapping(address => uint256) public myGroupCount;
+    mapping(address => mapping(uint256 => address)) public myGroupByCount;
 
     /**
      * @dev the s0xFactory creates the s0xial user friend and group interface and

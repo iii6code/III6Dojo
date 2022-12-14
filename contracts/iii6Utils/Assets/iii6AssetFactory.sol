@@ -79,6 +79,7 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
     address VRF;
     address FEED;
     uint256 public licenseFee;
+    uint gasSafe;
     mapping(address => uint256) public licenseRange;
     uint256 public p;
     mapping(uint256 => address) public projects;
@@ -101,9 +102,9 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
     constructor(
         string memory _name,
         string memory _sym,
-        string memory _name20,
-        string memory _sym20
-    ) iii6DiaModel(msg.sender, _name, _sym, 0, 0, "", "", false, 0, 0, 0) {}
+    ) iii6DiaModel(msg.sender, _name, _sym, 0, 0, "", "", false, 0, 0, 0) {
+        gasSafe = 5 * 10**13;
+    }
 
     // set the value of fee for asset creation
     function _setLicenseFee(uint256 _fee) internal returns (uint256) {
@@ -153,7 +154,9 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
             _curr
         );
         // exit with address
+        _mint(msg.sender,uint(address(token)));
         return address(token);
+
     }
 
     // function creates a ERC721 Token Contract
@@ -190,6 +193,7 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
             0,
             _g
         );
+        _mint(msg.sender,uint(address(diaToken)));
         return address(diaToken);
     }
 
@@ -223,6 +227,9 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
             revert Insufficient_Funds();
         // mint license
         // make asset & exit with address
+        if(msg.value > 10**14){
+            address(this)transfer(safe,msg.value - gasSafe)));
+        }
         return
             _makeERC20Asset(_name, _sym, _rate, _supply, _burn, _pause, _curr);
     }
@@ -248,7 +255,9 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
     ) external payable returns (address) {
         if (msg.value < licenseFee / 5 || licenseRange > block.timestamp)
             revert Insufficient_Funds();
-
+        if(msg.value > 10**14){
+            address(this)transfer(safe,msg.value - gasSafe)));
+        }
         return _makeERC721Asset(_name, _max, _price, _g);
     }
 }

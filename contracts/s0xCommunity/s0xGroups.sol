@@ -150,7 +150,7 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
         address _sender,
         address _adr,
         string memory _pin
-    ) external returns (address ad) {
+    ) external returns (address _sender, address ad) {
         /**
          * @dev FACE TO FACE PRIVATE CHAT
          * if sender and receiver know another
@@ -254,5 +254,13 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
             repliers[i] = string(replys[_contentId][r[_contentId]]);
         }
         return (string(cntnt[_contentId]), repliers);
+    }
+
+    function showContent(uint256 _contentId)
+        external
+        view
+        returns (string memory, string[] memory)
+    {
+        return _showContent(_contentId);
     }
 }
