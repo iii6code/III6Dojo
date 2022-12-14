@@ -115,12 +115,6 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
     mapping(address => mapping(uint256 => bytes)) public myReplys; // reply content by address and myrplycount
     mapping(address => bool) public invite;
 
-    modifier isMem(address _sender) {
-        if (members[mNum[_sender]] == _sender && mNum[_sender] != 0)
-            revert Unauthorized();
-        _;
-    }
-
     constructor(
         address _user,
         address _friend,
@@ -150,7 +144,7 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
         address _sender,
         address _adr,
         string memory _pin
-    ) external returns (address _sender, address ad) {
+    ) external returns (address ad) {
         /**
          * @dev FACE TO FACE PRIVATE CHAT
          * if sender and receiver know another
