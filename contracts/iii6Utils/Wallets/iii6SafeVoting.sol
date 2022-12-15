@@ -62,11 +62,11 @@
 
 pragma solidity ^0.8.7;
 
-import "./iii6CoinModel.sol";
+import "../Assets/iii6CoinModel.sol";
+import "../Math/iii6Math.sol";
 import "../Misc/iii6Proposals.sol";
 import "../Misc/iii6Logs.sol";
 import "../Misc/Errors/iii6Errors.sol";
-import "../Math/iii6Math.sol";
 
 contract iii6SafeVoting is iii6Errors, iii6Proposals {
     // board member id callback from address
