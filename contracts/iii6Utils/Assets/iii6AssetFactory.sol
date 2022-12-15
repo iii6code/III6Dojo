@@ -62,11 +62,10 @@
 
 pragma solidity ^0.8.7;
 
-import "./iii6CoinModel.sol";
 import "./iii6DiaModel.sol";
 import "../Math/iii6PriceMath.sol";
 
-contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
+contract iii6AssetFactory {
     /**
      * @dev this contract is a model contract to be deployed through the iii6AssetFactory
      */
@@ -76,15 +75,6 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
     // ██║██║╚████║██║░░░██║░░░██║██╔══██║██║░░░░░██║░╚═══██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║
     // ██║██║░╚███║██║░░░██║░░░██║██║░░██║███████╗██║██████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║
     // ╚═╝╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
-    address VRF;
-    address FEED;
-    uint256 public licenseFee;
-    uint256 gasSafe;
-    mapping(address => uint256) public licenseRange;
-    uint256 public p;
-    mapping(uint256 => address) public projects;
-    mapping(address => uint256) public mp;
-    mapping(address => mapping(uint256 => address)) public myProjects;
 
     /*
      * @dev this constructor creates a Dia NFT Token Contract
@@ -99,63 +89,7 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
      * @param _rate price of related ERC20 token in gascoin
      * @param _g number of greenlist slots for Dia NFT project 0 = no greenlist
      */
-    constructor(string memory _name, string memory _sym)
-        iii6DiaModel(msg.sender, _name, _sym, 0, 0, "", "", false, 0, 0, 0)
-    {
-        gasSafe = 5 * 10**13;
-    }
-
-    // set the value of fee for asset creation
-    function _setLicenseFee(uint256 _fee) internal returns (uint256) {
-        return licenseFee = _fee * 10**16; // 100 = 1 ETH
-    }
-
-    function _setLicense(address _adr, uint256 _years)
-        internal
-        returns (uint256)
-    {
-        if (licenseRange[_adr] > block.timestamp) {
-            uint256 dif = licenseRange[_adr] - block.timestamp;
-            return licenseRange[_adr] += dif + 60 * 60 * 24 * 365 * _years;
-        } else return licenseRange[_adr] += 60 * 60 * 24 * 365 * _years;
-    }
-
-    // function creates a ERC20 Token Contract
-    function _makeERC20Asset(
-        string memory _name,
-        string memory _sym,
-        uint256 _rate,
-        uint256 _supply,
-        bool _burn,
-        bool _pause,
-        uint256 _curr
-    ) internal returns (address) {
-        // chose token model
-        iii6CoinModel token;
-        /**
-         * @dev creates an instance of iii6CoinModel
-         * @param _name token name
-         * @param _sym token symbol
-         * @param _rate token rate
-         * @param _supply max token supply // if 0-infinte
-         * @param _burn bool burnable
-         * @param _pause bool pauseble
-         * @param _curr denomintaor currency // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
-         * @return contract address
-         */
-        token = new iii6CoinModel(
-            _name,
-            _sym,
-            _rate,
-            _supply,
-            _burn,
-            _pause,
-            _curr
-        );
-        // exit with address
-        // _mint(msg.sender, uint256(address(token)));
-        return address(token);
-    }
+    constructor() {}
 
     // function creates a ERC721 Token Contract
     function _makeERC721Asset(
@@ -174,67 +108,10 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
          * @param _sym dia token name
          * @param _max amount of tokens 0 = infinte
          * @param _price amount of gascoin for Dia token
-         * @param _cName name of related ERC20 token
-         * @param _cSym symbol of related ERC20 token
-         * @param _c bool if related coin exists
-         * @param _cs max supply of related ERC20 token 0 = infinite
-         * @param _rate price of related ERC20 token in gascoin
          * @param _g number of greenlist slots for Dia NFT project 0 = no greenlist
          */
-        diaToken = new iii6DiaModel(
-            msg.sender,
-            _name,
-            _sym,
-            _max,
-            _price,
-            "",
-            "",
-            false,
-            0,
-            0,
-            _g
-        );
-        // _mint(msg.sender, uint256(address(diaToken)));
+        diaToken = new iii6DiaModel(msg.sender, _name, _sym, _max, _price, _g);
         return address(diaToken);
-    }
-
-    function buyLicense(uint256 _years) external payable returns (uint256) {
-        if (msg.value < _years * licenseFee) revert Insufficient_Funds();
-        return _setLicense(msg.sender, _years);
-    }
-
-    /**
-     * @dev creates an instance of iii6CoinModel
-     * @param _name token name
-     * @param _sym token symbol
-     * @param _rate token rate
-     * @param _supply max token supply // if 0-infinte
-     * @param _burn bool burnable
-     * @param _pause bool pauseble
-     * @param _curr denomintaor currency // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
-     * @return contract address
-     */
-    function buildERC20Token(
-        string calldata _name,
-        string calldata _sym,
-        uint256 _rate,
-        uint256 _supply,
-        bool _burn,
-        bool _pause,
-        uint256 _curr
-    ) external payable returns (address) {
-        // check msg.value
-        if (
-            msg.value < licenseFee / 10 ||
-            licenseRange[msg.sender] > block.timestamp
-        ) revert Insufficient_Funds();
-        // mint license
-        // make asset & exit with address
-        if (msg.value > 10**14) {
-            // address(this).transfer(safe, msg.value - gasSafe);
-        }
-        return
-            _makeERC20Asset(_name, _sym, _rate, _supply, _burn, _pause, _curr);
     }
 
     /**
@@ -251,13 +128,6 @@ contract iii6AssetFactory is iii6DiaModel, iii6PriceMath {
         uint256 _price,
         uint256 _g
     ) external payable returns (address) {
-        if (
-            msg.value < licenseFee / 5 ||
-            licenseRange[msg.sender] > block.timestamp
-        ) revert Insufficient_Funds();
-        if (msg.value > 10**14) {
-            // address(this).transfer(safe, msg.value - gasSafe);
-        }
         return _makeERC721Asset(_name, _sym, _max, _price, _g);
     }
 }

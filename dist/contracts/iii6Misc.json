@@ -1,29 +1,29 @@
 {
   "contractName": "iii6Misc",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/iii6utils/Misc/iii6Misc.sol\":\"iii6Misc\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/iii6utils/Misc/iii6Misc.sol\":{\"keccak256\":\"0xf40b07efc35eaccc4e0acb9025239a50a7d51cf4884aa329dae4f816069532c0\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://e25653269b3aa1499ae96dca98e444fe24df216085b782bc3e6f214e69336da8\",\"dweb:/ipfs/QmTiTaMbG5n8hMSoBNfiYYoE98eEcG5MFoMXCaEHza6XUE\"]}},\"version\":1}",
-  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212205dbcd92aab75dcc5d91114020e9abbfa8b28b7328910dd3d81a3df1af3313f4864736f6c63430008110033",
-  "deployedBytecode": "0x6080604052600080fdfea26469706673582212205dbcd92aab75dcc5d91114020e9abbfa8b28b7328910dd3d81a3df1af3313f4864736f6c63430008110033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/iii6Utils/Misc/iii6Misc.sol\":\"iii6Misc\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/iii6Utils/Misc/iii6Misc.sol\":{\"keccak256\":\"0xf40b07efc35eaccc4e0acb9025239a50a7d51cf4884aa329dae4f816069532c0\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://e25653269b3aa1499ae96dca98e444fe24df216085b782bc3e6f214e69336da8\",\"dweb:/ipfs/QmTiTaMbG5n8hMSoBNfiYYoE98eEcG5MFoMXCaEHza6XUE\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212204d37a5edde50bfea7af7a544af29984a4c869a75bdf2f73500d4df3408f00d7a64736f6c63430008110033",
+  "deployedBytecode": "0x6080604052600080fdfea26469706673582212204d37a5edde50bfea7af7a544af29984a4c869a75bdf2f73500d4df3408f00d7a64736f6c63430008110033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
-  "sourceMap": "8654:2764:61:-:0;;;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "8654:2764:61:-:0;;;;;",
+  "sourceMap": "8654:2764:45:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "8654:2764:45:-:0;;;;;",
   "source": "// SPDX-License-Identifier: GPL-3.0\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//\n//      MMWKd:..                                                                                    ..:dKWMM\n//      MKl.                                                                                            .lKW\n//      O'       ..''''''''''''.     .''''''.     .'''''.      .''''''''''''''.     .''''''''''''..       'O\n//      '     .ckKNNWNWWWWWWWWWk.   .xNWWNWNl    ,0WWWWW0,     lNWWWWWWWWWNWNk'    ;0NNNWWWWWWWWNNKkc.     '\n//           ,OWMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMWO,\n//          .kMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMMMMk.\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMM0,    ;0NNWWMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMM0,     .'.',;lkNMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMK;              ,kWMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMX:    .:oxxdc'    .dWMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   ,OWMMMMMXl.   '0MMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMX;   .kMMMMMMMMK,   .xMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMM0'   .OMMMMMMMMX;   .xMMMMMMMMMMMM0'\n//          .OMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMK,    lNMMMMMMWx.   '0MMMMMMMMMMMMO.\n//           lNMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   .:x0KKKkc.   .dWMMMMMMMMMMMNl\n//      .    .c0WMMMMMMMMMMMMMMO.   .kMMMMMWo    ,KMMMMMK,     lWMMMMNd.     ....     .xNMMMMMMMMMMW0c.    .\n//      l      .,lddxxxxxxxxxxxc.    :xxxxxd,    .lxxxxxl.     ,dxxxxxd:.            .cdxxxxxxxxddl,.      l\n//      No.                                                                                              .oN\n//      MW0l'                                                                                          'l0WM\n//      MMMWKd;.                                                                                    .;dKWMMM\n//\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//                                                                                                                                                                                  //\n//      @dev            ::              Aron Mauritala Ayuk                                                                                                                                          //\n//      @msg            ::              stereo@iii6.xyz                                                                                                                                   //\n//      @github         ::              @stereoIII6\n//      @twitter        ::              @stereoIII6                                                                                                                                              //\n//                                                                                                                                                                                  //\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//                                                                                                                                                                                  //\n//      @dev            ::              Juan Xavier Valverde                                                                                                                                    //\n//      @msg            ::              juanxavier@iii6.xyz                                                                                                                               //\n//      @twitter        ::              @JuanXavier                                                                                                                                             //\n//      @github         ::              @JuanXavier                                                                                                                                             //\n//                                                                                                                                                                                  //                                                                                                                                                                                 //\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   //\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//                                                                                                                                                                                  //\n//      @company        ::              Fractio Holding                                                                                                                                                                       //\n//      @title          ::              iii6 Global Enums                                                                                                                           //\n//      @description    ::              Global Enum Library                                                                                                                           //\n//      @version        ::              0.0.1                                                                                                                                       //\n//      @purpose        ::              Enum Library                                                                                                          //\n//                                                                                                                                                                                  //\n//                                                                                                                                                                                  //\n//                                                                                                                                                                                  //\n//                                                                                                                                                                                  //\n//                                                                                                                                                                                  //\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   //\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\n\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\n\npragma solidity ^0.8.7;\n\ncontract iii6Misc {\n    // ██╗███╗░░██╗██╗████████╗██╗░█████╗░██╗░░░░░██╗░██████╗░█████╗░████████╗██╗░█████╗░███╗░░██╗\n    // ██║████╗░██║██║╚══██╔══╝██║██╔══██╗██║░░░░░██║██╔════╝██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║\n    // ██║██╔██╗██║██║░░░██║░░░██║███████║██║░░░░░██║╚█████╗░███████║░░░██║░░░██║██║░░██║██╔██╗██║\n    // ██║██║╚████║██║░░░██║░░░██║██╔══██║██║░░░░░██║░╚═══██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║\n    // ██║██║░╚███║██║░░░██║░░░██║██║░░██║███████╗██║██████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║\n    // ╚═╝╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝\n\n    /**\n     * @dev Divides between two values substracting the remainder from the dividend\n     * @param _a First value\n     * @param _b Second value\n     * @return Result of division\n     */\n    // staus enum\n    enum Status {\n        Pending,\n        Active,\n        Paused,\n        Ended\n    }\n    enum Coins {\n        WETH,\n        GASCOIN,\n        XXX,\n        YYY,\n        USDC\n    }\n    enum LayerTypes {\n        TEXT,\n        SHAPE,\n        IMAGE,\n        VIDEO,\n        AUDIO,\n        HIDDEN\n    }\n    enum CampaignType {\n        View,\n        Click,\n        Lead,\n        Sale,\n        Inactive\n    }\n\n    /**\n     * @dev Divides between two values substracting the remainder from the dividend\n     * @param _a First value\n     * @param _b Second value\n     * @return Result of division\n     */\n    // project enum\n    enum Project {\n        ServiceDigital,\n        ServicePhysical,\n        ProductDigital,\n        ProductPhysical,\n        CollectibleDigital,\n        CollectiblePhysical,\n        RentableDigital,\n        RentablePhysical\n    }\n}\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//\n//      MMWKd:..                                                                                    ..:dKWMM\n//      MKl.                                                                                            .lKW\n//      O'       ..''''''''''''.     .''''''.     .'''''.      .''''''''''''''.     .''''''''''''..       'O\n//      '     .ckKNNWNWWWWWWWWWk.   .xNWWNWNl    ,0WWWWW0,     lNWWWWWWWWWNWNk'    ;0NNNWWWWWWWWNNKkc.     '\n//           ,OWMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMWO,\n//          .kMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMMMMk.\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMM0,    ;0NNWWMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMM0,     .'.',;lkNMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMK;              ,kWMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMX:    .:oxxdc'    .dWMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   ,OWMMMMMXl.   '0MMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMX;   .kMMMMMMMMK,   .xMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMM0'   .OMMMMMMMMX;   .xMMMMMMMMMMMM0'\n//          .OMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMK,    lNMMMMMMWx.   '0MMMMMMMMMMMMO.\n//           lNMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   .:x0KKKkc.   .dWMMMMMMMMMMMNl\n//      .    .c0WMMMMMMMMMMMMMMO.   .kMMMMMWo    ,KMMMMMK,     lWMMMMNd.     ....     .xNMMMMMMMMMMW0c.    .\n//      l      .,lddxxxxxxxxxxxc.    :xxxxxd,    .lxxxxxl.     ,dxxxxxd:.            .cdxxxxxxxxddl,.      l\n//      No.                                                                                              .oN\n//      MW0l'                                                                                          'l0WM\n//      MMMWKd;.                                                                                    .;dKWMMM\n//\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n",
-  "sourcePath": "/Users/iii6/Documents/GitHub/III6Dojo/contracts/iii6utils/Misc/iii6Misc.sol",
+  "sourcePath": "/Users/iii6/Documents/GitHub/III6Dojo/contracts/iii6Utils/Misc/iii6Misc.sol",
   "ast": {
-    "absolutePath": "project:/contracts/iii6utils/Misc/iii6Misc.sol",
+    "absolutePath": "project:/contracts/iii6Utils/Misc/iii6Misc.sol",
     "exportedSymbols": {
       "iii6Misc": [
-        13667
+        8290
       ]
     },
-    "id": 13668,
+    "id": 8291,
     "license": "GPL-3.0",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 13633,
+        "id": 8256,
         "literals": [
           "solidity",
           "^",
@@ -31,7 +31,7 @@
           ".7"
         ],
         "nodeType": "PragmaDirective",
-        "src": "8629:23:61"
+        "src": "8629:23:45"
       },
       {
         "abstract": false,
@@ -40,267 +40,267 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 13667,
+        "id": 8290,
         "linearizedBaseContracts": [
-          13667
+          8290
         ],
         "name": "iii6Misc",
-        "nameLocation": "8663:8:61",
+        "nameLocation": "8663:8:45",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "iii6Misc.Status",
-            "id": 13638,
+            "id": 8261,
             "members": [
               {
-                "id": 13634,
+                "id": 8257,
                 "name": "Pending",
-                "nameLocation": "10598:7:61",
+                "nameLocation": "10598:7:45",
                 "nodeType": "EnumValue",
-                "src": "10598:7:61"
+                "src": "10598:7:45"
               },
               {
-                "id": 13635,
+                "id": 8258,
                 "name": "Active",
-                "nameLocation": "10615:6:61",
+                "nameLocation": "10615:6:45",
                 "nodeType": "EnumValue",
-                "src": "10615:6:61"
+                "src": "10615:6:45"
               },
               {
-                "id": 13636,
+                "id": 8259,
                 "name": "Paused",
-                "nameLocation": "10631:6:61",
+                "nameLocation": "10631:6:45",
                 "nodeType": "EnumValue",
-                "src": "10631:6:61"
+                "src": "10631:6:45"
               },
               {
-                "id": 13637,
+                "id": 8260,
                 "name": "Ended",
-                "nameLocation": "10647:5:61",
+                "nameLocation": "10647:5:45",
                 "nodeType": "EnumValue",
-                "src": "10647:5:61"
+                "src": "10647:5:45"
               }
             ],
             "name": "Status",
-            "nameLocation": "10581:6:61",
+            "nameLocation": "10581:6:45",
             "nodeType": "EnumDefinition",
-            "src": "10576:82:61"
+            "src": "10576:82:45"
           },
           {
             "canonicalName": "iii6Misc.Coins",
-            "id": 13644,
+            "id": 8267,
             "members": [
               {
-                "id": 13639,
+                "id": 8262,
                 "name": "WETH",
-                "nameLocation": "10684:4:61",
+                "nameLocation": "10684:4:45",
                 "nodeType": "EnumValue",
-                "src": "10684:4:61"
+                "src": "10684:4:45"
               },
               {
-                "id": 13640,
+                "id": 8263,
                 "name": "GASCOIN",
-                "nameLocation": "10698:7:61",
+                "nameLocation": "10698:7:45",
                 "nodeType": "EnumValue",
-                "src": "10698:7:61"
+                "src": "10698:7:45"
               },
               {
-                "id": 13641,
+                "id": 8264,
                 "name": "XXX",
-                "nameLocation": "10715:3:61",
+                "nameLocation": "10715:3:45",
                 "nodeType": "EnumValue",
-                "src": "10715:3:61"
+                "src": "10715:3:45"
               },
               {
-                "id": 13642,
+                "id": 8265,
                 "name": "YYY",
-                "nameLocation": "10728:3:61",
+                "nameLocation": "10728:3:45",
                 "nodeType": "EnumValue",
-                "src": "10728:3:61"
+                "src": "10728:3:45"
               },
               {
-                "id": 13643,
+                "id": 8266,
                 "name": "USDC",
-                "nameLocation": "10741:4:61",
+                "nameLocation": "10741:4:45",
                 "nodeType": "EnumValue",
-                "src": "10741:4:61"
+                "src": "10741:4:45"
               }
             ],
             "name": "Coins",
-            "nameLocation": "10668:5:61",
+            "nameLocation": "10668:5:45",
             "nodeType": "EnumDefinition",
-            "src": "10663:88:61"
+            "src": "10663:88:45"
           },
           {
             "canonicalName": "iii6Misc.LayerTypes",
-            "id": 13651,
+            "id": 8274,
             "members": [
               {
-                "id": 13645,
+                "id": 8268,
                 "name": "TEXT",
-                "nameLocation": "10782:4:61",
+                "nameLocation": "10782:4:45",
                 "nodeType": "EnumValue",
-                "src": "10782:4:61"
+                "src": "10782:4:45"
               },
               {
-                "id": 13646,
+                "id": 8269,
                 "name": "SHAPE",
-                "nameLocation": "10796:5:61",
+                "nameLocation": "10796:5:45",
                 "nodeType": "EnumValue",
-                "src": "10796:5:61"
+                "src": "10796:5:45"
               },
               {
-                "id": 13647,
+                "id": 8270,
                 "name": "IMAGE",
-                "nameLocation": "10811:5:61",
+                "nameLocation": "10811:5:45",
                 "nodeType": "EnumValue",
-                "src": "10811:5:61"
+                "src": "10811:5:45"
               },
               {
-                "id": 13648,
+                "id": 8271,
                 "name": "VIDEO",
-                "nameLocation": "10826:5:61",
+                "nameLocation": "10826:5:45",
                 "nodeType": "EnumValue",
-                "src": "10826:5:61"
+                "src": "10826:5:45"
               },
               {
-                "id": 13649,
+                "id": 8272,
                 "name": "AUDIO",
-                "nameLocation": "10841:5:61",
+                "nameLocation": "10841:5:45",
                 "nodeType": "EnumValue",
-                "src": "10841:5:61"
+                "src": "10841:5:45"
               },
               {
-                "id": 13650,
+                "id": 8273,
                 "name": "HIDDEN",
-                "nameLocation": "10856:6:61",
+                "nameLocation": "10856:6:45",
                 "nodeType": "EnumValue",
-                "src": "10856:6:61"
+                "src": "10856:6:45"
               }
             ],
             "name": "LayerTypes",
-            "nameLocation": "10761:10:61",
+            "nameLocation": "10761:10:45",
             "nodeType": "EnumDefinition",
-            "src": "10756:112:61"
+            "src": "10756:112:45"
           },
           {
             "canonicalName": "iii6Misc.CampaignType",
-            "id": 13657,
+            "id": 8280,
             "members": [
               {
-                "id": 13652,
+                "id": 8275,
                 "name": "View",
-                "nameLocation": "10901:4:61",
+                "nameLocation": "10901:4:45",
                 "nodeType": "EnumValue",
-                "src": "10901:4:61"
+                "src": "10901:4:45"
               },
               {
-                "id": 13653,
+                "id": 8276,
                 "name": "Click",
-                "nameLocation": "10915:5:61",
+                "nameLocation": "10915:5:45",
                 "nodeType": "EnumValue",
-                "src": "10915:5:61"
+                "src": "10915:5:45"
               },
               {
-                "id": 13654,
+                "id": 8277,
                 "name": "Lead",
-                "nameLocation": "10930:4:61",
+                "nameLocation": "10930:4:45",
                 "nodeType": "EnumValue",
-                "src": "10930:4:61"
+                "src": "10930:4:45"
               },
               {
-                "id": 13655,
+                "id": 8278,
                 "name": "Sale",
-                "nameLocation": "10944:4:61",
+                "nameLocation": "10944:4:45",
                 "nodeType": "EnumValue",
-                "src": "10944:4:61"
+                "src": "10944:4:45"
               },
               {
-                "id": 13656,
+                "id": 8279,
                 "name": "Inactive",
-                "nameLocation": "10958:8:61",
+                "nameLocation": "10958:8:45",
                 "nodeType": "EnumValue",
-                "src": "10958:8:61"
+                "src": "10958:8:45"
               }
             ],
             "name": "CampaignType",
-            "nameLocation": "10878:12:61",
+            "nameLocation": "10878:12:45",
             "nodeType": "EnumDefinition",
-            "src": "10873:99:61"
+            "src": "10873:99:45"
           },
           {
             "canonicalName": "iii6Misc.Project",
-            "id": 13666,
+            "id": 8289,
             "members": [
               {
-                "id": 13658,
+                "id": 8281,
                 "name": "ServiceDigital",
-                "nameLocation": "11214:14:61",
+                "nameLocation": "11214:14:45",
                 "nodeType": "EnumValue",
-                "src": "11214:14:61"
+                "src": "11214:14:45"
               },
               {
-                "id": 13659,
+                "id": 8282,
                 "name": "ServicePhysical",
-                "nameLocation": "11238:15:61",
+                "nameLocation": "11238:15:45",
                 "nodeType": "EnumValue",
-                "src": "11238:15:61"
+                "src": "11238:15:45"
               },
               {
-                "id": 13660,
+                "id": 8283,
                 "name": "ProductDigital",
-                "nameLocation": "11263:14:61",
+                "nameLocation": "11263:14:45",
                 "nodeType": "EnumValue",
-                "src": "11263:14:61"
+                "src": "11263:14:45"
               },
               {
-                "id": 13661,
+                "id": 8284,
                 "name": "ProductPhysical",
-                "nameLocation": "11287:15:61",
+                "nameLocation": "11287:15:45",
                 "nodeType": "EnumValue",
-                "src": "11287:15:61"
+                "src": "11287:15:45"
               },
               {
-                "id": 13662,
+                "id": 8285,
                 "name": "CollectibleDigital",
-                "nameLocation": "11312:18:61",
+                "nameLocation": "11312:18:45",
                 "nodeType": "EnumValue",
-                "src": "11312:18:61"
+                "src": "11312:18:45"
               },
               {
-                "id": 13663,
+                "id": 8286,
                 "name": "CollectiblePhysical",
-                "nameLocation": "11340:19:61",
+                "nameLocation": "11340:19:45",
                 "nodeType": "EnumValue",
-                "src": "11340:19:61"
+                "src": "11340:19:45"
               },
               {
-                "id": 13664,
+                "id": 8287,
                 "name": "RentableDigital",
-                "nameLocation": "11369:15:61",
+                "nameLocation": "11369:15:45",
                 "nodeType": "EnumValue",
-                "src": "11369:15:61"
+                "src": "11369:15:45"
               },
               {
-                "id": 13665,
+                "id": 8288,
                 "name": "RentablePhysical",
-                "nameLocation": "11394:16:61",
+                "nameLocation": "11394:16:45",
                 "nodeType": "EnumValue",
-                "src": "11394:16:61"
+                "src": "11394:16:45"
               }
             ],
             "name": "Project",
-            "nameLocation": "11196:7:61",
+            "nameLocation": "11196:7:45",
             "nodeType": "EnumDefinition",
-            "src": "11191:225:61"
+            "src": "11191:225:45"
           }
         ],
-        "scope": 13668,
-        "src": "8654:2764:61",
+        "scope": 8291,
+        "src": "8654:2764:45",
         "usedErrors": []
       }
     ],
-    "src": "8629:5506:61"
+    "src": "8629:5506:45"
   },
   "compiler": {
     "name": "solc",
@@ -308,7 +308,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.8",
-  "updatedAt": "2022-12-14T21:28:13.112Z",
+  "updatedAt": "2022-12-15T19:23:26.375Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

@@ -66,14 +66,14 @@ import "./iii6CoinModel.sol";
 import "./iii6SafeVoting.sol";
 import "../Misc/iii6Proposals.sol";
 import "../Misc/iii6Relations.sol";
-import "../Assets/iii6AssetFactory.sol";
+import "../Assets/iii6CoinFactory.sol";
 import "../Misc/Errors/iii6Errors.sol";
 
 contract iii6SafeModel is iii6Proposals, iii6Relations, iii6Errors {
     // list of trustees
     address TRUSTEE;
     iii6CoinModel BoardShares;
-    iii6AssetFactory iii6Assets;
+    iii6CoinFactory iii6Coins;
     // array of board members
     BoardMember[] public members;
     // board member id callback from address
@@ -101,7 +101,7 @@ contract iii6SafeModel is iii6Proposals, iii6Relations, iii6Errors {
 
     function makeShares(string memory _name, string memory _sym) external {
         if (msg.sender != TRUSTEE) revert Unauthorized();
-        address _newShares = iii6Assets.buildERC20Token(
+        address _newShares = iii6Coins.buildERC20Token(
             _name,
             _sym,
             0,
