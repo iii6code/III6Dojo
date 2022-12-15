@@ -107,8 +107,7 @@ contract iii6SafeModel is iii6Proposals, iii6Relations, iii6Errors {
             0,
             100000,
             false,
-            false,
-            1
+            false
         );
         BoardShares = iii6CoinModel(payable(_newShares));
         BoardShares.buyTokens(100000);

@@ -94,7 +94,6 @@ contract iii6CoinFactory is iii6PriceMath {
      * @param _c bool if related coin exists
      * @param _cs max supply of related ERC20 token 0 = infinite
      * @param _rate price of related ERC20 token in gascoin
-     * @param _g number of greenlist slots for Dia NFT project 0 = no greenlist
      */
     constructor() {
         gasSafe = 5 * 10**13;
@@ -107,8 +106,7 @@ contract iii6CoinFactory is iii6PriceMath {
         uint256 _rate,
         uint256 _supply,
         bool _burn,
-        bool _pause,
-        uint256 _curr
+        bool _pause
     ) internal returns (address) {
         // chose token model
         iii6CoinModel token;
@@ -120,18 +118,9 @@ contract iii6CoinFactory is iii6PriceMath {
          * @param _supply max token supply // if 0-infinte
          * @param _burn bool burnable
          * @param _pause bool pauseble
-         * @param _curr denomintaor currency // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
          * @return contract address
          */
-        token = new iii6CoinModel(
-            _name,
-            _sym,
-            _rate,
-            _supply,
-            _burn,
-            _pause,
-            _curr
-        );
+        token = new iii6CoinModel(_name, _sym, _rate, _supply, _burn, _pause);
         // exit with address
         return address(token);
     }
@@ -144,7 +133,6 @@ contract iii6CoinFactory is iii6PriceMath {
      * @param _supply max token supply // if 0-infinte
      * @param _burn bool burnable
      * @param _pause bool pauseble
-     * @param _curr denomintaor currency // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
      * @return contract address
      */
     function buildERC20Token(
@@ -153,8 +141,7 @@ contract iii6CoinFactory is iii6PriceMath {
         uint256 _rate,
         uint256 _supply,
         bool _burn,
-        bool _pause,
-        uint256 _curr
+        bool _pause
     ) external payable returns (address) {
         // check msg.value
 
@@ -163,7 +150,6 @@ contract iii6CoinFactory is iii6PriceMath {
         if (msg.value > 10**14) {
             // address(this).transfer(safe, msg.value - gasSafe);
         }
-        return
-            _makeERC20Asset(_name, _sym, _rate, _supply, _burn, _pause, _curr);
+        return _makeERC20Asset(_name, _sym, _rate, _supply, _burn, _pause);
     }
 }

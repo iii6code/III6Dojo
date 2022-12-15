@@ -86,19 +86,7 @@ contract AFL8_CampaignModel is iii6DiaModel, iii6Misc {
 
     // initialises the contract at deployment
     constructor()
-        iii6DiaModel(
-            msg.sender,
-            "Affiliate Campaign Asset",
-            "AFL8",
-            0,
-            0,
-            "",
-            "",
-            false,
-            0,
-            0,
-            0
-        )
+        iii6DiaModel(msg.sender, "Affiliate Campaign Asset", "AFL8", 0, 0, 0)
     {
         // afl8 = iii6CoinModel();
     }

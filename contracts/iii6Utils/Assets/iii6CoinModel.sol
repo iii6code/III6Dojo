@@ -68,18 +68,15 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
 import "../Oracles/iii6PriceConsumer.sol";
 import "../Math/iii6PriceMath.sol";
-import "./iii6Safes.sol";
+import "../Wallets/iii6Safes.sol";
 import "../Misc/iii6Misc.sol";
-import "../Misc/Errors/iii6Errors.sol";
 
 contract iii6CoinModel is
     ERC20,
     ERC20Pausable,
     ERC20Burnable,
     Ownable,
-    iii6PriceMath,
-    iii6Misc,
-    iii6Errors
+    iii6Misc
 {
     /**
      * @dev this contract is a factory contract to deploy iii6CoinModel & iii6DiaModel
@@ -96,7 +93,6 @@ contract iii6CoinModel is
     uint256 public rate;
     uint256 public PUB_SUPPLY;
     uint256 public MAX_SUPPLY;
-    uint256 private r;
     bool private burns;
     bool private pauses;
     string public title;
@@ -104,13 +100,6 @@ contract iii6CoinModel is
     /**
      * @dev declaration of enums structs and arrays
      */
-    Coins private ocoin;
-    struct Rates {
-        uint256 rateid;
-        uint256 rate;
-        Coins ocoin;
-    }
-    Rates[] private rates;
 
     /**
      * @dev creates an instance of iii6CoinModel
@@ -120,7 +109,6 @@ contract iii6CoinModel is
      * @param _supply max token supply // if 0-infinte
      * @param _burn bool burnable
      * @param _pause bool pauseble
-     * @param _curr denomintaor currency // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
      */
     constructor(
         string memory _name, // Token Name
@@ -128,16 +116,14 @@ contract iii6CoinModel is
         uint256 _rate, // Token Price in USD // 100 == 1 usd // 100000 = 1ETH
         uint256 _supply, // Token Max Supply
         bool _burn, // Burnable Option
-        bool _pause,
-        uint256 _curr // 1-eth 2-usd 3-xCur 4-yCur
+        bool _pause
     ) ERC20(_name, _sym) {
         _setRate(_rate); /** @dev see _setRate() :: line138 */
         MAX_SUPPLY = _supply;
         title = _name;
         burns = _burn;
         pauses = _pause;
-        ocoin = _setCurr(_curr); /** @dev see _setRate() :: line181 */
-        rates[r] = Rates(r, _rate, ocoin); /** @dev see Rates{} :: line97 */
+        rate = _rate; /** @dev see Rates{} :: line97 */
     }
 
     // ██████╗░██████╗░██╗██╗░░░██╗░█████╗░████████╗███████╗  ███████╗███╗░░██╗██╗░░██╗
@@ -154,61 +140,9 @@ contract iii6CoinModel is
      * @return uint256 rate in gascoin
      */
     function _setRate(uint256 _newRate) internal returns (uint256) {
-        iii6PriceMath pm;
-        if (ocoin == Coins.WETH) {
-            uint256 eP = pm.coinPriceOfEth(_newRate); /** @dev see iii6PriceMath.sol coinPriceOfEth() :: line138 */
-            if (eP < 0) revert Invalid_Response();
-            rates[r] = Rates(r, eP, ocoin);
-            r++;
-            return rate = eP;
-        } else if (ocoin == Coins.GASCOIN) {
-            uint256 gP = _newRate;
-            if (gP < 0) revert Invalid_Response();
-            rates[r] = Rates(r, gP, ocoin);
-            r++;
-            return rate = gP;
-        } else if (ocoin == Coins.XXX) {
-            uint256 xP = pm.coinPriceOfX(_newRate); /** @dev see iii6PriceMath.sol coinPriceOfX() :: line138 */
-            if (xP < 0) revert Invalid_Response();
-            rates[r] = Rates(r, xP, ocoin);
-            r++;
-            return rate = xP;
-        } else if (ocoin == Coins.YYY) {
-            uint256 yP = pm.coinPriceOfY(_newRate); /** @dev see iii6PriceMath.sol coinPriceOfY() :: line138 */
-            if (yP < 0) revert Invalid_Response();
-            rates[r] = Rates(r, yP, ocoin);
-            r++;
-            return rate = yP;
-        } else if (ocoin == Coins.USDC) {
-            uint256 newRate = pm.coinPriceOfUSD(_newRate); /** @dev see iii6PriceMath.sol coinPriceOfUSD() :: line138 */
-            rates[r] = Rates(r, newRate, ocoin);
-            r++;
-            return rate = newRate;
-        } else {
-            return rate;
-        }
-    }
-
-    /**
-     * @dev sets the denomination currency
-     * @param // INTERNAL
-     * @param _curr  ocoin (denomination currency) // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
-     * denomination currency can be set in setCurr()
-     * @return Coins.[???] // ocoin name as enum Coins
-     */
-    function _setCurr(uint256 _curr) internal returns (Coins) {
-        if (_curr == 0) {
-            ocoin = Coins.WETH;
-        } else if (_curr == 1) {
-            ocoin = Coins.GASCOIN;
-        } else if (_curr == 2) {
-            ocoin = Coins.XXX;
-        } else if (_curr == 3) {
-            ocoin = Coins.YYY;
-        } else {
-            ocoin = Coins.USDC;
-        }
-        return ocoin;
+        uint256 gP = _newRate;
+        if (gP < 0) revert();
+        return rate = gP;
     }
 
     /**
@@ -228,17 +162,6 @@ contract iii6CoinModel is
     // ██╔═══╝░██║░░░██║██╔══██╗██║░░░░░██║██║░░██╗  ██╔══╝░░██║╚████║░██╔██╗░
     // ██║░░░░░╚██████╔╝██████╦╝███████╗██║╚█████╔╝  ██║░░░░░██║░╚███║██╔╝╚██╗
     // ╚═╝░░░░░░╚═════╝░╚═════╝░╚══════╝╚═╝░╚════╝░  ╚═╝░░░░░╚═╝░░╚══╝╚═╝░░╚═╝
-
-    /**
-     * @dev sets the denomination currency
-     * @param // EXTERNAL
-     * @param _curr  ocoin (denomination currency) // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
-     * denomination currency can be set in setCurr()
-     * @return Coins.[???] // ocoin name as enum Coins
-     */
-    function setCurr(uint256 _curr) external onlyOwner returns (Coins) {
-        return _setCurr(_curr);
-    }
 
     /**
      * @dev sets the rate of currency in denomination currency
@@ -272,7 +195,7 @@ contract iii6CoinModel is
      * @param _amount of tokens to burn // EXTERNAL
      */
     function burn(uint256 _amount) public override {
-        if (burns == false) revert Not_Burnable();
+        if (burns == false) revert();
         _burn(msg.sender, _amount);
     }
 
@@ -297,7 +220,7 @@ contract iii6CoinModel is
      * @return active state of contract (true = paused / false = active)
      */
     function toggleState() public onlyOwner returns (bool) {
-        if (pauses == false) revert Not_Pausable();
+        if (pauses == false) revert();
         if (paused()) _unpause();
         else _pause();
         return paused();
@@ -309,9 +232,8 @@ contract iii6CoinModel is
      * @return uint total price
      */
     function buyTokens(uint256 _amount) external payable returns (uint256) {
-        if (msg.value <= _amount * rate) revert Insufficient_Amount();
-        if ((MAX_SUPPLY - PUB_SUPPLY) - (_amount * 10**18) < 0)
-            revert Insufficient_Supply();
+        if (msg.value <= _amount * rate) revert();
+        if ((MAX_SUPPLY - PUB_SUPPLY) - (_amount * 10**18) < 0) revert();
         _mint(msg.sender, _amount * 10**18);
         return _amount * rate;
     }
@@ -359,10 +281,9 @@ contract iii6CoinModel is
         // determine tAmount
         uint256 tAmount = input / rate;
         // check if input sufficient
-        if (tAmount < rate) revert Insufficient_Amount();
+        if (tAmount < rate) revert();
         // check if tokens available
-        if ((MAX_SUPPLY - PUB_SUPPLY) - (tAmount) < 0)
-            revert Insufficient_Supply();
+        if ((MAX_SUPPLY - PUB_SUPPLY) - (tAmount) < 0) revert();
         _mint(msg.sender, tAmount);
     }
 }
@@ -386,7 +307,7 @@ contract iii6CoinModelDrop is iii6CoinModel {
         bool _burn,
         bool _pause,
         uint256 _curr
-    ) iii6CoinModel(_name, _sym, _rate, _supply, _burn, _pause, _curr) {}
+    ) iii6CoinModel(_name, _sym, _rate, _supply, _burn, _pause) {}
 
     /**
      * @dev Drops users 100 Full Tokens For testnets only
