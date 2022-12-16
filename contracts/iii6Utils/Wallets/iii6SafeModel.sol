@@ -122,8 +122,7 @@ contract iii6SafeModel is iii6Proposals, iii6Relations, iii6Errors {
         external
         returns (address)
     {
-        if (msg.sender != TRUSTEE && BoardShares.balanceOf(msg.sender) <= 50)
-            revert Unauthorized();
+        if (msg.sender != TRUSTEE) revert Unauthorized();
         members[bms] = BoardMember(bms, _adr, 0, _inf);
         memNum[_adr] = bms;
         bms++;
