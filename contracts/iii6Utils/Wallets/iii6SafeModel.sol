@@ -65,11 +65,10 @@ pragma solidity ^0.8.7;
 import "./iii6SafeVoting.sol";
 import "../Assets/iii6CoinModel.sol";
 import "../Assets/iii6CoinFactory.sol";
-import "../Misc/iii6Proposals.sol";
 import "../Misc/iii6Relations.sol";
 import "../Misc/Errors/iii6Errors.sol";
 
-contract iii6SafeModel is iii6Proposals, iii6Relations, iii6Errors {
+contract iii6SafeModel is iii6Relations, iii6Errors {
     // list of trustees
     address TRUSTEE;
     iii6CoinModel BoardShares;
