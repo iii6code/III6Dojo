@@ -63,23 +63,15 @@
 pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Pausable.sol";
-import "../Oracles/iii6PriceConsumer.sol";
-import "../Math/iii6PriceMath.sol";
-import "../Wallets/iii6Safes.sol";
-import "../Misc/iii6Misc.sol";
 
-contract iii6CoinModel is
-    ERC20,
-    ERC20Pausable,
-    ERC20Burnable,
-    Ownable,
-    iii6Misc
-{
+contract iii6ShareModel is ERC20 {
     /**
-     * @dev this contract is a factory contract to deploy iii6CoinModel & iii6DiaModel
+     * @dev this contract is a factory contract to deploy iii6ShareModels
+     * Share Models give out exactly 100 coins representing 100%
+     * the trustee of the contract is the main administrator
+     * in case the trustee does not act after 48h the admin can create a new trustee
+     * there are three roles allowed to act on this contract trustee (main), admin (sec), boardmember (tri)
+     *
      */
     // ██╗███╗░░██╗██╗████████╗██╗░█████╗░██╗░░░░░██╗░██████╗░█████╗░████████╗██╗░█████╗░███╗░░██╗
     // ██║████╗░██║██║╚══██╔══╝██║██╔══██╗██║░░░░░██║██╔════╝██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
@@ -90,40 +82,54 @@ contract iii6CoinModel is
     /**
      * @dev declaration of storage vars
      */
-    uint256 public rate;
-    uint256 public PUB_SUPPLY;
     uint256 public MAX_SUPPLY;
-    bool private burns;
-    bool private pauses;
+    uint256 public OPEN_SUPPLY;
+    uint256 b;
+    address private trustee;
+    address private admin;
+    address private safe;
+    address[] public board;
     string public title;
 
+    struct AdminRequest {
+        uint256 id;
+        uint256 boardSize;
+        address[] voters;
+        bool[] votes;
+        address newAdmin;
+    }
+    AdminRequest[] arqs;
+    uint256 ar;
+    bool v;
     /**
-     * @dev declaration of enums structs and arrays
+     * @dev declaration of modifiers
      */
+
+    modifier isAdmin() {
+        if (msg.sender != admin) revert();
+        _;
+    } // only for admin user
+    modifier isTrustee() {
+        if (msg.sender != trustee) revert();
+        _;
+    } // only for trustee user
 
     /**
      * @dev creates an instance of iii6CoinModel
      * @param _name token name
      * @param _sym token symbol
-     * @param _rate token rate
-     * @param _supply max token supply // if 0-infinte
-     * @param _burn bool burnable
-     * @param _pause bool pauseble
      */
     constructor(
         string memory _name, // Token Name
         string memory _sym, // Token Symbol
-        uint256 _rate, // Token Price in USD // 100 == 1 usd // 100000 = 1ETH
-        uint256 _supply, // Token Max Supply
-        bool _burn, // Burnable Option
-        bool _pause
+        address _admin
     ) ERC20(_name, _sym) {
-        _setRate(_rate); /** @dev see _setRate() :: line138 */
-        MAX_SUPPLY = _supply;
+        MAX_SUPPLY = 100 * 10**18;
+        OPEN_SUPPLY = MAX_SUPPLY;
         title = _name;
-        burns = _burn;
-        pauses = _pause;
-        rate = _rate; /** @dev see Rates{} :: line97 */
+        admin = _admin;
+        safe = address(this);
+        b = 1;
     }
 
     // ██████╗░██████╗░██╗██╗░░░██╗░█████╗░████████╗███████╗  ███████╗███╗░░██╗██╗░░██╗
@@ -134,26 +140,111 @@ contract iii6CoinModel is
     // ╚═╝░░░░░╚═╝░░╚═╝╚═╝░░░╚═╝░░░╚═╝░░╚═╝░░░╚═╝░░░╚══════╝  ╚═╝░░░░░╚═╝░░╚══╝╚═╝░░╚═╝
 
     /**
-     * @dev sets token price in denomination currency ocoin
-     * @param _newRate token price in $ocoin (denomination currency)
-     * denomination currency can be set in setCurr()
-     * @return uint256 rate in gascoin
+     * @dev function allows admin to make a new trustee if the trustee doesnt act within 48h
+     * @param _adr token name
+     * condition : old trustee did not fulfill request for 48h
+     * @return new trustees address
      */
-    function _setRate(uint256 _newRate) internal returns (uint256) {
-        uint256 gP = _newRate;
-        if (gP < 0) revert();
-        return rate = gP;
+    function _makeTrustee(address _adr) internal isAdmin returns (address) {
+        return trustee = _adr;
     }
 
     /**
-     * @dev overrides ERC20 & ERC20Pausable
+     * @dev function allows trustee to make a new admin with permission of board members
+     * @param _adr token name
+     * condition : > 50% of board members approve
+     * @return new trustees address
      */
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 amount
-    ) internal override(ERC20, ERC20Pausable) whenNotPaused {
-        super._beforeTokenTransfer(from, to, amount);
+    function _makeAdmin(address _adr) internal isTrustee returns (address) {
+        if (v == true && _checkVotes()) return trustee = _adr;
+        else revert();
+    }
+
+    function _checkVotes() internal view returns (bool) {
+        uint256 vote;
+        AdminRequest memory ars = arqs[ar - 1];
+        for (uint256 i = 0; i < ars.votes.length; i++) {
+            if (ars.votes[i] == true) vote++;
+        }
+        if (vote > (ars.votes.length / 2)) return true;
+        else revert();
+    }
+
+    /**
+     * @dev function allows board members to propose a new admin
+     * @param _adr user address
+     * condition : > must be board member and all votings must be closed
+     * @return new admin address proposal
+     */
+    function _makeNewAdmin(address _adr) internal returns (address) {
+        if (_isBoard(_adr) && v == false) {
+            bool[] memory votes;
+            for (uint256 i = 0; i < board.length; i++) {
+                votes[i] = false;
+            }
+            arqs[ar] = AdminRequest(ar, board.length, board, votes, _adr);
+            ar++;
+            v = true;
+        }
+        return _adr;
+    }
+
+    /**
+     * @dev function allows trustee to make a new board members
+     * @param _adr token name
+     * condition A : new board member must not be registered yet
+     * @return new board members address
+     */
+    function _makeBoardMember(address _adr)
+        internal
+        isTrustee
+        returns (address)
+    {
+        if (!_isBoard(_adr)) {
+            // Condition A
+            b++;
+            return board[b - 1] = _adr;
+        } else revert();
+    }
+
+    /**
+     * @dev function allows trustee to create shares for board members
+     * @param _adr token name
+     * @param _amount amount of tokens 100% is 100000 (max input) 0.001% is 1 (min input)
+     * condition A : board member must be registered
+     * condition B : Supply must be sufficient
+     * @return new board members address
+     */
+    function _createSharesFor(address _adr, uint256 _amount)
+        internal
+        isTrustee
+        returns (bool)
+    {
+        // Condition A
+        if (_isBoard(_adr)) {
+            // setting input value to 10**18 digits
+            uint256 amount = _amount * 10**15;
+            // Condition B
+            if (OPEN_SUPPLY >= amount) {
+                OPEN_SUPPLY -= amount;
+                _mint(_adr, amount);
+                return true;
+            } else revert();
+        } else revert();
+    }
+
+    /**
+     * @dev function returns true if address belongs to existing board member
+     * @param _adr token name
+     * loop : check all boardmembers
+     * @return isBoarded boolean
+     */
+    function _isBoard(address _adr) internal view returns (bool) {
+        bool isBoarded = false;
+        for (uint256 i = 0; i < board.length; i++) {
+            if (_adr == board[i]) isBoarded = true;
+        }
+        return isBoarded;
     }
 
     // ██████╗░██╗░░░██╗██████╗░██╗░░░░░██╗░█████╗░  ███████╗███╗░░██╗██╗░░██╗
@@ -164,134 +255,46 @@ contract iii6CoinModel is
     // ╚═╝░░░░░░╚═════╝░╚═════╝░╚══════╝╚═╝░╚════╝░  ╚═╝░░░░░╚═╝░░╚══╝╚═╝░░╚═╝
 
     /**
-     * @dev sets the rate of currency in denomination currency
-     * @dev check the ocoin for its state to determine what value to type in
-     * @param // EXTERNAL
-     * @param _rate  ocoin (denomination currency) // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
-     * denomination currency can be set in setCurr()
-     * @return _setRate // ocoin name as enum Coins
+     * @dev function allows admin to make a new trustee if the trustee doesnt act within 48h
+     * @param _adr token name
+     * condition : old trustee did not fulfill request for 48h
+     * @return new trustees address
      */
-    function setRate(uint256 _rate) external onlyOwner returns (uint256) {
-        return _setRate(_rate);
+    function makeTrustee(address _adr) external isAdmin returns (address) {
+        return _makeTrustee(_adr);
     }
 
     /**
-     * @dev sets the max supply
-     * @param // EXTERNAL only owner
-     * @param _newSupply  ocoin (denomination currency) // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
-     * denomination currency can be set in setCurr()
-     * @return Max Supply
+     * @dev function allows trustee to make a new board members
+     * @param _adr token name
+     * condition A : new board member must not be registered yet
+     * @return new board members address
      */
-    function setMaxSupply(uint256 _newSupply)
+    function makeBoardMember(address _adr)
         external
-        onlyOwner
-        returns (uint256)
+        isTrustee
+        returns (address)
     {
-        return MAX_SUPPLY = _newSupply;
+        return _makeBoardMember(_adr);
     }
 
     /**
-     * @dev burn function for token holders only for burnable contracts
-     * @param _amount of tokens to burn // EXTERNAL
+     * @dev function allows trustee to create shares for board members
+     * @param _adr token name
+     * @param _amount amount of tokens 100% is 100000 (max input) 0.001% is 1 (min input)
+     * condition A : board member must be registered
+     * condition B : Supply must be sufficient
+     * @return new board members address
      */
-    function burn(uint256 _amount) public override {
-        if (burns == false) revert();
-        _burn(msg.sender, _amount);
-    }
-
-    /**
-     * @dev toggle the pausable functionality on the contract
-     * @return pausable state of contract
-     */
-    function togglePause() public onlyOwner returns (bool) {
-        return pauses = !pauses;
-    }
-
-    /**
-     * @dev toggle the burnable functionality on the contract
-     * @return burnable state of contract
-     */
-    function toggleBurn() public onlyOwner returns (bool) {
-        return burns = !burns;
-    }
-
-    /**
-     * @dev if contract pauses the state get checked and toggled via condition to opposite state
-     * @return active state of contract (true = paused / false = active)
-     */
-    function toggleState() public onlyOwner returns (bool) {
-        if (pauses == false) revert();
-        if (paused()) _unpause();
-        else _pause();
-        return paused();
-    }
-
-    /**
-     * @dev buy function for token holders
-     * @param _amount of tokens to mint // EXTERNAL
-     * @return uint total price
-     */
-    function buyTokens(uint256 _amount) external payable returns (uint256) {
-        if (msg.value <= _amount * rate) revert();
-        if ((MAX_SUPPLY - PUB_SUPPLY) - (_amount * 10**18) < 0) revert();
-        _mint(msg.sender, _amount * 10**18);
-        return _amount * rate;
-    }
-
-    /**
-     * @dev recieve function returns tokens on gascoin transfer to contract
-     */
-
-    receive() external payable {
-        // condition
-        _rcMint();
-    }
-
-    /**
-     * @dev recieve function returns tokens on gascoin and/or tokens transfer to contract
-     */
-    fallback() external payable {
-        // condition
-        // _rcMint();
-    }
-
-    /**
-     * @dev does mint  in exchange for gascoin action on recieve() and fallback()
-     */
-    function _rcMint() internal {
-        uint256 amount = msg.value / rate;
-        _mint(msg.sender, amount);
+    function createSharesFor(address _adr, uint256 _amount)
+        external
+        isTrustee
+        returns (bool)
+    {
+        return _createSharesFor(_adr, _amount);
     }
 }
 
-contract iii6CoinModelDrop is iii6CoinModel {
-    /**
-     * @dev creates an instance of iii6CoinModel
-     * @param _name token name
-     * @param _sym token symbol
-     * @param _rate token rate
-     * @param _supply max token supply // if 0-infinte
-     * @param _burn bool burnable
-     * @param _pause bool pauseble
-     * @param _curr denomintaor currency // 0-eth 1-gascoin 2-xCur 2-yCur >4-usdc
-     */
-    constructor(
-        string memory _name,
-        string memory _sym,
-        uint256 _rate,
-        uint256 _supply,
-        bool _burn,
-        bool _pause,
-        uint256 _curr
-    ) iii6CoinModel(_name, _sym, _rate, _supply, _burn, _pause) {}
-
-    /**
-     * @dev Drops users 100 Full Tokens For testnets only
-     */
-    function dropToken() external {
-        _mint(msg.sender, 100 * 10**18);
-    }
-}
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 //
 //      MMWKd:..                                                                                    ..:dKWMM
