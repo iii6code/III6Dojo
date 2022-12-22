@@ -6,7 +6,7 @@ contract('s0xFriends', ([admin, alice, bob, user3, user4, user5, user6]) => {
 
     const Member = 0
     const FriendsFriend = 1
-    const Friend = 2
+    const FRIEND = 2
     const Family = 3
     const Work = 4
     const Homies = 5
@@ -27,10 +27,10 @@ contract('s0xFriends', ([admin, alice, bob, user3, user4, user5, user6]) => {
     })
 
     it('Alice should relate to Bob as a friend', async () => {
-        await s0xFriendsContract.relate(bob, alice, Friend, { from: alice })
-        const isFriend = await s0xFriendsContract.showRelation(alice)
-        console.log(isFriend)
-        // assert.equal(isFriend, Friend, 'Alice and bob are friends')
+        await s0xFriendsContract.relate(bob, alice, FRIEND, { from: alice })
+        const isFriend = await s0xFriendsContract.showRelation(bob, { from: alice })
+        console.log('Current relationship between alice and bob is: ', isFriend.AconsidersB, '\n')
+        // assert.equal(isFriend, FRIEND, 'Alice and bob are NOT friends and they should be')
     })
 
     // it('should remove a user as a friend', async () => {

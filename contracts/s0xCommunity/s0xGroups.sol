@@ -1,98 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-//
-//      0KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK0Okdlc:;,......    ......',;cldxO0KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK
-//      XNNNNNNNNNNNNNNNNNNNNNNNNNNXX0kdc;'...        .......         ...';coxOKXNNNNNNNNNNNNNNNNNNNNNNNNNNN
-//      XNNNNNNNNNNNNNNNNNNNNNNNX0xl;'..              .,;;:,.                ..;cdOXXNNNNNNNNNNNNNNNNNNNNNNN
-//      XNNNNNNNNNNNNNNNNNNXNXOo:'.                   .......                    ..;lkKXNNNNNNNNNNNNNNNNNNNN
-//      XNNNNNNNNNNNNNNNNNXOo;..              .........................             ..,lkKNNNNXNNNNNNNNNNNNN
-//      XNNNNNNNNNNNNXXNKx:..            ..........    'lc'.    ............            .;d0XNNNNNNNNNNNNNNN
-//      XNNNNNNNNNNNNX0d;.          ........         .;dddkl.            .......          .'lOXNNNNNNNNNNNNN
-//      XNNNNNNNNNNX0d,.         ......             .cx:..,lo'               ......         .'lOXNNNNNNNNNNN
-//      XNNNNXNNNNKx,.         .....               .ox;.   .:o,.                 ....         .'o0XNNNNNNNNN
-//      XNXNNNNNXOc.        .....                .,dd'      .;l;.                  .....   .... .;xXNNNNNNNN
-//      XNNNNNNKd'....... .....                 .;xo.        .'c;.                    .....':;..  .l0XNNNNNN
-//      XNNNNX0c. ..'''......                  .ckc.           .:;.                     ....',...  .;OXNNNNN
-//      XNNNXO:.   ........                   .ok:.             .;;.                     ......     .,xXNNXX
-//      XNNXO;.       ...                    'dx;.               .,;.                      ...        'xXNNN
-//      XNXO;.       ...                   .,xx'       .....''''''';:..                     ...        'xXNN
-//      XN0:.       ...                   .;kd.  ..,:ldxkOOOOOOOOOkO0Odl:,..                  ...      .,kXN
-//      XKl.       ...                   .cko'':ok00Okdlc;;,'''...',;:dkxkkd:..                ..       .:0N
-//      Xx'       ...                   .lKOxk00xxxl,.  ....',..      .'..,cddl,.              ...       .oX
-//      O:.      ...                  ..dNN0xl;':c::c:'..':odol:..     .... ..:lc,.             ...       ,k
-//      d.       ..                 .,o00d:.. .od'  .,cclxxl'.'coc.     ....   ..,,'..           ..       .l
-//      :.      ...              ..:xKNO,.   .lO:    .;k0o;.   .'do.     ...      .....          ...       ,
-//      '       ..             ..cddx0x'     .xO,   .:dc',:;'.   ;k:.           ..,'...           ..       .
-//      .       ..            .:lc,ckd.      .dKc. .cl'.  ..,'. .lO:       ..':ll:,..             ...      .
-//      .      ...          .,:,..ckl.       .;0O:,:,.      ...'lOl.   ..;ldkkdo;.                ...      .
-//             ...        ..'.. .lkc.         .;kK0o,.......':dOx;..,cdOKKko;..'c:.               ...
-//      .      ...       ....  .lk:.           .'coxOkkxxxxkkkxdodkKXXOdc'.    .'dd,.             ...
-//      .      ...        ....,dk;.            ..  ..;coxkkOO0KXX0ko:'..         'dOc.            ...      .
-//      .       ..          .,dd;,,;;:::;;;;;::clloxkO0KK00Oxdl;'..               .l0d'.          ...      .
-//      ,.      ...        .;dc.  ...,;:clloodddddoolc:;'....                      .;OO:.         ......   .
-//      c.  .......       .:o;.                                                     .'d0d'.      ....,;'. .:
-//      x'  .';,...      .cl'.                                                        .:OO:.     ....;;.. .o
-//      0l. ..,'....   .'ol...............................'''',,,,,,;;;:::::ccccclllllookNXd.   ... .... .;0
-//      XO,       ...  .coc::cccccccccllllllllllllloooooooooooooooooooooooooooooooolllllllc;.  ...       .dX
-//      XXd.       ...  .........................................                             ...       .lKN
-//      XNKl.       ...            .:cccccc:;:ccccccc:::cccccccccccccccccccccccc'.           ...       .:0NX
-//      XNNKc.       ...          .cXWNXXNKkxokXNWWNNK0NMWWNXNW0OXWNNWWNWWNWWNWWo.          ...       .;OXNN
-//      XNNN0l.       ....        .cXNxokKxokllOkdxKNOxXWkloddOdlOXKkK0ONWOdx0WWo.         ...       .;OXNNN
-//      XNNNNKo.        ...       .cXNOdokxcddd0klo0WKdOXd;lxkKOd0NWOlokKXOllOWWo.       ...        .c0NNNNN
-//      XNNNNNXd'.       ....     .cXWK00XNKO0XXKNXKWN0KNNK00KNNK0XXOdOKKXKNXKNWo.     ....        .lKNNNNNN
-//      XNNNNNNXO:.        ....    'oddddddddddddddddddddddddddddddl:coddddddddo;.   ....        .,xXNNNNNNN
-//      XNNNNNNNNKd'.        .....                                                 ....        ..l0XNNNNNNNN
-//      XNNNNNNNNNXOl..        ......                                           .....         .:kXNNNNNNNNNN
-//      XNNNNNNNNNNNXOc..         ......                                    ......          .:xKNNNNNNNNNNNN
-//      XNNNNNNNNNNNNNXOl'.          ........                          ........          ..ckKNNNNNNXNNNNNNN
-//      XNNNNNNNNNNNNNNNX0d;..       ..'....................................',,.       .,oOXNNNNNNNNNNNNNNNN
-//      XNNNNNNNNNNNNNNNNNNXOo;..    ...;;.     ....................      .;,'..   ..,lkKXNNNNNNNNNNNNNNNNNN
-//      XNNNNNNNNNNNNNNNNNNNNNKOd:'.    ..                                 ...  ..;lkKXNXNNNNNNNNNNNNNNNNNNN
-//      XNNNNNNNNNNNNNNNNNNNNNNNNX0ko:,...                                 ..':lx0XNNNNNXNNNNNNNNNNNNNNNNNNN
-//      XNNNNNNNNNNNNNNNNNNNNNNNNNNNNXKOxoc;,....                  ....';:ldOKXXNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-//      XNNNNNNNNNNNNNNNNNNNNNNNNNNNXXNNNNXK0kdl:;'.....    .....',:ldk0KXNNNNNXNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-//
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-//                                                                                                                                                                                  //
-//      @dev            ::              Aron Mauritala Ayuk                                                                                                                                          //
-//      @msg            ::              stereo@iii6.xyz                                                                                                                                   //
-//      @github         ::              @stereoIII6
-//      @twitter        ::              @stereoIII6                                                                                                                                              //
-//                                                                                                                                                                                  //
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-//                                                                                                                                                                                  //
-//      @dev            ::              Juan Xavier Valverde                                                                                                                                    //
-//      @msg            ::              juanxavier@iii6.xyz                                                                                                                               //
-//      @twitter        ::              @JuanXavier                                                                                                                                             //
-//      @github         ::              @JuanXavier                                                                                                                                             //
-//                                                                                                                                                                                  //                                                                                                                                                                                 //
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-//  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   //
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-//                                                                                                                                                                                  //
-//      @company        ::              Fractio Holding                                                                                                                                                                       //
-//      @title          ::              s0xiety Groups                                                                                                                            //
-//      @description    ::              Group Interface Contract                                                                                                                           //
-//      @version        ::              0.0.1                                                                                                                                       //
-//      @purpose        ::              Multinet Group Interface                                                                                                           //
-//                                                                                                                                                                                  //
-//                                                                                                                                                                                  //
-//                                                                                                                                                                                  //
-//                                                                                                                                                                                  //
-//                                                                                                                                                                                  //
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-//  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   //
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 pragma solidity ^0.8.7;
 
-import "./s0xUsers.sol";
-import {s0xFriends, iii6Relations, iii6Math} from "./s0xFriends.sol";
-import "../iii6Utils/Misc/Errors/iii6Errors.sol";
+import './s0xUsers.sol';
+import { s0xFriends, iii6Relations, iii6Math } from './s0xFriends.sol';
+import '../iii6Utils/Misc/Errors/iii6Errors.sol';
 
 contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
     s0xUsers private user; // user contract reference
@@ -163,11 +74,8 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
          * new user gets added
          */
         else if (mode == GroupType.Private) {
-            if (
-                _sender != owner ||
-                !friend.getMsgAllow(owner, _adr) ||
-                !friend.getMsgAllow(_adr, owner)
-            ) revert Unauthorized();
+            if (_sender != owner || !friend.getMsgAllow(owner, _adr) || !friend.getMsgAllow(_adr, owner))
+                revert Unauthorized();
             // add user to group
             ad = _addUser(_adr);
         }
@@ -175,10 +83,7 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
          * @dev Password Protected PRIVATE Group
          */
         else if (mode == GroupType.Closed) {
-            if (
-                !friend.getMsgAllow(_sender, _adr) ||
-                !friend.getMsgAllow(_adr, _sender)
-            ) revert Unauthorized();
+            if (!friend.getMsgAllow(_sender, _adr) || !friend.getMsgAllow(_adr, _sender)) revert Unauthorized();
             if (_stringEqual(_pin, p)) {
                 ad = _addUser(_adr);
             } else revert Unauthorized();
@@ -187,10 +92,8 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
          * @dev Friends Invite Friends Public Group
          */
         else if (mode == GroupType.Shared || mode == GroupType.Public) {
-            if (
-                friend.getMsgAllow(_sender, _adr) == false ||
-                friend.getMsgAllow(_adr, _sender) == false
-            ) revert Unauthorized();
+            if (friend.getMsgAllow(_sender, _adr) == false || friend.getMsgAllow(_adr, _sender) == false)
+                revert Unauthorized();
             ad = _addUser(_adr);
         }
         /**
@@ -205,10 +108,7 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
         else revert Unauthorized();
     }
 
-    function removeUser(address _sender, address _adr)
-        external
-        returns (address)
-    {
+    function removeUser(address _sender, address _adr) external returns (address) {
         if (mode == GroupType.FaceToFace) revert Min_Requirements_Not_Met();
         if (_sender != owner) revert Unauthorized();
         members[mNum[_adr]] = address(0);
@@ -216,10 +116,7 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
         return _adr;
     }
 
-    function addContent(address _sender, string memory _cnt)
-        external
-        returns (string memory)
-    {
+    function addContent(address _sender, string memory _cnt) external returns (string memory) {
         content[_sender][myContent[_sender]] = bytes(_cnt);
         ++myContent[_sender];
         cntnt[c] = bytes(_cnt);
@@ -238,11 +135,7 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
         return ++r[_c];
     }
 
-    function _showContent(uint256 _contentId)
-        internal
-        view
-        returns (string memory, string[] memory)
-    {
+    function _showContent(uint256 _contentId) internal view returns (string memory, string[] memory) {
         string[] memory repliers;
         for (uint256 i = 0; i < r[_contentId]; i++) {
             repliers[i] = string(replys[_contentId][r[_contentId]]);
@@ -250,11 +143,7 @@ contract s0xGroups is iii6Math, iii6Relations, iii6Errors {
         return (string(cntnt[_contentId]), repliers);
     }
 
-    function showContent(uint256 _contentId)
-        external
-        view
-        returns (string memory, string[] memory)
-    {
+    function showContent(uint256 _contentId) external view returns (string memory, string[] memory) {
         return _showContent(_contentId);
     }
 }

@@ -69,13 +69,9 @@ contract iii6Relations {
     // ██║██║╚████║██║░░░██║░░░██║██╔══██║██║░░░░░██║░╚═══██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║
     // ██║██║░╚███║██║░░░██║░░░██║██║░░██║███████╗██║██████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║
     // ╚═╝╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
-    /*
-     * @dev Divides between two values substracting the remainder from the dividend
-     * @param _a First value
-     * @param _b Second value
-     * @return Result of division
-     */
-    // role enum
+
+    /*************ENUMS************** */
+
     enum Roles {
         Unknown,
         Foreign,
@@ -115,16 +111,18 @@ contract iii6Relations {
      * @param Blocked member that is removed from user feed for ref user and vice versa
      */
     enum Relation {
-        Member,
-        FriendsFriend,
-        Friend,
-        Family,
-        Work,
-        Homies,
-        Partners,
-        Blocked,
-        Banned
+        Member, // 0
+        FriendsFriend, // 1
+        Friend, // 2
+        Family, // 3
+        Work, // 4
+        Homies, // 5
+        Partners, // 6
+        Blocked, // 7
+        Banned // 8
     }
+
+    /*************STRUCTS************** */
     struct Relations {
         uint256 id;
         bool AfollowsB;
@@ -133,8 +131,8 @@ contract iii6Relations {
         bool BbansA;
         bool AallowsBmsg;
         bool BallowsAmsg;
-        Relation AprivB;
-        Relation BprivA;
+        Relation AconsidersB;
+        Relation BconsidersA;
     }
     struct BoardMember {
         uint256 b_id;
