@@ -61,6 +61,7 @@
   },
   "devDependencies": {
     "css-loader": "^6.5.1",
+    "hardhat": "^2.12.4",
     "html-webpack-plugin": "^5.5.0",
     "sass": "^1.47.0",
     "sass-loader": "^12.4.0",
