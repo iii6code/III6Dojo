@@ -33,12 +33,8 @@ const ipfs = client.create({
   protocol: "https",
 });
 const s0x = require("../dist/contracts/s0xFactory.json");
-const Friends = require("../dist/contracts/Friends.json");
-const Groups = require("../dist/contracts/Groups.json");
-const Greenlist = require("../dist/contracts/Greenlist.json");
-const FrootyCoolTingz = require("../dist/contracts/FrootyCoolTingz.json");
-const Ice = require("../dist/contracts/ICE.json");
-const Market = require("../dist/contracts/Market.json");
+const Friends = require("../dist/contracts/s0xFriends.json");
+const Groups = require("../dist/contracts/s0xGroups.json");
 
 // const url = "https://gateway.pinata.cloud/ipfs/QmamRUaez9fyXpeuTuiKCNvrKSsLxid4hzyKKkJXSi67LL/";
 const url = "./images/";
