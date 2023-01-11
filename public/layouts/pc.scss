@@ -1,13 +1,12 @@
 #nav {
   width: 100%;
   height: 60px;
-  line-height:60px;
+  line-height: 60px;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 100;
   font-weight: 300;
-
 }
 #links {
   grid-row: 1;
@@ -19,7 +18,6 @@
 }
 #logo,
 #copy {
-  
   width: 100% !important;
   text-align: left !important;
 }
@@ -54,13 +52,11 @@
   grid-row: 1/2;
   text-align: center;
   grid-column: 3/5;
-
 }
 #socioBox {
   grid-row: 2/3;
   text-align: center;
   grid-column: 3/5;
- 
 }
 #avtBox {
   grid-row: 1/4;
@@ -79,11 +75,10 @@
   grid-row: 1/4;
   text-align: center;
   grid-column: 1/3;
- 
 }
 #submit_create,
 #submit_edit {
-  grid-column:3/5;
+  grid-column: 3/5;
   grid-row: 4;
   justify-items: center;
 }
@@ -95,13 +90,27 @@
   left: 0;
 }
 
+#stereo {
+  display: grid;
+  grid-column: 1/2;
+  grid-row: 1/2;
+  width: 900px;
+  margin-left: 50px;
+}
+#xnode {
+  display: grid;
+  grid-column: 1/2;
+  grid-row: 2;
+  width: 900px;
+  margin-left: 50px;
+}
+
 .navlayout {
   width: 100%;
 
   display: grid;
   grid-gap: 22px;
   grid-template-columns: 11px 1fr 2fr 1fr 11px;
-  
 }
 .stage {
   width: 100%;
@@ -114,7 +123,6 @@
   display: grid;
   grid-gap: 1em;
   grid-template-columns: 1fr 1fr 1fr 1fr;
- 
 }
 
 .box {
@@ -125,19 +133,48 @@
   grid-row: 1;
   text-align: center;
   height: min-content;
-  transition: .4s ease-in;
+  transition: 0.4s ease-in;
 }
-.link:hover{
-  letter-spacing: 5px ;
+.link:hover {
+  letter-spacing: 5px;
   border-radius: 5px;
   cursor: pointer;
-
 }
-.txt{
+.txt {
   display: grid;
   grid-column: 1/3;
   font-weight: 300;
+  line-height: 32px;
 }
+.txtabt {
+  display: grid;
+  grid-column: auto;
+  font-weight: 300;
+  font-size: 20px;
+  text-align: center;
+  padding: 50px;
+  border-radius: 7px;
+  transition: all 0.3s ease-in-out;
+  line-height: 32px;
+}
+.txtabt:hover {
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 4px 20px 1px #2d2d2d;
+  backdrop-filter: blur(9px);
+  width: auto;
+}
+
+.mlink {
+  padding: 20px;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase;
+  align-items: stretch;
+}
+.mlink:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
 .title {
   grid-column: 1/4;
   font-size: 5em;
@@ -171,13 +208,12 @@
 }
 
 #media {
-  grid-column:4/-1;
+  grid-column: 4/-1;
   grid-row: 1/-1;
   width: 100%;
   margin-top: 4em;
   height: 500px;
   overflow: hidden;
-  
 }
 
 img {
@@ -185,14 +221,13 @@ img {
   width: 400px;
 }
 
-
-.my-button{
-  background: linear-gradient(to right,orange,#dda800);
+.my-button {
+  background: linear-gradient(to right, orange, #dda800);
   background-color: #d19f00;
   color: #fff;
   font-family: Arial;
   font-size: 18px;
-  font-weight:600;
+  font-weight: 600;
   font-style: normal;
   text-decoration: none;
   padding: 10px 5px;
@@ -201,51 +236,44 @@ img {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 1px 4px 20px 1px #2D2D2D;
-  transition: .5s ;
+  box-shadow: 1px 4px 20px 1px #2d2d2d;
+  transition: 0.5s;
   text-align: left;
   line-height: 30px;
   height: 50px;
-  
-  
- 
- }
- .my-button span{
-  
+}
+.my-button span {
   display: block;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   background-repeat: no-repeat;
   background-size: contain;
-  transform:  rotate(0deg);
+  transform: rotate(0deg);
   padding: 0 0 10px 0;
- }
- .my-button:hover{
-  background: linear-gradient(to right,#e8bc5d ,#efc260);
+}
+.my-button:hover {
+  background: linear-gradient(to right, #e8bc5d, #efc260);
   background-color: #eabc5a;
   box-shadow: 1px 1px 20px 1px #ffec95;
- }
- .my-button:active{
+}
+.my-button:active {
   transform: scale(1.15);
- }
+}
 
-
- div.glow {
-  background: 50% 100% / 50% 50% no-repeat
-              radial-gradient(ellipse at bottom, orange, transparent, transparent);
+div.glow {
+  background: 50% 100% / 50% 50% no-repeat radial-gradient(ellipse at bottom, orange, transparent, transparent);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   font-size: 4em;
   font-weight: 600;
   letter-spacing: 2px;
-  font-family: 'Raleway', sans-serif;
-  animation: reveal 50ms ease-in-out forwards 1500ms,
-             glow 1500ms linear infinite 3500ms;
+  font-family: "Raleway", sans-serif;
+  animation: reveal 50ms ease-in-out forwards 1500ms, glow 1500ms linear infinite 3500ms;
 
   @keyframes reveal {
-    80%{
+    80% {
       letter-spacing: 4px;
     }
     100% {
@@ -257,7 +285,7 @@ img {
       text-shadow: 0 0 8px rgb(255, 200, 0);
     }
   }
-} 
+}
 
 .card-container {
   height: 100%;
@@ -265,33 +293,33 @@ img {
   padding: 1rem 0;
   display: grid;
   place-content: center;
-  
-  .cards {    
+
+  .cards {
     display: grid;
     grid-template-columns: repeat(4, 2fr);
     gap: 2.5rem;
     pointer-events: none;
   }
-  
+
   .card {
-    max-width:20rem;
+    max-width: 20rem;
     color: #ffffffda;
     padding: 1rem;
     background-color: #202022;
-    
+
     pointer-events: auto;
-    
+
     transform: scale(1);
     opacity: 1;
-    transition: all 150ms ease-in-out; 
-    
+    transition: all 150ms ease-in-out;
+
     display: flex;
     flex-direction: column;
-    
+
     .card-title {
       position: relative;
       color: orange;
-      
+
       &::before {
         content: "";
         height: 1rem;
@@ -299,28 +327,28 @@ img {
         border-radius: 50%;
         box-shadow: inset 0 0 5px orange;
         background-color: transparent;
-        
+
         position: absolute;
         right: 0;
       }
     }
-    
+
     .date {
       color: rgb(255, 200, 99);
       font-size: 0.85rem;
       letter-spacing: 3px;
       margin-bottom: 1.5rem;
     }
-    
+
     .description {
       color: orange;
       font-size: 0.9rem;
     }
-    
+
     &:nth-child(even) {
       transform: translateY(8px);
     }
-    
+
     &:nth-child(n) {
       transform: rotate(4deg);
     }
@@ -333,83 +361,73 @@ img {
   z-index: 10;
   background-color: rgba(69, 39, 0, 0.628);
   border-radius: 5px;
-  
 }
 .cards:hover > .card:not(:hover) {
   opacity: 0.9;
   filter: blur(2px);
   -webkit-filter: blur(2px);
-} 
- 
+}
+
 .img-container {
   display: grid;
   grid-row: -1;
   grid-column: 1/-1;
   text-align: center;
 
-  .image{
+  .image {
     grid-column: 1/-1;
-
   }
-  p{
+  p {
     font-size: 2em;
   }
 }
 
-#bigbox{
+#bigbox {
   display: grid;
   grid-column: 3/6;
-  transition:  0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
   grid-row: 1/-1;
-  padding:2em;
+  padding: 2em;
   margin: 2em 6em;
   border-radius: 10px;
   height: fit-content;
-
 }
 #bigbox:hover {
   background-color: #181818;
-  box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
-  -webkit-box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
+  box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
+  -webkit-box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
   -moz-box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
- 
 }
 
-
-#smallbox{
-  
+#smallbox {
   grid-column: -1;
-  transition:  0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
   column-width: 350px;
   grid-row: 0/6;
-  padding:2em;
+  padding: 2em;
   margin: 2em 0 0 0;
   border-radius: 10px;
-
 }
 #smallbox:hover {
   background-color: #181818;
-  box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
-  -webkit-box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
+  box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
+  -webkit-box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
   -moz-box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
- 
 }
-#medbox{
+#medbox {
   display: grid;
   grid-column: 1/3;
   column-width: 350px;
-  transition:  0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
   grid-row: 1/2;
-  padding:3em 2em 2em 2em ;
+  padding: 3em 2em 2em 2em;
   margin: 2em 0 0 0;
   border-radius: 10px;
   height: fit-content;
-
 }
 #medbox:hover {
   background-color: #181818;
-  box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
-  -webkit-box-shadow: 0px 0px 33px 8px rgba(130,130,130,0.8);
+  box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
+  -webkit-box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
   -moz-box-shadow: 0px 0px 33px 8px rgba(130, 130, 130, 0.8);
- 
 }
