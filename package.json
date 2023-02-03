@@ -60,8 +60,9 @@
     "yargs-parser": "^21.0.0"
   },
   "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.1",
     "css-loader": "^6.5.1",
-    "hardhat": "^2.12.4",
+    "hardhat": "^2.12.6",
     "html-webpack-plugin": "^5.5.0",
     "sass": "^1.47.0",
     "sass-loader": "^12.4.0",
