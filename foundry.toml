@@ -1,7 +1,16 @@
 [profile.default]
-src = 'src'
-out = 'out'
-libs = ['node_modules']
+src = 'contracts'
+out = 'artifacts'
+solc = "0.8.17"
+verbosity = 3
+gas_reports = ['*']
+libs = ["node_modules", "lib"]
+fs_permissions = [{ access = "read-write", path = "./"}]
+
+optimizer = true
+optimizer_runs = 1_000
+fuzz_runs = 500
+
 remappings = [
     '@chainlink/=node_modules/@chainlink/',
     '@ensdomains/=node_modules/@ensdomains/',
@@ -10,4 +19,43 @@ remappings = [
     'hardhat/=node_modules/hardhat/',
 ]
 
+[rpc_endpoints]
+arbitrum = "${ARBI_URL}"
+arbitrinkeby = "${ARBIRINK_URL}"
+avax = "${AVAX_URL}"
+fuji = "${FUJI_URL}"
+fujix = "${FUJIX_URL}"
+bsc = "${BSC_URL}"
+evmos = "${EVMOS_URL}"
+tevmos = "${TEVMOS_URL}"
+mainnet = "${MAIN_URL}"
+goerli = "${GOERLI_URL}"
+polygon = "${POLY_URL}"
+mumbai = "${MUMB_URL}"
+moonriver = "${MOONRIVER_URL}"
+moonrbeam = "${MOONRBEAM_URL}"
+optimism = "${OPTI_URL}"
+optikovan = "${OPTIKOV_URL}"
+# CELO
+# CRONOS
+# HARMONY ONE
+# FANTOM
+# GNOSIS
+
+[etherscan]
+arbitrum = { key = "${ARBISCAN_KEY}", url = "https://api.arbiscan.io/api" }
+goerli = { key = "${ETHERSCAN_KEY}", url = "https://api-goerli.etherscan.io/api" }
+mainnet = { key = "${ETHERSCAN_MAINNET_KEY}" }
+optimism = { key = "${OPTISCAN_KEY}" }
+unknownchain = { key = "ABCDEFG", url = "https://<etherscan-api-url-for-that-chain>" }
+
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
+
+# TODO: readme to test and deploy contract
+
+# To compile:
+# forge build
+
+# forge test 
+
+# forge create --rpc-url <your_rpc_url> --private-key $POLY_KEY contracts/MyContract.sol:MyContract
