@@ -1,29 +1,29 @@
 {
   "contractName": "iii6Proposals",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/iii6Utils/Misc/iii6Proposals.sol\":\"iii6Proposals\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/iii6Utils/Misc/iii6Proposals.sol\":{\"keccak256\":\"0xaf3736036720ecbe3436f299e1ef7d332db0691f462d7f200af6ae2f796426f7\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://af96c21fd04c563552f9664693ca11e0760eef87abb04820a12a0d4a370edb6a\",\"dweb:/ipfs/QmXqASYjrKgoBuzFcnqo4qyzQtzqpjQNaQjm1WRsBU59tV\"]}},\"version\":1}",
-  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220e6cc958aaaefdfa3100ec79f4ef5d2b50b82126b4cc98e03b9af67825d55ceb964736f6c63430008110033",
-  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220e6cc958aaaefdfa3100ec79f4ef5d2b50b82126b4cc98e03b9af67825d55ceb964736f6c63430008110033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.18+commit.87f61d96\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/iii6Utils/Misc/iii6Proposals.sol\":\"iii6Proposals\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/iii6Utils/Misc/iii6Proposals.sol\":{\"keccak256\":\"0x5152448a7eecac1d29f3f22447c011ec798d3a7cc61e6b6d86181031d8c39505\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://3070e8559f902e263b9bbf22a2bfca4f61e353a75b2f5207ef1f65c958d73351\",\"dweb:/ipfs/QmZSTUdX4DSa49bYN45SPfwRRjmVMbgz2Tyr9uj86eA98f\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220dae5bdb8e590bde2d38ba756f2ff5618ec572169d04d0d8665aa010e1c461ea964736f6c63430008120033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220dae5bdb8e590bde2d38ba756f2ff5618ec572169d04d0d8665aa010e1c461ea964736f6c63430008120033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
-  "sourceMap": "8654:2013:45:-:0;;;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "8654:2013:45:-:0;;;;;",
-  "source": "// SPDX-License-Identifier: GPL-3.0\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//\n//      MMWKd:..                                                                                    ..:dKWMM\n//      MKl.                                                                                            .lKW\n//      O'       ..''''''''''''.     .''''''.     .'''''.      .''''''''''''''.     .''''''''''''..       'O\n//      '     .ckKNNWNWWWWWWWWWk.   .xNWWNWNl    ,0WWWWW0,     lNWWWWWWWWWNWNk'    ;0NNNWWWWWWWWNNKkc.     '\n//           ,OWMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMWO,\n//          .kMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMMMMk.\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMM0,    ;0NNWWMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMM0,     .'.',;lkNMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMK;              ,kWMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMX:    .:oxxdc'    .dWMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   ,OWMMMMMXl.   '0MMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMX;   .kMMMMMMMMK,   .xMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMM0'   .OMMMMMMMMX;   .xMMMMMMMMMMMM0'\n//          .OMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMK,    lNMMMMMMWx.   '0MMMMMMMMMMMMO.\n//           lNMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   .:x0KKKkc.   .dWMMMMMMMMMMMNl\n//      .    .c0WMMMMMMMMMMMMMMO.   .kMMMMMWo    ,KMMMMMK,     lWMMMMNd.     ....     .xNMMMMMMMMMMW0c.    .\n//      l      .,lddxxxxxxxxxxxc.    :xxxxxd,    .lxxxxxl.     ,dxxxxxd:.            .cdxxxxxxxxddl,.      l\n//      No.                                                                                              .oN\n//      MW0l'                                                                                          'l0WM\n//      MMMWKd;.                                                                                    .;dKWMMM\n//\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//                                                                                                                                                                                  //\n//      @dev            ::              Aron Mauritala Ayuk                                                                                                                                          //\n//      @msg            ::              stereo@iii6.xyz                                                                                                                                   //\n//      @github         ::              @stereoIII6\n//      @twitter        ::              @stereoIII6                                                                                                                                              //\n//                                                                                                                                                                                  //\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//                                                                                                                                                                                  //\n//      @dev            ::              Juan Xavier Valverde                                                                                                                                    //\n//      @msg            ::              juanxavier@iii6.xyz                                                                                                                               //\n//      @twitter        ::              @JuanXavier                                                                                                                                             //\n//      @github         ::              @JuanXavier                                                                                                                                             //\n//                                                                                                                                                                                  //                                                                                                                                                                                 //\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   //\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//                                                                                                                                                                                  //\n//      @company        ::              Fractio Holding                                                                                                                                                                       //\n//      @title          ::              iii6 Global Enums                                                                                                                           //\n//      @description    ::              Global Enum Library                                                                                                                           //\n//      @version        ::              0.0.1                                                                                                                                       //\n//      @purpose        ::              Enum Library                                                                                                          //\n//                                                                                                                                                                                  //\n//                                                                                                                                                                                  //\n//                                                                                                                                                                                  //\n//                                                                                                                                                                                  //\n//                                                                                                                                                                                  //\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   //\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\n\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\n\npragma solidity ^0.8.7;\n\ncontract iii6Proposals {\n    // ██╗███╗░░██╗██╗████████╗██╗░█████╗░██╗░░░░░██╗░██████╗░█████╗░████████╗██╗░█████╗░███╗░░██╗\n    // ██║████╗░██║██║╚══██╔══╝██║██╔══██╗██║░░░░░██║██╔════╝██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║\n    // ██║██╔██╗██║██║░░░██║░░░██║███████║██║░░░░░██║╚█████╗░███████║░░░██║░░░██║██║░░██║██╔██╗██║\n    // ██║██║╚████║██║░░░██║░░░██║██╔══██║██║░░░░░██║░╚═══██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║\n    // ██║██║░╚███║██║░░░██║░░░██║██║░░██║███████╗██║██████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║\n    // ╚═╝╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝\n\n    // user relation states\n    enum Voting {\n        Active,\n        Canceled,\n        Approved\n    }\n\n    struct Proposal {\n        uint256 rid;\n        uint256 voteCount;\n        address[] members;\n        uint256[] shares;\n        int256[] difs;\n        bool[] votes;\n        Voting state;\n    }\n}\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n//\n//      MMWKd:..                                                                                    ..:dKWMM\n//      MKl.                                                                                            .lKW\n//      O'       ..''''''''''''.     .''''''.     .'''''.      .''''''''''''''.     .''''''''''''..       'O\n//      '     .ckKNNWNWWWWWWWWWk.   .xNWWNWNl    ,0WWWWW0,     lNWWWWWWWWWNWNk'    ;0NNNWWWWWWWWNNKkc.     '\n//           ,OWMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMWO,\n//          .kMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMMMMk.\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMM0,    ;0NNWWMMMMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMM0,     .'.',;lkNMMMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMK;              ,kWMMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMX:    .:oxxdc'    .dWMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   ,OWMMMMMXl.   '0MMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMX;   .kMMMMMMMMK,   .xMMMMMMMMMMMM0'\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMM0'   .OMMMMMMMMX;   .xMMMMMMMMMMMM0'\n//          .OMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMK,    lNMMMMMMWx.   '0MMMMMMMMMMMMO.\n//           lNMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   .:x0KKKkc.   .dWMMMMMMMMMMMNl\n//      .    .c0WMMMMMMMMMMMMMMO.   .kMMMMMWo    ,KMMMMMK,     lWMMMMNd.     ....     .xNMMMMMMMMMMW0c.    .\n//      l      .,lddxxxxxxxxxxxc.    :xxxxxd,    .lxxxxxl.     ,dxxxxxd:.            .cdxxxxxxxxddl,.      l\n//      No.                                                                                              .oN\n//      MW0l'                                                                                          'l0WM\n//      MMMWKd;.                                                                                    .;dKWMMM\n//\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\n",
-  "sourcePath": "/Users/iii6/Documents/GitHub/III6Dojo/contracts/iii6Utils/Misc/iii6Proposals.sol",
+  "sourceMap": "8718:2037:45:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "8718:2037:45:-:0;;;;;",
+  "source": "// SPDX-License-Identifier: GPL-3.0\r\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\r\n//\r\n//      MMWKd:..                                                                                    ..:dKWMM\r\n//      MKl.                                                                                            .lKW\r\n//      O'       ..''''''''''''.     .''''''.     .'''''.      .''''''''''''''.     .''''''''''''..       'O\r\n//      '     .ckKNNWNWWWWWWWWWk.   .xNWWNWNl    ,0WWWWW0,     lNWWWWWWWWWNWNk'    ;0NNNWWWWWWWWNNKkc.     '\r\n//           ,OWMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMWO,\r\n//          .kMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMMMMk.\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMM0,    ;0NNWWMMMMMMMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMM0,     .'.',;lkNMMMMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMK;              ,kWMMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMX:    .:oxxdc'    .dWMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   ,OWMMMMMXl.   '0MMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMX;   .kMMMMMMMMK,   .xMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMM0'   .OMMMMMMMMX;   .xMMMMMMMMMMMM0'\r\n//          .OMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMK,    lNMMMMMMWx.   '0MMMMMMMMMMMMO.\r\n//           lNMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   .:x0KKKkc.   .dWMMMMMMMMMMMNl\r\n//      .    .c0WMMMMMMMMMMMMMMO.   .kMMMMMWo    ,KMMMMMK,     lWMMMMNd.     ....     .xNMMMMMMMMMMW0c.    .\r\n//      l      .,lddxxxxxxxxxxxc.    :xxxxxd,    .lxxxxxl.     ,dxxxxxd:.            .cdxxxxxxxxddl,.      l\r\n//      No.                                                                                              .oN\r\n//      MW0l'                                                                                          'l0WM\r\n//      MMMWKd;.                                                                                    .;dKWMMM\r\n//\r\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\r\n//                                                                                                                                                                                  //\r\n//      @dev            ::              Aron Mauritala Ayuk                                                                                                                                          //\r\n//      @msg            ::              stereo@iii6.xyz                                                                                                                                   //\r\n//      @github         ::              @stereoIII6\r\n//      @twitter        ::              @stereoIII6                                                                                                                                              //\r\n//                                                                                                                                                                                  //\r\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\r\n//                                                                                                                                                                                  //\r\n//      @dev            ::              Juan Xavier Valverde                                                                                                                                    //\r\n//      @msg            ::              juanxavier@iii6.xyz                                                                                                                               //\r\n//      @twitter        ::              @JuanXavier                                                                                                                                             //\r\n//      @github         ::              @JuanXavier                                                                                                                                             //\r\n//                                                                                                                                                                                  //                                                                                                                                                                                 //\r\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\r\n//  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   //\r\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\r\n//                                                                                                                                                                                  //\r\n//      @company        ::              Fractio Holding                                                                                                                                                                       //\r\n//      @title          ::              iii6 Global Enums                                                                                                                           //\r\n//      @description    ::              Global Enum Library                                                                                                                           //\r\n//      @version        ::              0.0.1                                                                                                                                       //\r\n//      @purpose        ::              Enum Library                                                                                                          //\r\n//                                                                                                                                                                                  //\r\n//                                                                                                                                                                                  //\r\n//                                                                                                                                                                                  //\r\n//                                                                                                                                                                                  //\r\n//                                                                                                                                                                                  //\r\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\r\n//  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   //\r\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\r\n\r\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\r\n\r\n/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\r\n\r\npragma solidity ^0.8.7;\r\n\r\ncontract iii6Proposals {\r\n    // ██╗███╗░░██╗██╗████████╗██╗░█████╗░██╗░░░░░██╗░██████╗░█████╗░████████╗██╗░█████╗░███╗░░██╗\r\n    // ██║████╗░██║██║╚══██╔══╝██║██╔══██╗██║░░░░░██║██╔════╝██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║\r\n    // ██║██╔██╗██║██║░░░██║░░░██║███████║██║░░░░░██║╚█████╗░███████║░░░██║░░░██║██║░░██║██╔██╗██║\r\n    // ██║██║╚████║██║░░░██║░░░██║██╔══██║██║░░░░░██║░╚═══██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║\r\n    // ██║██║░╚███║██║░░░██║░░░██║██║░░██║███████╗██║██████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║\r\n    // ╚═╝╚═╝░░╚══╝╚═╝░░░╚═╝░░░╚═╝╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝\r\n\r\n    // user relation states\r\n    enum Voting {\r\n        Active,\r\n        Canceled,\r\n        Approved\r\n    }\r\n\r\n    struct Proposal {\r\n        uint256 rid;\r\n        uint256 voteCount;\r\n        address[] members;\r\n        uint256[] shares;\r\n        int256[] difs;\r\n        bool[] votes;\r\n        Voting state;\r\n    }\r\n}\r\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\r\n//\r\n//      MMWKd:..                                                                                    ..:dKWMM\r\n//      MKl.                                                                                            .lKW\r\n//      O'       ..''''''''''''.     .''''''.     .'''''.      .''''''''''''''.     .''''''''''''..       'O\r\n//      '     .ckKNNWNWWWWWWWWWk.   .xNWWNWNl    ,0WWWWW0,     lNWWWWWWWWWNWNk'    ;0NNNWWWWWWWWNNKkc.     '\r\n//           ,OWMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMWO,\r\n//          .kMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMMM0,    ;KMMMMMMMMMMMMMMMMMMMk.\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMMM0,    :KMMMMMMMMMMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMMM0,    ;0NNWWMMMMMMMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMM0,     .'.',;lkNMMMMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMMK;              ,kWMMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMMX:    .:oxxdc'    .dWMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   ,OWMMMMMXl.   '0MMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMX;   .kMMMMMMMMK,   .xMMMMMMMMMMMM0'\r\n//          '0MMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMM0'   .OMMMMMMMMX;   .xMMMMMMMMMMMM0'\r\n//          .OMMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMK,    lNMMMMMMWx.   '0MMMMMMMMMMMMO.\r\n//           lNMMMMMMMMMMMMMMMMO.   .kMMMMMWl    ,KMMMMMK,     lWMMMWd.   .:x0KKKkc.   .dWMMMMMMMMMMMNl\r\n//      .    .c0WMMMMMMMMMMMMMMO.   .kMMMMMWo    ,KMMMMMK,     lWMMMMNd.     ....     .xNMMMMMMMMMMW0c.    .\r\n//      l      .,lddxxxxxxxxxxxc.    :xxxxxd,    .lxxxxxl.     ,dxxxxxd:.            .cdxxxxxxxxddl,.      l\r\n//      No.                                                                                              .oN\r\n//      MW0l'                                                                                          'l0WM\r\n//      MMMWKd;.                                                                                    .;dKWMMM\r\n//\r\n// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //\r\n",
+  "sourcePath": "C:\\Users\\juanx\\OneDrive\\Documents\\_prog\\work\\III6Dojo\\contracts\\iii6Utils\\Misc\\iii6Proposals.sol",
   "ast": {
     "absolutePath": "project:/contracts/iii6Utils/Misc/iii6Proposals.sol",
     "exportedSymbols": {
       "iii6Proposals": [
-        7381
+        7334
       ]
     },
-    "id": 7382,
+    "id": 7335,
     "license": "GPL-3.0",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 7356,
+        "id": 7309,
         "literals": [
           "solidity",
           "^",
@@ -31,7 +31,7 @@
           ".7"
         ],
         "nodeType": "PragmaDirective",
-        "src": "8629:23:45"
+        "src": "8691:23:45"
       },
       {
         "abstract": false,
@@ -40,58 +40,58 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 7381,
+        "id": 7334,
         "linearizedBaseContracts": [
-          7381
+          7334
         ],
         "name": "iii6Proposals",
-        "nameLocation": "8663:13:45",
+        "nameLocation": "8727:13:45",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "iii6Proposals.Voting",
-            "id": 7360,
+            "id": 7313,
             "members": [
               {
-                "id": 7357,
+                "id": 7310,
                 "name": "Active",
-                "nameLocation": "10420:6:45",
+                "nameLocation": "10494:6:45",
                 "nodeType": "EnumValue",
-                "src": "10420:6:45"
+                "src": "10494:6:45"
               },
               {
-                "id": 7358,
+                "id": 7311,
                 "name": "Canceled",
-                "nameLocation": "10436:8:45",
+                "nameLocation": "10511:8:45",
                 "nodeType": "EnumValue",
-                "src": "10436:8:45"
+                "src": "10511:8:45"
               },
               {
-                "id": 7359,
+                "id": 7312,
                 "name": "Approved",
-                "nameLocation": "10454:8:45",
+                "nameLocation": "10530:8:45",
                 "nodeType": "EnumValue",
-                "src": "10454:8:45"
+                "src": "10530:8:45"
               }
             ],
             "name": "Voting",
-            "nameLocation": "10403:6:45",
+            "nameLocation": "10476:6:45",
             "nodeType": "EnumDefinition",
-            "src": "10398:70:45"
+            "src": "10471:74:45"
           },
           {
             "canonicalName": "iii6Proposals.Proposal",
-            "id": 7380,
+            "id": 7333,
             "members": [
               {
                 "constant": false,
-                "id": 7362,
+                "id": 7315,
                 "mutability": "mutable",
                 "name": "rid",
-                "nameLocation": "10508:3:45",
+                "nameLocation": "10588:3:45",
                 "nodeType": "VariableDeclaration",
-                "scope": 7380,
-                "src": "10500:11:45",
+                "scope": 7333,
+                "src": "10580:11:45",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -99,10 +99,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 7361,
+                  "id": 7314,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "10500:7:45",
+                  "src": "10580:7:45",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -112,13 +112,13 @@
               },
               {
                 "constant": false,
-                "id": 7364,
+                "id": 7317,
                 "mutability": "mutable",
                 "name": "voteCount",
-                "nameLocation": "10529:9:45",
+                "nameLocation": "10610:9:45",
                 "nodeType": "VariableDeclaration",
-                "scope": 7380,
-                "src": "10521:17:45",
+                "scope": 7333,
+                "src": "10602:17:45",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -126,10 +126,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 7363,
+                  "id": 7316,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "10521:7:45",
+                  "src": "10602:7:45",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -139,13 +139,13 @@
               },
               {
                 "constant": false,
-                "id": 7367,
+                "id": 7320,
                 "mutability": "mutable",
                 "name": "members",
-                "nameLocation": "10558:7:45",
+                "nameLocation": "10640:7:45",
                 "nodeType": "VariableDeclaration",
-                "scope": 7380,
-                "src": "10548:17:45",
+                "scope": 7333,
+                "src": "10630:17:45",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -154,19 +154,19 @@
                 },
                 "typeName": {
                   "baseType": {
-                    "id": 7365,
+                    "id": 7318,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "10548:7:45",
+                    "src": "10630:7:45",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-                  "id": 7366,
+                  "id": 7319,
                   "nodeType": "ArrayTypeName",
-                  "src": "10548:9:45",
+                  "src": "10630:9:45",
                   "typeDescriptions": {
                     "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
                     "typeString": "address[]"
@@ -176,13 +176,13 @@
               },
               {
                 "constant": false,
-                "id": 7370,
+                "id": 7323,
                 "mutability": "mutable",
                 "name": "shares",
-                "nameLocation": "10585:6:45",
+                "nameLocation": "10668:6:45",
                 "nodeType": "VariableDeclaration",
-                "scope": 7380,
-                "src": "10575:16:45",
+                "scope": 7333,
+                "src": "10658:16:45",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -191,18 +191,18 @@
                 },
                 "typeName": {
                   "baseType": {
-                    "id": 7368,
+                    "id": 7321,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "10575:7:45",
+                    "src": "10658:7:45",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 7369,
+                  "id": 7322,
                   "nodeType": "ArrayTypeName",
-                  "src": "10575:9:45",
+                  "src": "10658:9:45",
                   "typeDescriptions": {
                     "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
                     "typeString": "uint256[]"
@@ -212,13 +212,13 @@
               },
               {
                 "constant": false,
-                "id": 7373,
+                "id": 7326,
                 "mutability": "mutable",
                 "name": "difs",
-                "nameLocation": "10610:4:45",
+                "nameLocation": "10694:4:45",
                 "nodeType": "VariableDeclaration",
-                "scope": 7380,
-                "src": "10601:13:45",
+                "scope": 7333,
+                "src": "10685:13:45",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -227,18 +227,18 @@
                 },
                 "typeName": {
                   "baseType": {
-                    "id": 7371,
+                    "id": 7324,
                     "name": "int256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "10601:6:45",
+                    "src": "10685:6:45",
                     "typeDescriptions": {
                       "typeIdentifier": "t_int256",
                       "typeString": "int256"
                     }
                   },
-                  "id": 7372,
+                  "id": 7325,
                   "nodeType": "ArrayTypeName",
-                  "src": "10601:8:45",
+                  "src": "10685:8:45",
                   "typeDescriptions": {
                     "typeIdentifier": "t_array$_t_int256_$dyn_storage_ptr",
                     "typeString": "int256[]"
@@ -248,13 +248,13 @@
               },
               {
                 "constant": false,
-                "id": 7376,
+                "id": 7329,
                 "mutability": "mutable",
                 "name": "votes",
-                "nameLocation": "10631:5:45",
+                "nameLocation": "10716:5:45",
                 "nodeType": "VariableDeclaration",
-                "scope": 7380,
-                "src": "10624:12:45",
+                "scope": 7333,
+                "src": "10709:12:45",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -263,18 +263,18 @@
                 },
                 "typeName": {
                   "baseType": {
-                    "id": 7374,
+                    "id": 7327,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "10624:4:45",
+                    "src": "10709:4:45",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-                  "id": 7375,
+                  "id": 7328,
                   "nodeType": "ArrayTypeName",
-                  "src": "10624:6:45",
+                  "src": "10709:6:45",
                   "typeDescriptions": {
                     "typeIdentifier": "t_array$_t_bool_$dyn_storage_ptr",
                     "typeString": "bool[]"
@@ -284,36 +284,36 @@
               },
               {
                 "constant": false,
-                "id": 7379,
+                "id": 7332,
                 "mutability": "mutable",
                 "name": "state",
-                "nameLocation": "10653:5:45",
+                "nameLocation": "10739:5:45",
                 "nodeType": "VariableDeclaration",
-                "scope": 7380,
-                "src": "10646:12:45",
+                "scope": 7333,
+                "src": "10732:12:45",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_enum$_Voting_$7360",
+                  "typeIdentifier": "t_enum$_Voting_$7313",
                   "typeString": "enum iii6Proposals.Voting"
                 },
                 "typeName": {
-                  "id": 7378,
+                  "id": 7331,
                   "nodeType": "UserDefinedTypeName",
                   "pathNode": {
-                    "id": 7377,
+                    "id": 7330,
                     "name": "Voting",
                     "nameLocations": [
-                      "10646:6:45"
+                      "10732:6:45"
                     ],
                     "nodeType": "IdentifierPath",
-                    "referencedDeclaration": 7360,
-                    "src": "10646:6:45"
+                    "referencedDeclaration": 7313,
+                    "src": "10732:6:45"
                   },
-                  "referencedDeclaration": 7360,
-                  "src": "10646:6:45",
+                  "referencedDeclaration": 7313,
+                  "src": "10732:6:45",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_enum$_Voting_$7360",
+                    "typeIdentifier": "t_enum$_Voting_$7313",
                     "typeString": "enum iii6Proposals.Voting"
                   }
                 },
@@ -321,27 +321,27 @@
               }
             ],
             "name": "Proposal",
-            "nameLocation": "10481:8:45",
+            "nameLocation": "10560:8:45",
             "nodeType": "StructDefinition",
-            "scope": 7381,
-            "src": "10474:191:45",
+            "scope": 7334,
+            "src": "10553:199:45",
             "visibility": "public"
           }
         ],
-        "scope": 7382,
-        "src": "8654:2013:45",
+        "scope": 7335,
+        "src": "8718:2037:45",
         "usedErrors": []
       }
     ],
-    "src": "8629:4755:45"
+    "src": "8691:4808:45"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
+    "version": "0.8.18+commit.87f61d96.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.8",
-  "updatedAt": "2022-12-15T20:18:27.889Z",
+  "schemaVersion": "3.4.11",
+  "updatedAt": "2023-02-03T18:53:18.063Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

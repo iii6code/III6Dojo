@@ -1,3 +1,6 @@
 node_modules/
 social.md
 .env
+bin
+artifacts
+cache
