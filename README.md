@@ -69,3 +69,17 @@ Once you have everything installed :
 > If you edit the sourcecode your Server automatically updates the website on save.
 
 > Check out `https://dojo.guru` to find out how to develop your boilerplate dapp.
+
+## Deployment
+
+To deply a contract on a specific network, run:
+
+```
+npm run deploy <network name>
+```
+
+For example:
+
+```
+npm run deploy <network name>
+```

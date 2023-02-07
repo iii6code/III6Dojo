@@ -12,7 +12,7 @@
 // ICE :: 0xec09faf4b1c6F198cFF1535800d55123C8C848bE :: ERC20
 // FROOTYCOOLTINGS :: 0x069BF09A8EDb8C1b3AC7f62bA57C601DBaCc6747 :: ERC721
 
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
