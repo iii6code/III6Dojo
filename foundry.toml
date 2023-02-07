@@ -1,7 +1,33 @@
 [profile.default]
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config
+
+# https://book.getfoundry.sh/config/vscode?highlight=remappings#1-remappings
+# https://book.getfoundry.sh/projects/project-layout?highlight=remappings#project-layout
+# maybe its best to leave src=src to avoid extra vscode configuration with extensions/linters
+
+
+# TODO:
+# 1 create readme to setup, test and deploy contracts
+# 2 How to deploy several contract at a time
+# 3 setup some basic backbone tests? 
+# 4 check for compiler version (0.8.18 has an interesting new feature)
+# 5 Create a spreadsheet for network deployments maybe (w/ estimated deplyment costs 
+# 6 Add all possible evm compatible networks
+# CELO
+# CRONOS
+# HARMONY ONE
+# FANTOM
+# GNOSIS
+
+ # 7 Organize .env file
+
+# forge build
+# forge test 
+# forge create --rpc-url <your_rpc_url> --private-key $POLY_KEY contracts/MyContract.sol:MyContract
+
 src = 'contracts'
 out = 'artifacts'
-solc = "0.8.17"
+solc = "0.8.17" 
 verbosity = 3
 gas_reports = ['*']
 libs = ["node_modules", "lib"]
@@ -12,11 +38,13 @@ optimizer_runs = 1_000
 fuzz_runs = 500
 
 remappings = [
+    'forge-std=lib/forge-std/',
+    'ds-test/=lib/ds-test/src/',
     '@chainlink/=node_modules/@chainlink/',
     '@ensdomains/=node_modules/@ensdomains/',
     '@openzeppelin/=node_modules/@openzeppelin/',
     'eth-gas-reporter/=node_modules/eth-gas-reporter/',
-    'hardhat/=node_modules/hardhat/',
+    # 'hardhat/=node_modules/hardhat/',
 ]
 
 [rpc_endpoints]
@@ -24,7 +52,7 @@ arbitrum = "${ARBI_URL}"
 arbitrinkeby = "${ARBIRINK_URL}"
 avax = "${AVAX_URL}"
 fuji = "${FUJI_URL}"
-fujix = "${FUJIX_URL}"
+fujix = "${FUJIX_URL}" #whats this
 bsc = "${BSC_URL}"
 evmos = "${EVMOS_URL}"
 tevmos = "${TEVMOS_URL}"
@@ -36,11 +64,7 @@ moonriver = "${MOONRIVER_URL}"
 moonrbeam = "${MOONRBEAM_URL}"
 optimism = "${OPTI_URL}"
 optikovan = "${OPTIKOV_URL}"
-# CELO
-# CRONOS
-# HARMONY ONE
-# FANTOM
-# GNOSIS
+
 
 [etherscan]
 arbitrum = { key = "${ARBISCAN_KEY}", url = "https://api.arbiscan.io/api" }
@@ -48,14 +72,3 @@ goerli = { key = "${ETHERSCAN_KEY}", url = "https://api-goerli.etherscan.io/api"
 mainnet = { key = "${ETHERSCAN_MAINNET_KEY}" }
 optimism = { key = "${OPTISCAN_KEY}" }
 unknownchain = { key = "ABCDEFG", url = "https://<etherscan-api-url-for-that-chain>" }
-
-# See more config options https://github.com/foundry-rs/foundry/tree/master/config
-
-# TODO: readme to test and deploy contract
-
-# To compile:
-# forge build
-
-# forge test 
-
-# forge create --rpc-url <your_rpc_url> --private-key $POLY_KEY contracts/MyContract.sol:MyContract
