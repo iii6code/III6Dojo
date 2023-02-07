@@ -15,6 +15,12 @@ module.exports = {
 		},
 	},
 
+	// For adding HD wallet:
+	// https://hardhat.org/hardhat-runner/docs/config#hd-wallet-config
+	// @NOTE: private key is safer to use than a mnemonic keyphrase, as losing a private key
+	// will only compromise a single account, and losing a mnemonic key/ will compromise
+	// all the accounts that can be generated from it.
+
 	networks: {
 		hardhat: {},
 		polygon: {
@@ -120,12 +126,6 @@ module.exports = {
 			optimism: process.env.OPTI_API_KEY,
 		},
 	},
-
-	// For adding HD wallet:
-	// https://hardhat.org/hardhat-runner/docs/config#hd-wallet-config
-	// BUT: private key is safer to use than a mnemonic keyphrase, as losing a private key
-	// will only compromise a single account, whereas losing a mnemonic key
-	// will compromise all the accounts that can be generated from it.
 
 	paths: {
 		sources: './contracts',
