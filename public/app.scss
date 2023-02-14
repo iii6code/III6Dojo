@@ -1,5 +1,8 @@
 * {
   box-sizing: border-box;
+  font-family: 'Raleway', sans-serif;
+
+
 }
 
 #initgo {
@@ -16,7 +19,7 @@
   #foot,
   #stage {
     background: $bc;
-    background: linear-gradient(90deg, rgba($bc, 0.5) 20%, rgba($ld, 1) 80%);
+  
   }
   #mobnav {
     background: $bg;
@@ -351,11 +354,12 @@
 
 body {
   position: absolute;
-  font-family: "helvetica";
+  font-family: 'Raleway', sans-serif;
   font-size: 0.9em;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-  margin: 0;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  margin: 0 ;
+
   height: 100%;
   width: 100%;
   top: 0;
