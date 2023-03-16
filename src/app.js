@@ -32,35 +32,15 @@ const ipfs = client.create({
   port: "5001",
   protocol: "https",
 });
-
-/* 
-const s0x = require("../dist/contracts/s0xFactory.json");
-const Friends = require("../dist/contracts/s0xFriends.json");
-const Groups = require("../dist/contracts/s0xGroups.json");
-
-*/
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+if (!ethereum.isConnected()) {
+  console.log("install https://metamask.io extension to browser");
+}
+let signer = provider.getSigner();
+let user;
+console.log("// signer // ", signer);
 
 // const url = "https://gateway.pinata.cloud/ipfs/QmamRUaez9fyXpeuTuiKCNvrKSsLxid4hzyKKkJXSi67LL/";
-const url = "./images/";
-let rand = 1234567;
-const goRand = () => {
-  rand = Math.floor(Math.random() * 99999999);
-
-  if (rand < 99999) rand *= 99;
-  if (rand < 999999) rand *= 9;
-  // console.log(rand);
-  draw();
-};
-const ids = [];
-for (let i = 0; i < 5555; i++) {
-  ids[i] = Math.floor(Math.random() * 9999999);
-  for (let j = 0; j < i; j++) {
-    while (ids[j] === ids[i]) ids[i] = Math.floor(Math.random() * 9999999);
-  }
-}
-// console.log("dias shuffle", JSON.stringify(ids));
-// console.log("sorted", JSON.stringify(diasIds.sort()));
-// setInterval(goRand, 25000);
 
 admin.style.opacity = 0;
 madmin.style.opacity = 0;
@@ -90,13 +70,6 @@ mterms.addEventListener("click", openTerms);
 mimprint.addEventListener("click", openImprint);
 logo.addEventListener("click", openLanding);
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-if (!ethereum.isConnected()) {
-  // alert("install https://metamask.io extension to browser");
-}
-let signer = provider.getSigner();
-let user;
-console.log("// signer // ", signer);
 // User Login System
 const onClickConnect = async () => {
   try {
@@ -476,16 +449,6 @@ const onReadUserInfo = async () => {
   console.log(userDIAS);
   return JSON.parse(userDIAS);
 };
-const rotate = () => {
-  setInterval(tick, 100);
-};
-let turn = 0;
-const tick = () => {
-  const loader = document.getElementById("loader");
-  // console.log(turn);
-  turn += 6.125;
-  loader.style.transform = "rotate(" + turn + "deg)";
-};
 const onSubmitSignup = async (e) => {
   e.preventDefault();
   const submit = document.getElementById("submit_create");
@@ -796,248 +759,7 @@ const s0xLoad = async () => {
     return res;
   });
 };
-/*
-const GreenListData = async () => {
-  let a;
-  if (Number(network) === 9000) a = 2;
-  else if (Number(network) === 9001) a = 2;
-  else if (Number(network) === 80001) a = 0;
-  else if (Number(network) === 137) a = 1;
-  const deploymentKey = await Object.keys(Greenlist.networks)[a];
-  // console.log(deploymentKey, a, network);
-  return new ethers.Contract(Greenlist.networks[deploymentKey].address, Greenlist.abi, signer);
-};
-const FrootyCoolTingsData = async () => {
-  let a;
-  if (Number(network) === 9000) a = 2;
-  else if (Number(network) === 9001) a = 2;
-  else if (Number(network) === 80001) a = 0;
-  else if (Number(network) === 137) a = 1;
-  const deploymentKey = await Object.keys(FrootyCoolTingz.networks)[a];
-  // console.log(deploymentKey, a, network);
-  return new ethers.Contract(FrootyCoolTingz.networks[deploymentKey].address, FrootyCoolTingz.abi, signer);
-};
-const IceData = async () => {
-  let a;
-  if (Number(network) === 9000) a = 2;
-  else if (Number(network) === 9001) a = 2;
-  else if (Number(network) === 80001) a = 0;
-  else if (Number(network) === 137) a = 1;
-  const deploymentKey = await Object.keys(Ice.networks)[a];
-  // console.log(deploymentKey, a, network);
-  return new ethers.Contract(Ice.networks[deploymentKey].address, Ice.abi, signer);
-};
-const MarketData = async () => {
-  let a;
-  if (Number(network) === 9000) a = 2;
-  else if (Number(network) === 9001) a = 2;
-  else if (Number(network) === 80001) a = 0;
-  else if (Number(network) === 137) a = 1;
-  const deploymentKey = await Object.keys(Market.networks)[a];
-  // console.log(deploymentKey, a, network);
-  return new ethers.Contract(Market.networks[deploymentKey].address, Market.abi, signer);
-}; */
-// CONTRACT VARS
-// Greenlist
-/*
-let GL;
-let glSlotMax;
-let glSlotsTaken;
-let glMsg;
-let glStamp;
-let glAdmin;
-let glFctAdr;
-const getGreenVars = async () => {
-  GL = await GreenListData();
-  glSlotMax = await GL.max()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  glSlotsTaken = await GL.l()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  glMsg = await GL.message()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  glStamp = await GL.stamp()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  glAdmin = await GL.admin();
-  glFctAdr = await GL.FCT();
-  return glSlotMax, glSlotsTaken, glMsg, glStamp;
-};
 
-// ICE
-let ICE;
-let icePrice;
-const getIceVars = async () => {
-  ICE = await IceData();
-  icePrice = await ICE.price()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-};
-
-// Froots
-let FCT;
-let fctPrice;
-let fctMaxMints;
-let fctMax;
-let fctMinted;
-let fctSlotMax;
-let fctSlotsMinted;
-let fctStart;
-const getFrootVars = async () => {
-  FCT = await FrootyCoolTingsData();
-  fctPrice = await FCT.price()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  fctMaxMints = await FCT.num()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  fctMax = await FCT.max()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  fctMinted = await FCT.minted()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  fctSlotMax = await FCT.sloz()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  fctSlotsMinted = await FCT.slots()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  fctStart = await FCT.start()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  // fctAdr = await FCT().address;
-  return fctStart, fctMax, fctMinted;
-};
-// Market
-let MRKT;
-let marketRoy;
-const getMarketVars = async () => {
-  MRKT = await MarketData();
-  marketRoy = await MRKT.roy()
-    .then((result) => {
-      return Number(result._hex);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-};
-
-
-const netSwap = async () => {
-  provider = new ethers.providers.Web3Provider(window.ethereum);
-  accounts = await ethereum.request({ method: "eth_requestAccounts" });
-  await provider.send("eth_requestAccounts", []);
-  signer = await provider.getSigner();
-  network = await ethereum.request({ method: "net_version" });
-  window.location.reload();
-};
-const goPoly = async () => {
-  const change = await ethereum.request({
-    method: "wallet_addEthereumChain",
-    params: [
-      {
-        chainId: "0x89",
-        chainName: "Polygon",
-        nativeCurrency: {
-          name: "Polygon",
-          symbol: "MATIC",
-          decimals: 18, //In number form
-        },
-        rpcUrls: ["https://polygon-rpc.com/"],
-        blockExplorerUrls: ["https://polygonscan.com"],
-      },
-    ],
-  });
-  netSwap();
-};
-const goEvmos = async () => {
-  const change = await ethereum.request({
-    method: "wallet_addEthereumChain",
-    params: [
-      {
-        chainId: "0x2328",
-        chainName: "EVMOS",
-        nativeCurrency: {
-          name: "EVMOS",
-          symbol: "EVMOS",
-          decimals: 18, //In number form
-        },
-        rpcUrls: ["https://eth.bd.evmos.dev:8545"],
-        blockExplorerUrls: ["https://evm.evmos.dev/"],
-      },
-    ],
-  });
-  netSwap();
-};
-*/
-/* IMPORTANT FUNCTION WEB3INIT DO NOT EDIT  //
-//////////////////////////////////////////
-//                                      //
-//          Init Metamask               //
-//                                      //
-//////////////////////////////////////////
-
-
-Function initializes dapp for Defi interaction
-
-requirements :
-- a button with id:'profile_btn'
-- a button with id:'net_btn'
-- a button with id: 'wallet_btn' 
-- a div with class: 'stage' and id: 'profile_stage'
-
-*/
 const web3init = async () => {
   const isMetaMaskInstalled = () => {
     //Have to check the ethereum binding on the window object to see if it's installed
