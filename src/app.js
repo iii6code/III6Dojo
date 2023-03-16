@@ -617,8 +617,6 @@ const goAdmin = async () => {
 const goCatch = () => {};
 const checkAdmin = () => {};
 
-const draw = () => {};
-
 // CONTRACT IMPORT
 const s0xData = async () => {
   let a;
