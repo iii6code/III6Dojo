@@ -1,4 +1,3 @@
-import ethers from "ethers";
 const pc = artifacts.require("iii6Utils/Oracles/iii6PriceConsumer");
 const vrfEth = artifacts.require("iii6Utils/Oracles/iii6VRFEth");
 const vrfGoerli = artifacts.require("iii6Utils/Oracles/iii6VRFGoerli");
@@ -10,9 +9,19 @@ const vrfFantom = artifacts.require("iii6Utils/Oracles/iii6VRFFantom");
 const vrfFtmTest = artifacts.require("iii6Utils/Oracles/iii6VRFFantomTest");
 const vrfBsc = artifacts.require("iii6Utils/Oracles/iii6VRFBsc");
 const vrfChalen = artifacts.require("iii6Utils/Oracles/iii6VRFChalen");
-const netID = await web3.eth.net.getId();
+/**
+ * net function returns the networkID and logs the id to the console
+ * @returns netID the network id
+ */
+const net = async () => {
+  const netID = await web3.eth.net.getId();
+  console.log(netID);
+  return netID;
+};
+
 module.exports = function (deployer) {
   deployer.deploy(pc);
+  const netID = net();
   /**
    * @dev create a chainlink vrf subscription and fund it with link on https://vrf.chain.link
    * make sure to have the network settings correct for your chosen network
