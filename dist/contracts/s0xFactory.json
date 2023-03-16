@@ -24481,6 +24481,12 @@
     "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
   },
   "networks": {
+    "5001": {
+      "events": {},
+      "links": {},
+      "address": "0x463831dffB2317Af9729A92D78F213E95d43c53E",
+      "transactionHash": "0xf18f20c24d5b368112df397e87b5e7bba62794a5a2b2cfe7c3588f5431b40ae5"
+    },
     "80001": {
       "events": {},
       "links": {},
@@ -24489,7 +24495,7 @@
     }
   },
   "schemaVersion": "3.4.8",
-  "updatedAt": "2023-03-16T00:58:03.666Z",
+  "updatedAt": "2023-03-16T18:43:26.758Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "the s0xFactory creates the s0xial user friend and group interface and functions as central administration hub for all s0xial interactions",

@@ -88,9 +88,16 @@ module.exports = {
       timeoutBlocks: 200,
       skipDryRun: true,
     },
-    moonrbeam: {
+    moonbeam: {
       provider: () => new HDWalletProvider(mnemonic, process.env.MOONRIVER_URL),
       network_id: 1284,
+      confirmations: 10,
+      timeoutBlocks: 200,
+      skipDryRun: true,
+    },
+    mantletest: {
+      provider: () => new HDWalletProvider(mnemonic, process.env.MANTLE_URL),
+      network_id: 5001,
       confirmations: 10,
       timeoutBlocks: 200,
       skipDryRun: true,

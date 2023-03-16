@@ -12,6 +12,7 @@
     "migrate:evmos": "npx truffle migrate --network evmos",
     "migrate:tevmos": "npx truffle migrate --network tevmos",
     "migrate:mumbai": "npx truffle migrate --network mumbai",
+    "migrate:mantletest": "npx truffle migrate --network mantletest",
     "migrate:polygon": "npx truffle migrate --network polygon",
     "migrate:arbi": "npx truffle migrate --network arbitrum",
     "migrate:arbirink": "npx truffle migrate --network arbitrinkeby",
