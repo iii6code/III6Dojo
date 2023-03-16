@@ -17,7 +17,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -30,7 +31,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -67,7 +69,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -104,7 +107,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"CoinUsdPrice\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"priceFull\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"WethUsdPrice\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"priceFull\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"XUsdPrice\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"priceFull\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"YUsdPrice\",\"outputs\":[{\"internalType\":\"int256\",\"name\":\"priceFull\",\"type\":\"int256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_oracle\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_digits\",\"type\":\"uint256\"}],\"name\":\"setX\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_oracle\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_digits\",\"type\":\"uint256\"}],\"name\":\"setY\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"CoinUsdPrice()\":{\"details\":\"Divides between two values substracting the remainder from the dividend\",\"returns\":{\"priceFull\":\"gascoin price in usd\"}},\"WethUsdPrice()\":{\"details\":\"Divides between two values substracting the remainder from the dividend\",\"returns\":{\"priceFull\":\"eth price in usd\"}},\"XUsdPrice()\":{\"details\":\"Divides between two values substracting the remainder from the dividend\",\"returns\":{\"priceFull\":\"custom token x price in usd\"}},\"YUsdPrice()\":{\"details\":\"Divides between two values substracting the remainder from the dividend\",\"returns\":{\"priceFull\":\"custom token x price in usd\"}},\"setX(address,uint256)\":{\"details\":\"sets custom token x new oracle address\",\"params\":{\"_digits\":\"number of decimals the oracle passes\",\"_oracle\":\"address of the oracle\"},\"returns\":{\"_0\":\"exit in bool true\"}},\"setY(address,uint256)\":{\"details\":\"sets custom token y new oracle address\",\"params\":{\"_digits\":\"number of decimals the oracle passes\",\"_oracle\":\"address of the oracle\"},\"returns\":{\"_0\":\"exit in bool true\"}}},\"stateVariables\":{\"ethUSDagg\":{\"details\":\"this contract is a price consumer contract with all possible networks integrated\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/iii6Utils/Oracles/iii6PriceConsumer.sol\":\"iii6PriceConsumer\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol\":{\"keccak256\":\"0xf2b6c9adb3552254df1445b73563cf014434ff5e78663e9b961b6c059506ceb5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6c1f59e0c7334c22fb54288728fc32546bdc9c8133d6db0d60223e3c28f52120\",\"dweb:/ipfs/QmeuxawUVBhMWQJXaEhhnubCTc4Jwn5wYK8gbhq6NjrpfG\"]},\"@chainlink/contracts/src/v0.8/interfaces/LinkTokenInterface.sol\":{\"keccak256\":\"0xc7d7cd730d36825485ef4107d93c3ff18b9f3a5a00ea3d5988ba9a0bd70b10c5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8cb1064885ecbcd9c3adba779e190cb4a538e5d4d15aeccb67d3376bdffc94bd\",\"dweb:/ipfs/QmcQHK6ewve7tFi4XXK65JthQg4kQzApQikWcURJjGt4iQ\"]},\"project:/contracts/iii6Utils/Oracles/iii6PriceConsumer.sol\":{\"keccak256\":\"0x8f13a07554d75ead83b94eb5fca8dab244d701d530b31e39a47fd0f7e1ecca89\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://450b607becc252584949b5058d66c7677a5129ae05e6558063e4ac393d18e25b\",\"dweb:/ipfs/QmRpqWJYyRWH83UTq4JyPhBfoZ1MtfMkXNfvJe1PG9wrxR\"]}},\"version\":1}",
@@ -11320,9 +11324,17 @@
     "name": "solc",
     "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "80001": {
+      "events": {},
+      "links": {},
+      "address": "0xf84968F8dC7571c3Be11D81a5BaA2589b97387D2",
+      "transactionHash": "0x6129bbf82542ec8283ca715cb17e31905fcad59505c95a5b6db6b54ae16e568d"
+    }
+  },
   "schemaVersion": "3.4.8",
-  "updatedAt": "2022-12-15T20:20:10.076Z",
+  "updatedAt": "2023-03-16T00:56:03.024Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {

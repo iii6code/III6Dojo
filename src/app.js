@@ -20,21 +20,25 @@ import { stripZeros } from "ethers/lib/utils";
 import { logo, wallet, mwallet, btn, mbtn, app, mapp, net, mnet, about, mabout, team, mteam, service, mservice, MoBtn, MobNav, admin, madmin, imprint, mimprint, terms, mterms, contact, mcontact, closeMob, stage } from "./elements";
 import { mob_toggle, toggle, a, showAdmin, fadeAdmin, doAdmin, openLanding, openWallet, openApp, openNet, openAbout, openService, openTeam, openImprint, openTerms, openContact, goColor } from "./nav";
 import { roll, makeId, doCollection, showRarity } from "./rarity";
+import { s0x, Friends, Groups } from "./web3imports";
 
 // globals
 let accounts;
 let network;
 let balance;
-
 const client = require("ipfs-http-client");
 const ipfs = client.create({
   host: "ipfs.infura.io",
   port: "5001",
   protocol: "https",
 });
+
+/* 
 const s0x = require("../dist/contracts/s0xFactory.json");
 const Friends = require("../dist/contracts/s0xFriends.json");
 const Groups = require("../dist/contracts/s0xGroups.json");
+
+*/
 
 // const url = "https://gateway.pinata.cloud/ipfs/QmamRUaez9fyXpeuTuiKCNvrKSsLxid4hzyKKkJXSi67LL/";
 const url = "./images/";
@@ -157,7 +161,7 @@ const onClickConnect = async () => {
 const checkUser = async () => {
   const S0X = await s0xData();
   // Is User
-  const isUser = await S0X.isU(user)
+  const isUser = await S0X.isUser(user)
     .then((res) => {
       console.log("// makeUser response : ", res);
       // action
@@ -169,7 +173,7 @@ const checkUser = async () => {
       return err;
     });
   if (isUser === true) {
-    const role = await S0X.getRole(user)
+    const role = await S0X.roles(user)
       .then((res) => {
         console.log("// makeUser response : ", Number(res._hex));
         // action
@@ -533,7 +537,7 @@ const onSubmitSignup = async (e) => {
     console.log(diasFTCH);
     let name = uName.value;
     const S0X = await s0xData();
-    const id = await S0X.isU(user);
+    const id = await S0X.isUser(user);
     rotate();
 
     const makeUser = await S0X.createUserAccount(JSON.stringify(diasFTCH), user, name)
@@ -664,7 +668,7 @@ const s0xData = async () => {
 const s0xLoad = async () => {
   const S0X = await s0xData();
   // Is User
-  const isUser = await S0X.isU(_adr)
+  const isUser = await S0X.isUser(_adr)
     .then((res) => {
       console.log("// makeUser response : ", res);
       // action
@@ -680,7 +684,7 @@ const s0xLoad = async () => {
     return res;
   });
   // Get Role
-  const getRole = await S0X.getRole(_adr)
+  const getRole = await S0X.roles(_adr)
     .then((res) => {
       console.log("// makeUser response : ", res);
       // action
